@@ -49,5 +49,8 @@ export default {
       {test: /(\.css|\.scss)$/, loaders: ['style', 'css?sourceMap', 'postcss', 'sass?sourceMap']}
     ]
   },
+  externals:[{
+    xmlhttprequest: '{XMLHttpRequest:XMLHttpRequest}'
+  }],
   postcss: ()=> [autoprefixer]
 };
