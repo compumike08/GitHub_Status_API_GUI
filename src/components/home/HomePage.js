@@ -15,10 +15,13 @@ class HomePage extends React.Component {
 
   invokeGitHubAPI(){
     GithubAPI.testOctokat().then(testResult => {
-      let parsedTestResult = testResult.pushedAt.toTimeString();
+      let parsedDateResult = testResult.pushedAt.toDateString();
+      let parsedTimeResult = testResult.pushedAt.toTimeString();
+      let parsedDateTimeResult = parsedDateResult + " --- " + parsedTimeResult;
+
       console.log(testResult);
-      console.log(parsedTestResult);
-      this.setState({showResult: parsedTestResult});
+      
+      this.setState({showResult: parsedDateTimeResult});
     }).catch(error => {
       throw(error);
     });
