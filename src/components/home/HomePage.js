@@ -6,7 +6,7 @@ class HomePage extends React.Component {
     super(props, context);
 
     this.state = {
-      showResult: "l"
+      showResult: "NO DATA - Click button above to fetch data."
     };
 
     this.invokeGitHubAPI = this.invokeGitHubAPI.bind(this);
