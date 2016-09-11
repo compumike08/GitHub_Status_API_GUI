@@ -15,7 +15,7 @@ class HomePage extends React.Component {
 
   invokeGitHubAPI(){
     GithubAPI.testOctokat().then(testResult => {
-      let parsedTestResult = testResult.updatedAt.toDateString();
+      let parsedTestResult = testResult.pushedAt.toTimeString();
       console.log(testResult);
       console.log(parsedTestResult);
       this.setState({showResult: parsedTestResult});
