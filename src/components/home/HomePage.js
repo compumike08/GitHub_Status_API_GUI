@@ -1,5 +1,6 @@
 import React from 'react';
 import GithubAPI from '../../api/githubAPI';
+import OAuthSignInButton from '../oauth/OAuthSignInButton';
 
 class HomePage extends React.Component {
   constructor(props, context) {
@@ -20,7 +21,7 @@ class HomePage extends React.Component {
       let parsedDateTimeResult = parsedDateResult + " --- " + parsedTimeResult;
 
       console.log(testResult);
-      
+
       this.setState({showResult: parsedDateTimeResult});
     }).catch(error => {
       throw(error);
@@ -45,6 +46,9 @@ class HomePage extends React.Component {
           <div className="row">
             <div className="col-sm-3">
               <button type="button" className="btn btn-primary" onClick={this.invokeGitHubAPI}>Test GitHub API Call</button>
+            </div>
+            <div className="col-sm-3">
+              <OAuthSignInButton/>
             </div>
           </div>
         </div>
