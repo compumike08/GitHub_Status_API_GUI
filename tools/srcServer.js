@@ -19,6 +19,8 @@ browserSync({
   ui: {
     port: 3001
   },
+  https: true,
+  cors: true,
   server: {
     baseDir: 'src',
 
