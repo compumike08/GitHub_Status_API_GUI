@@ -1,11 +1,11 @@
 // Set up your root reducer here...
 import { combineReducers } from 'redux';
 import {routerReducer} from 'react-router-redux';
-import oauthReturnedTempCode from './oauthReducer';
+import oauths from './oauthReducer';
 
 const rootReducer = combineReducers({
   routing: routerReducer,
-  oauthReturnedTempCode: oauthReturnedTempCode
+  oauths: oauths
 });
 
 export default rootReducer;

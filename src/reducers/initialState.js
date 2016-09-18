@@ -1,3 +1,6 @@
 export default {
-  oauthReturnedTempCode: ""
+  oauths: {
+    oauthReturnedTempCode: "",
+    oauthReturnedToken: ""
+  }
 };

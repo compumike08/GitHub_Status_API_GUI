@@ -28,7 +28,7 @@ class OAuthSignInButton extends React.Component {
   }
 
   getTokenFromCode(){
-    GatekeepApi.exchangeCodeForToken(this.props.oauthReturnedTempCode).then(result => {
+    GatekeepApi.exchangeCodeForToken(this.props.oauths.oauthReturnedTempCode).then(result => {
       console.log("TOKEN RESULT: " + result);
     }).catch(error => {
       throw(error);
@@ -52,7 +52,7 @@ function authenticate(){
 
 function mapStateToProps(state, ownProps) {
   return {
-    oauthReturnedTempCode: state.oauthReturnedTempCode
+    oauths: state.oauths
   };
 }
 
