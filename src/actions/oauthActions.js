@@ -1,13 +1,21 @@
 import * as types from './actionTypes';
 
 export function oauthTempCodeReceived(tempCode) {
-    console.log("In action creator stub");
     return {type: types.OAUTH_TEMP_CODE_RECEIVED, tempCode};
+}
+
+export function oauthTokenReceived(token) {
+  return {type: types.OAUTH_TOKEN_RECEIVED, token};
 }
 
 export function storeOAuthTempCode(tempCode) {
   return function (dispatch, getState){
-    console.log("In action creator middle");
     dispatch(oauthTempCodeReceived(tempCode));
   };
+}
+
+export function storeOAuthToken(token) {
+  return function (dispatch, getState){
+    dispatch(oauthTokenReceived(token));
+  }
 }

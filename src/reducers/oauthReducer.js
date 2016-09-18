@@ -4,13 +4,16 @@ import initialState from './initialState';
 export default function oauthReducer(state = initialState.oauths, action) {
   switch (action.type) {
     case types.OAUTH_TEMP_CODE_RECEIVED:
-      console.log("IN REDUCER");
       return {
         oauthReturnedTempCode: action.tempCode,
         oauthReturnedToken: state.oauthReturnedToken
       };
+    case types.OAUTH_TOKEN_RECEIVED:
+      return {
+        oauthReturnedTempCode: state.oauthReturnedTempCode,
+        oauthReturnedToken: action.token
+      };
     default:
-      console.log("DEFAULT REDUCER");
       return state;
   }
 }
