@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as CONSTANTS from '../../utils/constants';
 import * as oauthActions from '../../actions/oauthActions';
-import GatekeepApi from '../../api/gatekeeperAPI';
+import GatekeeperApi from '../../api/gatekeeperAPI';
 
 class OAuthSignInButton extends React.Component {
   constructor(props, context) {
@@ -28,7 +28,7 @@ class OAuthSignInButton extends React.Component {
   }
 
   getTokenFromCode(){
-    GatekeepApi.exchangeCodeForToken(this.props.oauths.oauthReturnedTempCode).then(result => {
+    GatekeeperApi.exchangeCodeForToken(this.props.oauths.oauthReturnedTempCode).then(result => {
       this.props.actions.storeOAuthToken(result);
     }).catch(error => {
       throw(error);
