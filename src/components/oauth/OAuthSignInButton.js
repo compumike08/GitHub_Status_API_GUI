@@ -3,12 +3,14 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as CONSTANTS from '../../utils/constants';
 import * as oauthActions from '../../actions/oauthActions';
+import GatekeepApi from '../../api/gatekeeperAPI';
 
 class OAuthSignInButton extends React.Component {
   constructor(props, context) {
     super(props, context);
 
     this.handleOAuthClick = this.handleOAuthClick.bind(this);
+    this.getTokenFromCode = this.getTokenFromCode.bind(this);
   }
 
   handleOAuthClick(){
@@ -19,9 +21,18 @@ class OAuthSignInButton extends React.Component {
       window.removeEventListener('message', windowReturnHandler);
       console.log(tempCode);
       currentThis.props.actions.storeOAuthTempCode(tempCode);
+      currentThis.getTokenFromCode();
     });
 
     authenticate();
+  }
+
+  getTokenFromCode(){
+    GatekeepApi.exchangeCodeForToken(this.props.oauthReturnedTempCode).then(result => {
+      console.log("TOKEN RESULT: " + result);
+    }).catch(error => {
+      throw(error);
+    });
   }
 
   render() {
@@ -41,7 +52,7 @@ function authenticate(){
 
 function mapStateToProps(state, ownProps) {
   return {
-    oauths: state.oauths
+    oauthReturnedTempCode: state.oauthReturnedTempCode
   };
 }
 
