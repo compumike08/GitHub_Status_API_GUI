@@ -38,7 +38,7 @@ class OAuthSignInButton extends React.Component {
 
   render() {
     return (
-      <button onClick={this.handleOAuthClick}>Sign Into GitHub</button>
+      <button className="btn btn-success" onClick={this.handleOAuthClick}>Sign Into GitHub</button>
     );
   }
 }
