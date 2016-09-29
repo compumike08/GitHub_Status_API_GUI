@@ -19,7 +19,7 @@ class GithubApi {
 
   static testOctokat(){
     return new Promise((resolve, reject) => {
-      octo.repos('compumike08', 'GitHub_Status_API_GUI').fetch().then(result => {
+      octo.repos(CONSTANTS.GITHUB_USER_NAME, CONSTANTS.GITHUB_REPO_NAME).fetch().then(result => {
         resolve(result);
       }).catch(error => {
         let errObj = JSON.parse(error.message);
