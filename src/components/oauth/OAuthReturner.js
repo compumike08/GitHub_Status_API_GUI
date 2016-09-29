@@ -1,5 +1,4 @@
-import React, {PropTypes} from 'react';
-import {connect} from 'react-redux';
+import React from 'react';
 
 class OAuthReturner extends React.Component {
   constructor(props, context) {
@@ -19,8 +18,7 @@ class OAuthReturner extends React.Component {
 
   render() {
     return (
-      <div>
-      </div>
+      <div />
     );
   }
 }

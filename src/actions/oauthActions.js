@@ -9,13 +9,13 @@ export function oauthTokenReceived(token) {
 }
 
 export function storeOAuthTempCode(tempCode) {
-  return function (dispatch, getState){
+  return function (dispatch){
     dispatch(oauthTempCodeReceived(tempCode));
   };
 }
 
 export function storeOAuthToken(token) {
-  return function (dispatch, getState){
+  return function (dispatch){
     dispatch(oauthTokenReceived(token));
-  }
+  };
 }

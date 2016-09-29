@@ -19,7 +19,6 @@ class OAuthSignInButton extends React.Component {
     window.addEventListener('message', function windowReturnHandler(event){
       let tempCode = event.data;
       window.removeEventListener('message', windowReturnHandler);
-      console.log(tempCode);
       currentThis.props.actions.storeOAuthTempCode(tempCode);
       currentThis.getTokenFromCode();
     });
@@ -43,14 +42,15 @@ class OAuthSignInButton extends React.Component {
 }
 
 OAuthSignInButton.propTypes = {
-  actions: PropTypes.object.isRequired
+  actions: PropTypes.object.isRequired,
+  oauths: PropTypes.object
 };
 
 function authenticate(){
-  let popup = window.open(CONSTANTS.OAUTH_AUTHORIZE_URL, CONSTANTS.OAUTH_PROVIDER_NAME, "width=500,height=800");
+  window.open(CONSTANTS.OAUTH_AUTHORIZE_URL, CONSTANTS.OAUTH_PROVIDER_NAME, "width=500,height=800");
 }
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
   return {
     oauths: state.oauths
   };

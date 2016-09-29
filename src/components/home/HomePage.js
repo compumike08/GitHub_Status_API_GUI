@@ -20,8 +20,6 @@ class HomePage extends React.Component {
       let parsedTimeResult = testResult.pushedAt.toTimeString();
       let parsedDateTimeResult = parsedDateResult + " --- " + parsedTimeResult;
 
-      console.log(testResult);
-
       this.setState({showResult: parsedDateTimeResult});
     }).catch(error => {
       throw(error);
