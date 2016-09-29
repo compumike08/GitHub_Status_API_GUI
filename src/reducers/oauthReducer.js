@@ -13,6 +13,11 @@ export default function oauthReducer(state = initialState.oauths, action) {
         oauthReturnedTempCode: state.oauthReturnedTempCode,
         oauthReturnedToken: action.token
       };
+    case types.OAUTH_TOKEN_DESTROYED:
+      return {
+        oauthReturnedTempCode: "",
+        oauthReturnedToken: ""
+      };
     default:
       return state;
   }

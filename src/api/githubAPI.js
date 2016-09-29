@@ -1,12 +1,19 @@
 import * as CONSTANTS from '../utils/constants';
-
 let Octokat = require('octokat');
+
 let octo = new Octokat({});
 
 class GithubApi {
   static addTokenToOcto(token){
     octo = new Octokat({
       token: token
+    });
+  }
+
+  static removeTokenFromOcto(){
+    return new Promise((resolve) => {
+      octo = new Octokat({});
+      resolve();
     });
   }
 

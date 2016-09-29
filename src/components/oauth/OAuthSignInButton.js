@@ -16,15 +16,20 @@ class OAuthSignInButton extends React.Component {
 
   handleOAuthClick(){
     let currentThis = this;
+    let isToken = currentThis.props.oauths.oauthReturnedToken.length === 0;
 
-    window.addEventListener('message', function windowReturnHandler(event){
-      let tempCode = event.data;
-      window.removeEventListener('message', windowReturnHandler);
-      currentThis.props.actions.storeOAuthTempCode(tempCode);
-      currentThis.getTokenFromCode();
-    });
+    if (isToken) {
+      window.addEventListener('message', function windowReturnHandler(event) {
+        let tempCode = event.data;
+        window.removeEventListener('message', windowReturnHandler);
+        currentThis.props.actions.storeOAuthTempCode(tempCode);
+        currentThis.getTokenFromCode();
+      });
 
-    authenticate();
+      authenticate();
+    }else{
+      this.logoutGithub();
+    }
   }
 
   getTokenFromCode(){
@@ -36,9 +41,19 @@ class OAuthSignInButton extends React.Component {
     });
   }
 
+  logoutGithub(){
+    GithubAPI.removeTokenFromOcto().then(() => {
+      this.props.actions.destroyOAuthToken();
+    });
+  }
+
   render() {
+    let isToken = this.props.oauths.oauthReturnedToken.length === 0;
+
     return (
-      <button className="btn btn-success" onClick={this.handleOAuthClick}>Sign Into GitHub</button>
+      <button className={isToken === true ? "btn btn-success" : "btn btn-danger"} onClick={this.handleOAuthClick}>
+        {isToken === true ? "Sign Into GitHub" : "Sign Out of GitHub"}
+      </button>
     );
   }
 }
