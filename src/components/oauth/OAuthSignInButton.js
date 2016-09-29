@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux';
 import * as CONSTANTS from '../../utils/constants';
 import * as oauthActions from '../../actions/oauthActions';
 import GatekeeperApi from '../../api/gatekeeperAPI';
+import GithubAPI from '../../api/githubAPI';
 
 class OAuthSignInButton extends React.Component {
   constructor(props, context) {
@@ -29,6 +30,7 @@ class OAuthSignInButton extends React.Component {
   getTokenFromCode(){
     GatekeeperApi.exchangeCodeForToken(this.props.oauths.oauthReturnedTempCode).then(result => {
       this.props.actions.storeOAuthToken(result);
+      GithubAPI.addTokenToOcto(this.props.oauths.oauthReturnedToken);
     }).catch(error => {
       throw(error);
     });
