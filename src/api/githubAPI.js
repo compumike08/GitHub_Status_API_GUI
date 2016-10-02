@@ -1,4 +1,4 @@
-import * as CONSTANTS from '../utils/constants';
+import {GITHUB_USER_NAME, GITHUB_REPO_NAME, GITHUB_ERR_BAD_CREDENTIALS} from '../utils/constants';
 let Octokat = require('octokat');
 
 let octo = new Octokat({});
@@ -19,12 +19,12 @@ class GithubApi {
 
   static testOctokat(){
     return new Promise((resolve, reject) => {
-      octo.repos(CONSTANTS.GITHUB_USER_NAME, CONSTANTS.GITHUB_REPO_NAME).fetch().then(result => {
+      octo.repos(GITHUB_USER_NAME, GITHUB_REPO_NAME).fetch().then(result => {
         resolve(result);
       }).catch(error => {
         let errObj = JSON.parse(error.message);
 
-        if(errObj.message == CONSTANTS.GITHUB_ERR_BAD_CREDENTIALS){
+        if(errObj.message == GITHUB_ERR_BAD_CREDENTIALS){
           reject("ERROR: Bad credentials");
         }else{
           console.log(error);

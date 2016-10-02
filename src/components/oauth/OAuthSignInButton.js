@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import * as CONSTANTS from '../../utils/constants';
+import {OAUTH_AUTHORIZE_URL, OAUTH_PROVIDER_NAME} from '../../utils/constants';
 import * as oauthActions from '../../actions/oauthActions';
 import GatekeeperApi from '../../api/gatekeeperAPI';
 import GithubAPI from '../../api/githubAPI';
@@ -64,7 +64,7 @@ OAuthSignInButton.propTypes = {
 };
 
 function authenticate(){
-  window.open(CONSTANTS.OAUTH_AUTHORIZE_URL, CONSTANTS.OAUTH_PROVIDER_NAME, "width=500,height=800");
+  window.open(OAUTH_AUTHORIZE_URL, OAUTH_PROVIDER_NAME, "width=500,height=800");
 }
 
 function mapStateToProps(state) {

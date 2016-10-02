@@ -1,9 +1,9 @@
-import * as CONSTANTS from '../utils/constants';
+import {GATEKEEPER_AUTH_URL} from '../utils/constants';
 import $ from 'jquery';
 
 class GatekeeperApi {
   static exchangeCodeForToken(tempCode){
-    let fullRequestURL = CONSTANTS.GATEKEEPER_AUTH_URL + tempCode;
+    let fullRequestURL = GATEKEEPER_AUTH_URL + tempCode;
     return new Promise((resolve, reject) => {
       $.ajax({
           method: "GET",
