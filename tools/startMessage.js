@@ -1,4 +1,4 @@
-import {chalkSuccess} from './chalkConfig';
+import {chalkSuccess} from '../server/chalkConfig';
 
 /* eslint-disable no-console */
 
