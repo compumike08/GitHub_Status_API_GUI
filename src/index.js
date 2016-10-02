@@ -11,6 +11,7 @@ require('./favicon.ico'); // Tell webpack to load favicon.ico
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../node_modules/toastr/build/toastr.min.css';
 import '../node_modules/font-awesome/css/font-awesome.min.css';
+import './styles/bootstrapOverrides.scss';
 import { syncHistoryWithStore } from 'react-router-redux';
 
 const store = configureStore();
