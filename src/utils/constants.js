@@ -8,3 +8,7 @@ export const GITHUB_USER_NAME = "compumike08";
 export const GITHUB_REPO_NAME = "node.js";
 
 export const GITHUB_ERR_BAD_CREDENTIALS = "Bad credentials";
+
+export const GITHUB_REFS = {
+  MASTER: "master"
+};
