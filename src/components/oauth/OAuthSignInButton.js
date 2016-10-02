@@ -16,9 +16,10 @@ class OAuthSignInButton extends React.Component {
 
   handleOAuthClick(){
     let currentThis = this;
-    let isToken = currentThis.props.oauths.oauthReturnedToken.length === 0;
+    let isToken = currentThis.props.oauths.oauthReturnedToken.length !== 0;
 
-    if (isToken) {
+    // if token does not exist, then login to GitHub; otherwise logout of GitHub.
+    if (!isToken) {
       window.addEventListener('message', function windowReturnHandler(event) {
         let tempCode = event.data;
         window.removeEventListener('message', windowReturnHandler);
