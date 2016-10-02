@@ -3,7 +3,8 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {OAUTH_AUTHORIZE_URL,
   OAUTH_PROVIDER_NAME,
-  CLIENT_ID} from '../../utils/constants';
+  CLIENT_ID,
+  OAUTH_GH_REPO_STATUS_SCOPE} from '../../utils/constants';
 import * as oauthActions from '../../actions/oauthActions';
 import GatekeeperApi from '../../api/gatekeeperAPI';
 import GithubAPI from '../../api/githubAPI';
@@ -67,7 +68,9 @@ OAuthSignInButton.propTypes = {
 };
 
 function authenticate(){
-  let builtOAuthRequestURL = encodeURI(OAUTH_AUTHORIZE_URL + "?client_id=" + CLIENT_ID);
+  //each scope in the builtScopeList string should be separated by a space
+  let builtScopeList = OAUTH_GH_REPO_STATUS_SCOPE;
+  let builtOAuthRequestURL = encodeURI(OAUTH_AUTHORIZE_URL + "?client_id=" + CLIENT_ID + "&scope=" + builtScopeList);
 
   window.open(builtOAuthRequestURL, OAUTH_PROVIDER_NAME, "width=500,height=800");
 }
