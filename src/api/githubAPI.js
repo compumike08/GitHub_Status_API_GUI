@@ -22,9 +22,9 @@ class GithubApi {
       octo.repos(GITHUB_USER_NAME, GITHUB_REPO_NAME).fetch().then(result => {
         resolve(result);
       }).catch(error => {
-        let errObj = JSON.parse(error.message);
+        let errMsg = getErrorResponseMsg(error);
 
-        if(errObj.message == GITHUB_ERR_BAD_CREDENTIALS){
+        if(errMsg == GITHUB_ERR_BAD_CREDENTIALS){
           reject("ERROR: Bad credentials");
         }else{
           console.log(error);
@@ -33,6 +33,18 @@ class GithubApi {
       });
     });
   }
+}
+
+function parseErrorResponse(error){
+  let errObj = JSON.parse(error.message);
+  return errObj;
+}
+
+function getErrorResponseMsg(error){
+  let errObj = parseErrorResponse(error);
+  let errMsg = errObj.message;
+
+  return errMsg;
 }
 
 export default GithubApi;
