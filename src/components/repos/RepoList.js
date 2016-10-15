@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react';
+import RepoListRow from './RepoListRow';
 
 const RepoList = ({repos, onSelect}) => {
     return (
@@ -9,14 +10,15 @@ const RepoList = ({repos, onSelect}) => {
         </div>
 
         <div className="list-group">
-          <a href="#" className="list-group-item" onClick={onSelect}>Get Current User Repos</a>
+          {repos.map(repo =>
+            <RepoListRow key={repo.id} repo={repo} onSelect={onSelect} />
+          )}
         </div>
       </div>
     );
 };
 
 RepoList.propTypes = {
-    //property: PropTypes.type[.isRequired]
   repos: PropTypes.array.isRequired,
   onSelect: PropTypes.func.isRequired
 };

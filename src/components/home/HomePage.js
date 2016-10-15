@@ -16,12 +16,13 @@ class HomePage extends React.Component {
 
   handleGetUserRepos(evt){
     evt.preventDefault();
-    this.props.actions.loadRepos().then(() => {
-      toastr.success("Repo list fetched successfully!");
-    }).catch(error => {
-      console.log(error);
-      toastr.error("Repo list fetch failed!");
-    });
+
+    let repos = this.props.repos;
+
+    let selectedRepoId = evt.currentTarget.value;
+    let selectedRepo = repos.find(repo => repo.id == selectedRepoId);
+
+    toastr.info("You selected: " + selectedRepo.name);
   }
 
   render() {
