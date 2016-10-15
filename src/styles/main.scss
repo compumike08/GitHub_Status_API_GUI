@@ -1,0 +1,14 @@
+//Panel Formatting
+.panel > .panel-heading {
+  @extend .bold;
+  font-size: 16px;
+}
+
+// Utility Classes
+.bold {
+  font-weight: bold;
+}
+
+.italic {
+  font-style: italic;
+}
