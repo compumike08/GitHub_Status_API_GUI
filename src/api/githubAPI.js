@@ -8,8 +8,11 @@ let octo = new Octokat({});
 
 class GithubApi {
   static addTokenToOcto(token){
-    octo = new Octokat({
-      token: token
+    return new Promise(resolve => {
+      octo = new Octokat({
+        token: token
+      });
+      resolve();
     });
   }
 

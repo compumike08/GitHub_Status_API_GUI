@@ -6,8 +6,11 @@ import {OAUTH_AUTHORIZE_URL,
   CLIENT_ID,
   OAUTH_GH_REPO_STATUS_SCOPE} from '../../utils/constants';
 import * as oauthActions from '../../actions/oauthActions';
+import * as repoActions from '../../actions/repoActions';
 import GatekeeperApi from '../../api/gatekeeperAPI';
 import GithubAPI from '../../api/githubAPI';
+
+import toastr from 'toastr';
 
 class OAuthSignInButton extends React.Component {
   constructor(props, context) {
@@ -26,7 +29,7 @@ class OAuthSignInButton extends React.Component {
       window.addEventListener('message', function windowReturnHandler(event) {
         let tempCode = event.data;
         window.removeEventListener('message', windowReturnHandler);
-        currentThis.props.actions.storeOAuthTempCode(tempCode);
+        currentThis.props.oauthActions.storeOAuthTempCode(tempCode);
         currentThis.getTokenFromCode();
       });
 
@@ -38,8 +41,15 @@ class OAuthSignInButton extends React.Component {
 
   getTokenFromCode(){
     GatekeeperApi.exchangeCodeForToken(this.props.oauths.oauthReturnedTempCode).then(result => {
-      this.props.actions.storeOAuthToken(result);
-      GithubAPI.addTokenToOcto(this.props.oauths.oauthReturnedToken);
+      this.props.oauthActions.storeOAuthToken(result);
+      GithubAPI.addTokenToOcto(this.props.oauths.oauthReturnedToken).then(() => {
+        this.props.repoActions.loadRepos().then(() => {
+          toastr.success("Repo list fetched successfully!");
+        }).catch(error => {
+          console.log(error);
+          toastr.error("Repo list fetch failed!");
+        });
+      });
     }).catch(error => {
       throw(error);
     });
@@ -47,7 +57,7 @@ class OAuthSignInButton extends React.Component {
 
   logoutGithub(){
     GithubAPI.removeTokenFromOcto().then(() => {
-      this.props.actions.destroyOAuthToken();
+      this.props.oauthActions.destroyOAuthToken();
     });
   }
 
@@ -63,7 +73,8 @@ class OAuthSignInButton extends React.Component {
 }
 
 OAuthSignInButton.propTypes = {
-  actions: PropTypes.object.isRequired,
+  oauthActions: PropTypes.object.isRequired,
+  repoActions: PropTypes.object.isRequired,
   oauths: PropTypes.object
 };
 
@@ -83,7 +94,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(oauthActions, dispatch)
+    oauthActions: bindActionCreators(oauthActions, dispatch),
+    repoActions: bindActionCreators(repoActions, dispatch)
   };
 }
 
