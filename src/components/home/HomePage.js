@@ -10,11 +10,27 @@ class HomePage extends React.Component {
       return (
         <div>
           <h1>GitHub Status API GUI</h1>
-          <h3>Open browser console to see JSON data returned from GitHub API</h3>
 
           <div className="row">
             <div className="col-sm-3">
               <OAuthSignInButton/>
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="col-sm-12">
+              <div className="panel panel-default">
+                <div className="panel-heading">Repositories</div>
+                <div className="panel-body">
+                  <span className="bold">Select a repository:</span>
+                </div>
+
+                <div className="list-group">
+                  <a href="#" className="list-group-item">Test 1</a>
+                  <a href="#" className="list-group-item">Test 2</a>
+                  <a href="#" className="list-group-item">Test 3</a>
+                </div>
+              </div>
             </div>
           </div>
 
