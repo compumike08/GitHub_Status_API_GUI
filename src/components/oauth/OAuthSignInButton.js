@@ -55,7 +55,7 @@ class OAuthSignInButton extends React.Component {
     let isToken = this.props.oauths.oauthReturnedToken.length === 0;
 
     return (
-      <button className={isToken === true ? "btn btn-success" : "btn btn-danger"} onClick={this.handleOAuthClick}>
+      <button type="button" className={isToken === true ? "btn btn-success" : "btn btn-danger"} onClick={this.handleOAuthClick}>
         {isToken === true ? "Sign Into GitHub" : "Sign Out of GitHub"}
       </button>
     );
