@@ -3,5 +3,6 @@ export default {
     oauthReturnedTempCode: "",
     oauthReturnedToken: ""
   },
-  commitStatuses: []
+  commitStatuses: [],
+  repos: []
 };
