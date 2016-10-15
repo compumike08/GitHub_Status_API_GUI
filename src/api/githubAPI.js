@@ -20,6 +20,17 @@ class GithubApi {
     });
   }
 
+  static getCurrentUserRepos(){
+    return new Promise((resolve, reject) => {
+      octo.fromUrl("/user/repos").fetch().then(result => {
+        resolve(result);
+      }).catch(error => {
+        console.log(getErrorResponseMsg(error));
+        reject("ERROR: GitHub responded with an error.");
+      });
+    });
+  }
+
   /**
    * Gets a list of statuses for the specified commit reference in reverse chronological order.
    *
