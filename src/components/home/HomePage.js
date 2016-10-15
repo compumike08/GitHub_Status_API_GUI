@@ -1,9 +1,22 @@
 import React from 'react';
 import OAuthSignInButton from '../oauth/OAuthSignInButton';
+import GithubAPI from '../../api/githubAPI';
 
 class HomePage extends React.Component {
   constructor(props, context) {
     super(props, context);
+
+    this.handleGetUserRepos = this.handleGetUserRepos.bind(this);
+  }
+
+  handleGetUserRepos(evt){
+    evt.preventDefault();
+
+    GithubAPI.getCurrentUserRepos().then(result => {
+      console.log(result);
+    }).catch(error => {
+      console.log(error);
+    });
   }
 
   render() {
@@ -26,9 +39,7 @@ class HomePage extends React.Component {
                 </div>
 
                 <div className="list-group">
-                  <a href="#" className="list-group-item">Test 1</a>
-                  <a href="#" className="list-group-item">Test 2</a>
-                  <a href="#" className="list-group-item">Test 3</a>
+                  <a href="#" className="list-group-item" onClick={this.handleGetUserRepos}>Get Current User Repos</a>
                 </div>
               </div>
             </div>
