@@ -1,6 +1,11 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import OAuthSignInButton from '../oauth/OAuthSignInButton';
-import GithubAPI from '../../api/githubAPI';
+import RepoList from '../repos/RepoList';
+import * as repoActions from '../../actions/repoActions';
+
+import toastr from 'toastr';
 
 class HomePage extends React.Component {
   constructor(props, context) {
@@ -11,15 +16,17 @@ class HomePage extends React.Component {
 
   handleGetUserRepos(evt){
     evt.preventDefault();
-
-    GithubAPI.getCurrentUserRepos().then(result => {
-      console.log(result);
+    this.props.actions.loadRepos().then(() => {
+      toastr.success("Repo list fetched successfully!");
     }).catch(error => {
       console.log(error);
+      toastr.error("Repo list fetch failed!");
     });
   }
 
   render() {
+    const {repos} = this.props;
+
       return (
         <div>
           <h1>GitHub Status API GUI</h1>
@@ -32,16 +39,7 @@ class HomePage extends React.Component {
 
           <div className="row">
             <div className="col-sm-12">
-              <div className="panel panel-default">
-                <div className="panel-heading">Repositories</div>
-                <div className="panel-body">
-                  <span className="bold">Select a repository:</span>
-                </div>
-
-                <div className="list-group">
-                  <a href="#" className="list-group-item" onClick={this.handleGetUserRepos}>Get Current User Repos</a>
-                </div>
-              </div>
+              <RepoList repos={repos} onSelect={this.handleGetUserRepos}/>
             </div>
           </div>
 
@@ -50,4 +48,21 @@ class HomePage extends React.Component {
   }
 }
 
-export default HomePage;
+HomePage.propTypes = {
+  repos: PropTypes.array.isRequired,
+  actions: PropTypes.object.isRequired
+};
+
+function mapStateToProps(state){
+  return {
+    repos: state.repos
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(repoActions, dispatch)
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
