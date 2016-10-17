@@ -30,8 +30,6 @@ class HomePage extends React.Component {
 
       return (
         <div>
-          <h1>GitHub Status API GUI</h1>
-
           <div className="row">
             <div className="col-sm-3">
               <OAuthSignInButton/>
