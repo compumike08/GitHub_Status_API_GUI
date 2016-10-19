@@ -26,14 +26,7 @@ class OAuthSignInButton extends React.Component {
 
     // if token does not exist, then login to GitHub; otherwise logout of GitHub.
     if (!isToken) {
-      window.addEventListener('message', function windowReturnHandler(event) {
-        let tempCode = event.data;
-        window.removeEventListener('message', windowReturnHandler);
-        currentThis.props.oauthActions.storeOAuthTempCode(tempCode);
-        currentThis.getTokenFromCode();
-      });
-
-      authenticate();
+      authenticate(currentThis);
     }else{
       this.logoutGithub();
     }
@@ -78,12 +71,36 @@ OAuthSignInButton.propTypes = {
   oauths: PropTypes.object
 };
 
-function authenticate(){
+function authenticate(currentThis){
   //each scope in the builtScopeList string should be separated by a space
   let builtScopeList = OAUTH_GH_REPO_STATUS_SCOPE;
   let builtOAuthRequestURL = encodeURI(OAUTH_AUTHORIZE_URL + "?client_id=" + CLIENT_ID + "&scope=" + builtScopeList);
+  let timer, authWindow;
 
-  window.open(builtOAuthRequestURL, OAUTH_PROVIDER_NAME, "width=500,height=800");
+  window.addEventListener('message', windowReturnHandler);
+
+  authWindow = window.open(builtOAuthRequestURL, OAUTH_PROVIDER_NAME, "width=500,height=800");
+
+  //TODO: Refactor '500' timer interval out to constant
+  timer = setInterval(checkAuthWindow, 500);
+
+  function checkAuthWindow() {
+    if (authWindow.closed) {
+      clearInterval(timer);
+
+      if(!currentThis.props.oauths.oauthReturnedTempCode){
+        window.removeEventListener('message', windowReturnHandler);
+        toastr.error("GitHub Login Failed");
+      }
+    }
+  }
+
+  function windowReturnHandler(event) {
+    let tempCode = event.data;
+    window.removeEventListener('message', windowReturnHandler);
+    currentThis.props.oauthActions.storeOAuthTempCode(tempCode);
+    currentThis.getTokenFromCode();
+  }
 }
 
 function mapStateToProps(state) {
