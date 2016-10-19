@@ -1,28 +1,30 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {browserHistory} from 'react-router';
 import OAuthSignInButton from '../oauth/OAuthSignInButton';
 import RepoList from '../repos/RepoList';
 import * as repoActions from '../../actions/repoActions';
-
-import toastr from 'toastr';
 
 class HomePage extends React.Component {
   constructor(props, context) {
     super(props, context);
 
     this.handleGetUserRepos = this.handleGetUserRepos.bind(this);
+    this.redirectToBranchesListPage = this.redirectToBranchesListPage.bind(this);
   }
 
   handleGetUserRepos(evt){
     evt.preventDefault();
+    this.redirectToBranchesListPage(evt.currentTarget.value);
+  }
 
+  redirectToBranchesListPage(selectedRepoId){
     let repos = this.props.repos;
 
-    let selectedRepoId = evt.currentTarget.value;
     let selectedRepo = repos.find(repo => repo.id == selectedRepoId);
 
-    toastr.info("You selected: " + selectedRepo.name);
+    browserHistory.push("/repobranches/" + selectedRepo.id);
   }
 
   render() {
