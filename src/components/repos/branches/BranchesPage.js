@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {browserHistory} from 'react-router';
+import BranchesList from './BranchesList';
 
 import toastr from 'toastr';
 
@@ -33,11 +34,7 @@ class BranchesPage extends React.Component {
           <span className="bold">Select a branch:</span>
         </div>
 
-        <div className="list-group">
-          <button className="list-group-item">Placeholder Branch Name 1</button>
-          <button className="list-group-item">Placeholder Branch Name 2</button>
-          <button className="list-group-item">Placeholder Branch Name 3</button>
-        </div>
+        <BranchesList repo="" branches="" onSelect=""/>
       </div>
     );
   }
