@@ -1,7 +1,8 @@
 export default {
   oauths: {
     oauthReturnedTempCode: "",
-    oauthReturnedToken: ""
+    oauthReturnedToken: "",
+    authenticatedUser: {}
   },
   commitStatuses: [],
   repos: []
