@@ -35,6 +35,27 @@ class GithubApi {
   }
 
   /**
+   * Gets a list of branches in the specified repo.
+   *
+   * https://developer.github.com/v3/repos/branches/#list-branches
+   *
+   * @param {String} ownerLogin - The GitHub username/login ID of the owner of the repo.
+   * @param {String} repoName - The name of the repo.
+   * @returns {Promise} A promise which resolves to a list of branch objects, or rejects with a String error message.
+   * @public
+   */
+  static getBranchesInRepo(ownerLogin, repoName){
+    return new Promise((resolve, reject) => {
+      octo.repos(ownerLogin, repoName).branches.fetch().then(result => {
+        resolve(result);
+      }).catch(error => {
+        console.log(getErrorResponseMsg(error));
+        reject("ERROR: GitHub responded with an error when fetching branches in repo '" + ownerLogin + "/" + repoName + "'");
+      });
+    });
+  }
+
+  /**
    * Gets a list of statuses for the specified commit reference in reverse chronological order.
    *
    * https://developer.github.com/v3/repos/statuses/#list-statuses-for-a-specific-ref
