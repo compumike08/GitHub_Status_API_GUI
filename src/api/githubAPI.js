@@ -7,6 +7,16 @@ let Octokat = require('octokat');
 let octo = new Octokat({});
 
 class GithubApi {
+
+  /**
+   * Creates new Octokat instance initialized with the oauth token passed to this method.
+   *
+   * https://github.com/philschatz/octokat.js#in-a-browser
+   *
+   * @param {String} token - The oauth token to store in new Octokat instance.
+   * @returns {Promise} A promise which resolves after Octokat instance is created with oauth token.
+   * @public
+   */
   static addTokenToOcto(token){
     return new Promise(resolve => {
       octo = new Octokat({
@@ -16,6 +26,15 @@ class GithubApi {
     });
   }
 
+  /**
+   * Removes currently stored GitHub oauth token from Octokat instance by
+   * overwriting current Octokat instance with a new, empty Ocktokat instance.
+   *
+   * https://github.com/philschatz/octokat.js#in-a-browser
+   *
+   * @returns {Promise} A promise which resolves after Octokat instance is overwritten.
+   * @public
+   */
   static removeTokenFromOcto(){
     return new Promise((resolve) => {
       octo = new Octokat({});
@@ -23,6 +42,14 @@ class GithubApi {
     });
   }
 
+  /**
+   * Gets a list of repositories owned by the currently logged in user.
+   *
+   * https://developer.github.com/v3/repos/#list-your-repositories
+   *
+   * @returns {Promise} A promise which resolves to a list of repository objects, or rejects with a String error message.
+   * @public
+   */
   static getCurrentUserRepos(){
     return new Promise((resolve, reject) => {
       octo.fromUrl("/user/repos").fetch().then(result => {
@@ -89,11 +116,25 @@ class GithubApi {
   }
 }
 
+/**
+ * Parse 'error.message' from error JSON string to JavaScript object.
+ *
+ * @param {String} error - The error returned from GitHub as a JSON string.
+ * @returns {Object} The 'error.message' JSON parsed to an object.
+ * @private
+ */
 function parseErrorResponse(error){
   let errObj = JSON.parse(error.message);
   return errObj;
 }
 
+/**
+ * Parse 'error.message.message' from error JSON string to JavaScript object.
+ *
+ * @param {String} error - The error returned from GitHub as a JSON string.
+ * @returns {Object} The 'error.message.message' JSON parsed to an object.
+ * @private
+ */
 function getErrorResponseMsg(error){
   let errObj = parseErrorResponse(error);
   let errMsg = errObj.message;
