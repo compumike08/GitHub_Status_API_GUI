@@ -7,7 +7,7 @@ export function reposLoaded(repos){
 
 export function loadRepos(){
   return function(dispatch) {
-    return GithubAPI.getCurrentUserRepos().then(repos => {
+    return GithubAPI.getCurrentUserAllRepos().then(repos => {
       dispatch(reposLoaded(repos));
     }).catch(error => {
       throw(error);

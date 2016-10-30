@@ -62,14 +62,14 @@ class GithubApi {
   }
 
   /**
-   * Gets a list of repositories owned by the currently logged in user.
+   * Gets a list of repositories owned and/or contributed to by the currently logged in user.
    *
    * https://developer.github.com/v3/repos/#list-your-repositories
    *
    * @returns {Promise} A promise which resolves to a list of repository objects, or rejects with a String error message.
    * @public
    */
-  static getCurrentUserRepos(){
+  static getCurrentUserAllRepos(){
     return new Promise((resolve, reject) => {
       octo.fromUrl("/user/repos").fetch().then(result => {
         resolve(result);
