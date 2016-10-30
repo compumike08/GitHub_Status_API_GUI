@@ -4,7 +4,7 @@ import {browserHistory} from 'react-router';
 
 import toastr from 'toastr';
 
-class BranchesList extends React.Component {
+class BranchesPage extends React.Component {
   constructor(props, context) {
     super(props, context);
 
@@ -43,7 +43,7 @@ class BranchesList extends React.Component {
   }
 }
 
-BranchesList.propTypes = {
+BranchesPage.propTypes = {
   repo: PropTypes.object.isRequired
 };
 
@@ -77,4 +77,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(BranchesList);
+export default connect(mapStateToProps, mapDispatchToProps)(BranchesPage);
