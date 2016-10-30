@@ -43,6 +43,25 @@ class GithubApi {
   }
 
   /**
+   * Gets the user object for the currently logged in user.
+   *
+   * https://developer.github.com/v3/users/#get-the-authenticated-user
+   *
+   * @returns {Promise} A promise which resolves to a user object, or rejects with a String error message.
+   * @public
+   */
+  static getAuthenticatedUser(){
+    return new Promise((resolve, reject) => {
+      octo.user.fetch().then(result => {
+        resolve(result);
+      }).catch(error => {
+        console.log(getErrorResponseMsg(error));
+        reject("ERROR: GitHub responded with an error.");
+      });
+    });
+  }
+
+  /**
    * Gets a list of repositories owned by the currently logged in user.
    *
    * https://developer.github.com/v3/repos/#list-your-repositories
