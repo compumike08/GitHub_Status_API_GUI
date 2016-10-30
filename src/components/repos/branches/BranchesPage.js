@@ -27,14 +27,16 @@ class BranchesPage extends React.Component {
   }
 
   render() {
+    const repo = this.state.repo;
+
     return (
       <div className="panel panel-default">
-        <div className="panel-heading">Branches In <span className="italic">{this.state.repo.name}</span></div>
+        <div className="panel-heading">Branches In <span className="italic">{repo.name}</span></div>
         <div className="panel-body">
           <span className="bold">Select a branch:</span>
         </div>
 
-        <BranchesList repo="" branches="" onSelect=""/>
+        <BranchesList repo="repo" branches="" onSelect=""/>
       </div>
     );
   }
