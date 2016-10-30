@@ -12,7 +12,7 @@ class HomePage extends React.Component {
     super(props, context);
 
     this.handleGetRepos = this.handleGetRepos.bind(this);
-    this.handleGetUserRepos = this.handleGetUserRepos.bind(this);
+    this.handleRepoSelect = this.handleRepoSelect.bind(this);
     this.redirectToBranchesListPage = this.redirectToBranchesListPage.bind(this);
   }
 
@@ -25,7 +25,7 @@ class HomePage extends React.Component {
     });
   }
 
-  handleGetUserRepos(evt){
+  handleRepoSelect(evt){
     evt.preventDefault();
     this.redirectToBranchesListPage(evt.currentTarget.value);
   }
@@ -52,7 +52,7 @@ class HomePage extends React.Component {
 
           <div className="row">
             <div className="col-sm-12">
-              <RepoList repos={repos} onSelect={this.handleGetUserRepos}/>
+              <RepoList repos={repos} onSelect={this.handleRepoSelect}/>
             </div>
           </div>
 
