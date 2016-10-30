@@ -36,12 +36,7 @@ class OAuthSignInButton extends React.Component {
     GatekeeperApi.exchangeCodeForToken(this.props.oauths.oauthReturnedTempCode).then(result => {
       this.props.oauthActions.storeOAuthToken(result);
       GithubAPI.addTokenToOcto(this.props.oauths.oauthReturnedToken).then(() => {
-        this.props.repoActions.loadRepos().then(() => {
-          toastr.success("Repo list fetched successfully!");
-        }).catch(error => {
-          console.log(error);
-          toastr.error("Repo list fetch failed!");
-        });
+        this.props.oauthActions.loadAuthenticatedUser();
       });
     }).catch(error => {
       throw(error);

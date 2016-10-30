@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {browserHistory} from 'react-router';
+import toastr from 'toastr';
 import OAuthSignInButton from '../oauth/OAuthSignInButton';
 import RepoList from '../repos/RepoList';
 import * as repoActions from '../../actions/repoActions';
@@ -10,8 +11,18 @@ class HomePage extends React.Component {
   constructor(props, context) {
     super(props, context);
 
+    this.handleGetRepos = this.handleGetRepos.bind(this);
     this.handleGetUserRepos = this.handleGetUserRepos.bind(this);
     this.redirectToBranchesListPage = this.redirectToBranchesListPage.bind(this);
+  }
+
+  handleGetRepos(){
+    this.props.actions.loadRepos().then(() => {
+      toastr.success("Repo list fetched successfully!");
+    }).catch(error => {
+      console.log(error);
+      toastr.error("Repo list fetch failed!");
+    });
   }
 
   handleGetUserRepos(evt){
@@ -35,6 +46,7 @@ class HomePage extends React.Component {
           <div className="row">
             <div className="col-sm-3">
               <OAuthSignInButton/>
+              <button className="btn btn-primary" onClick={this.handleGetRepos}>Get Repos</button>
             </div>
           </div>
 
