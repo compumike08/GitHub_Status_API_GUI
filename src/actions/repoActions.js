@@ -6,8 +6,10 @@ export function reposLoaded(repos){
 }
 
 export function loadRepos(){
-  return function(dispatch) {
-    return GithubAPI.getCurrentUserAllRepos().then(repos => {
+  return function(dispatch, getState) {
+    const currentState = getState();
+
+    return GithubAPI.getUserOwnedRepos(currentState.oauths.authenticatedUser.login).then(repos => {
       dispatch(reposLoaded(repos));
     }).catch(error => {
       throw(error);
