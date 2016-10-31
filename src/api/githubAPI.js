@@ -81,6 +81,26 @@ class GithubApi {
   }
 
   /**
+   * Gets a list of repositories owned by the specified user.
+   *
+   * https://developer.github.com/v3/repos/#list-user-repositories
+   *
+   * @param {String} userLogin - A string specifying the user login name for which to get owned repos.
+   * @returns {Promise} A promise which resolves to a list of repository objects, or rejects with a String error message.
+   * @public
+   */
+  static getUserOwnedRepos(userLogin){
+    return new Promise((resolve, reject) => {
+      octo.users(userLogin).repos.fetch().then(result => {
+        resolve(result);
+      }).catch(error => {
+        console.log(getErrorResponseMsg(error));
+        reject("ERROR: GitHub responded with an error.");
+      });
+    });
+  }
+
+  /**
    * Gets a list of branches in the specified repo.
    *
    * https://developer.github.com/v3/repos/branches/#list-branches
