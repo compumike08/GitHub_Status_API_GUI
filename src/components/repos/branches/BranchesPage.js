@@ -15,11 +15,18 @@ class BranchesPage extends React.Component {
   }
 
   componentWillMount(){
-    if(!this.props.repo.id){
+    const {repo} = this.props;
+
+    if(!repo.id){
       toastr.error("ERROR: No repo found with matching id ");
       browserHistory.push("/");
     }else{
-      this.props.actions.loadBranchesForRepo(this.props.repo.name);
+      this.props.actions.loadBranchesForRepo(repo.name).then(() => {
+        toastr.success("Branch list for repo '" + repo.name + "' fetched successfully!");
+      }).catch(error => {
+        console.log(error);
+        toastr.error("Branch list for repo '" + repo.name + "' fetch failed!");
+      });
     }
   }
 
