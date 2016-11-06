@@ -61,8 +61,8 @@ class OAuthSignInButton extends React.Component {
 }
 
 OAuthSignInButton.propTypes = {
-  oauthActions: PropTypes.object.isRequired,
-  repoActions: PropTypes.object.isRequired,
+  oauthActions: PropTypes.object,
+  repoActions: PropTypes.object,
   oauths: PropTypes.object
 };
 
