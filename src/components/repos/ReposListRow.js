@@ -1,14 +1,14 @@
 import React, {PropTypes} from 'react';
 
-const RepoListRow = ({repo, onSelect}) => {
+const ReposListRow = ({repo, onSelect}) => {
     return (
       <button className="list-group-item" value={repo.id} onClick={onSelect}>{repo.name}</button>
     );
 };
 
-RepoListRow.propTypes = {
+ReposListRow.propTypes = {
   repo: PropTypes.object.isRequired,
   onSelect: PropTypes.func.isRequired
 };
 
-export default RepoListRow;
+export default ReposListRow;

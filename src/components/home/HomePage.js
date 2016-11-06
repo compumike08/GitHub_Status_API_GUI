@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux';
 import {browserHistory} from 'react-router';
 import toastr from 'toastr';
 import OAuthSignInButton from '../oauth/OAuthSignInButton';
-import RepoList from '../repos/RepoList';
+import ReposList from '../repos/ReposList';
 import * as repoActions from '../../actions/repoActions';
 
 class HomePage extends React.Component {
@@ -52,7 +52,7 @@ class HomePage extends React.Component {
 
           <div className="row">
             <div className="col-sm-12">
-              <RepoList repos={repos} onSelect={this.handleRepoSelect}/>
+              <ReposList repos={repos} onSelect={this.handleRepoSelect}/>
             </div>
           </div>
 
