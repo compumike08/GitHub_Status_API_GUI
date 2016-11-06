@@ -1,7 +1,9 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import {browserHistory} from 'react-router';
 import BranchesList from './BranchesList';
+import * as repoActions from '../../../actions/repoActions';
 
 import toastr from 'toastr';
 
@@ -9,25 +11,24 @@ class BranchesPage extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    this.state = {
-      repo: Object.assign({}, props.repo)
-    };
-
-    //Bind component class functions to this context
-    /* Example:
-     this.functionName = this.functionName.bind(this);
-     */
+    this.handleBranchSelect = this.handleBranchSelect.bind(this);
   }
 
   componentWillMount(){
     if(!this.props.repo.id){
       toastr.error("ERROR: No repo found with matching id ");
       browserHistory.push("/");
+    }else{
+      this.props.actions.loadBranchesForRepo(this.props.repo.name);
     }
   }
 
+  handleBranchSelect(evt){
+    evt.preventDefault();
+  }
+
   render() {
-    const repo = this.state.repo;
+    const {repo} = this.props;
 
     return (
       <div className="panel panel-default">
@@ -36,14 +37,15 @@ class BranchesPage extends React.Component {
           <span className="bold">Select a branch:</span>
         </div>
 
-        <BranchesList repo="repo" branches="" onSelect=""/>
+        <BranchesList repoId={repo.id} branches={repo.branches} onSelect={this.handleBranchSelect}/>
       </div>
     );
   }
 }
 
 BranchesPage.propTypes = {
-  repo: PropTypes.object.isRequired
+  repo: PropTypes.object.isRequired,
+  actions: PropTypes.object.isRequired
 };
 
 function getRepoById(repos, id){
@@ -72,7 +74,7 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    //actions: bindActionCreators(actions_object, dispatch)
+    actions: bindActionCreators(repoActions, dispatch)
   };
 }
 
