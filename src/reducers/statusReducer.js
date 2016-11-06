@@ -3,9 +3,11 @@ import initialState from './initialState';
 
 export default function statusReducer(state = initialState.commitStatuses, action) {
   switch (action.type) {
-    case types.COMMIT_STATUSES_LOADED:
+    case types.COMMIT_STATUSES_LOADED: {
       return action.statuses;
-    default:
+    }
+    default: {
       return state;
+    }
   }
 }
