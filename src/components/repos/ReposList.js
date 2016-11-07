@@ -7,12 +7,11 @@ const ReposList = ({repos, onSelect}) => {
         <div className="panel-heading">Repositories</div>
         <div className="panel-body">
           <span className="bold">Select a repository:</span>
-        </div>
-
-        <div className="list-group">
-          {repos.map(repo =>
-            <ReposListRow key={repo.id} repo={repo} onSelect={onSelect} />
-          )}
+          <div className="list-group">
+            {repos.map(repo =>
+              <ReposListRow key={repo.id} repo={repo} onSelect={onSelect} />
+            )}
+          </div>
         </div>
       </div>
     );
