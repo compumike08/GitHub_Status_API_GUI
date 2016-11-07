@@ -37,14 +37,25 @@ class BranchesPage extends React.Component {
   render() {
     const {repo} = this.props;
 
+    let branchesListElement = (
+      <div className="panel-body">
+        <span className="bold italic">Loading...</span>
+      </div>
+    );
+
+    if(repo.branches !== null){
+      branchesListElement = (
+        <div className="panel-body">
+          <span className="bold">Select a branch:</span>
+          <BranchesList repoId={repo.id} branches={repo.branches} onSelect={this.handleBranchSelect}/>
+        </div>
+      );
+    }
+
     return (
       <div className="panel panel-default">
         <div className="panel-heading">Branches In <span className="italic">{repo.name}</span></div>
-        <div className="panel-body">
-          <span className="bold">Select a branch:</span>
-        </div>
-
-        <BranchesList repoId={repo.id} branches={repo.branches} onSelect={this.handleBranchSelect}/>
+        {branchesListElement}
       </div>
     );
   }

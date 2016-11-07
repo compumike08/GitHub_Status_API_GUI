@@ -7,7 +7,7 @@ export default function repoReducer(state = initialState.repos, action) {
       return action.repos.map(repo => {
         return {
           ...repo,
-          branches: []
+          branches: null
         };
       });
     }
