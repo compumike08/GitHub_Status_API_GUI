@@ -5,5 +5,5 @@ export default {
     authenticatedUser: {}
   },
   commitStatuses: [],
-  repos: []
+  repos: null
 };
