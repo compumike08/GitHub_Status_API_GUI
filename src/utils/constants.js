@@ -12,3 +12,5 @@ export const GITHUB_ERR_BAD_CREDENTIALS = "Bad credentials";
 export const GITHUB_REFS = {
   MASTER: "master"
 };
+
+export const HOME_PAGE_URI = "/";
