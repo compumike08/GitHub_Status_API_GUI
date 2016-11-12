@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 
 const BranchesListRow = ({repoId, branch, onSelect}) => {
   return (
-    <button className="list-group-item" data-repo-id={repoId} onClick={onSelect}>{branch.name}</button>
+    <button type="button" className="list-group-item" data-repo-id={repoId} onClick={onSelect}>{branch.name}</button>
   );
 };
 

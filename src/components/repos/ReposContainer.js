@@ -46,7 +46,7 @@ class ReposContainer extends React.Component {
 
         <div className="row">
           <div className="col-sm-3">
-            <button className="btn btn-primary" onClick={this.handleGetRepos}>Get Repos</button>
+            <button type="button" className="btn btn-primary" onClick={this.handleGetRepos}>Get Repos</button>
           </div>
         </div>
 
