@@ -53,9 +53,13 @@ class BranchesPage extends React.Component {
     }
 
     return (
-      <div className="panel panel-default">
-        <div className="panel-heading">Branches In <span className="italic">{repo.name}</span></div>
-        {branchesListElement}
+      <div className="row">
+        <div className="col-sm-12">
+          <div className="panel panel-default">
+            <div className="panel-heading">Branches In <span className="italic">{repo.name}</span></div>
+            {branchesListElement}
+          </div>
+        </div>
       </div>
     );
   }
