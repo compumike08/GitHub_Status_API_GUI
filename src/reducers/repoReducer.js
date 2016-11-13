@@ -13,10 +13,7 @@ export default function repoReducer(state = initialState.repos, action) {
     }
     case types.BRANCHES_LOADED_FOR_REPO: {
       let newRepo = state.find(filterRepo => filterRepo.name === action.repo.name);
-      let tempBranchArray = Array.from(action.branches);
-      newRepo.branches = tempBranchArray.map(tempBranch => {
-        return tempBranch.name;
-      });
+      newRepo.branches = Array.from(action.branches);
 
       return [
         ...state.filter(filterRepo => filterRepo.name !== action.repo.name),
