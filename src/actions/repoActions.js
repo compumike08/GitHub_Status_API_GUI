@@ -16,6 +16,7 @@ export function loadRepos(){
     return GithubAPI.getUserOwnedRepos(currentState.oauths.authenticatedUser.login).then(repos => {
       dispatch(reposLoaded(repos));
     }).catch(error => {
+      //TODO: Improve error handling instead of re-throwing error
       throw(error);
     });
 
