@@ -122,6 +122,28 @@ class GithubApi {
   }
 
   /**
+   * Gets a list of commits on the specified branch in the specified repo.
+   *
+   * https://developer.github.com/v3/repos/commits/#list-commits-on-a-repository
+   *
+   * @param {String} ownerLogin - The GitHub username/login ID of the owner of the repo.
+   * @param {String} repoName - The name of the repo.
+   * @param {String} branchName - The name of the branch.
+   * @returns {Promise} A promise which resolves to a list of commit objects, or rejects with a String error message.
+   * @public
+   */
+  static getCommitsOnBranch(ownerLogin, repoName, branchName){
+    return new Promise((resolve, reject) => {
+      octo.repos(ownerLogin, repoName).commits.fetch({sha: branchName}).then(result => {
+        resolve(result);
+      }).catch(error => {
+        console.log(getErrorResponseMsg(error));
+        reject("ERROR: GitHub responded with an error when fetching commits on branch '" + branchName + "' in repo '" + ownerLogin + "/" + repoName + "'");
+      });
+    });
+  }
+
+  /**
    * Gets a list of statuses for the specified commit reference in reverse chronological order.
    *
    * https://developer.github.com/v3/repos/statuses/#list-statuses-for-a-specific-ref
