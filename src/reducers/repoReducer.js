@@ -29,6 +29,17 @@ export default function repoReducer(state = initialState.repos, action) {
         Object.assign({}, newRepo)
       ];
     }
+    case types.COMMITS_LOADED_FOR_BRANCH: {
+      let newRepo = state.find(filterRepo => filterRepo.name === action.repo.name);
+      let findBranchIndex = newRepo.branches.findIndex(findBranch => findBranch.name === action.branch.name);
+
+      newRepo.branches[findBranchIndex].commits = Array.from(action.commits);
+
+      return [
+        ...state.filter(filterRepo => filterRepo.name !== action.repo.name),
+        Object.assign({}, newRepo)
+      ];
+    }
     default: {
       return state;
     }
