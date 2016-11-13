@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux';
 import {browserHistory} from 'react-router';
 import BranchesList from './BranchesList';
 import * as repoActions from '../../../actions/repoActions';
+import GithubAPI from '../../../api/githubAPI';
 
 import toastr from 'toastr';
 
@@ -32,6 +33,14 @@ class BranchesPage extends React.Component {
 
   handleBranchSelect(evt){
     evt.preventDefault();
+    const {repo} = this.props;
+    let selectedBranchName = evt.currentTarget.value;
+
+    GithubAPI.getCommitsOnBranch("compumike08", repo.name, selectedBranchName).then(commits => {
+      console.log(commits);
+    }).catch(error => {
+      console.log(error);
+    });
   }
 
   render() {
