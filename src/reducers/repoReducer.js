@@ -15,6 +15,15 @@ export default function repoReducer(state = initialState.repos, action) {
       let newRepo = state.find(filterRepo => filterRepo.name === action.repo.name);
       newRepo.branches = Array.from(action.branches);
 
+      newRepo.branches = newRepo.branches.map(branch => {
+        let newBranchObj = {
+          ...branch,
+          commits: null
+        };
+
+        return newBranchObj;
+      });
+
       return [
         ...state.filter(filterRepo => filterRepo.name !== action.repo.name),
         Object.assign({}, newRepo)
