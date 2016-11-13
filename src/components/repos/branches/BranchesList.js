@@ -5,7 +5,7 @@ const BranchesList = ({repoId, branches, onSelect}) => {
   return (
     <div className="list-group">
       {branches.map(branch =>
-        <BranchesListRow key={branch.name} repoId={repoId} branch={branch} onSelect={onSelect} />
+        <BranchesListRow key={branch} repoId={repoId} branch={branch} onSelect={onSelect} />
       )}
     </div>
   );
