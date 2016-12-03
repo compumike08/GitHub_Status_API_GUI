@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {browserHistory} from 'react-router';
 import BranchesList from './BranchesList';
+import LoadingNotice from '../../common/LoadingNotice';
 import * as repoActions from '../../../actions/repoActions';
 
 import toastr from 'toastr';
@@ -46,9 +47,7 @@ class BranchesPage extends React.Component {
     const {repo} = this.props;
 
     let branchesListElement = (
-      <div className="panel-body">
-        <span className="bold italic">Loading...</span>
-      </div>
+      <LoadingNotice/>
     );
 
     if(repo.branches !== null){
