@@ -4022,9 +4022,9 @@ object.values@^1.0.3:
     function-bind "^1.0.2"
     has "^1.0.1"
 
-octokat@0.4.18:
-  version "0.4.18"
-  resolved "https://registry.yarnpkg.com/octokat/-/octokat-0.4.18.tgz#afa7e52654b5464923f801917b3a31cff7a6848d"
+octokat@0.6.0-0:
+  version "0.6.0-0"
+  resolved "https://registry.yarnpkg.com/octokat/-/octokat-0.6.0-0.tgz#9f4b797d73751dccf257f3f7730cc03c40c7de1d"
   dependencies:
     es6-promise "3.0.2"
     xmlhttprequest "~1.8.0"
@@ -5117,11 +5117,11 @@ semver-truncate@^1.0.0:
   dependencies:
     semver "^5.3.0"
 
-"semver@2 || 3 || 4 || 5", "semver@2.x || 3.x || 4 || 5", semver@^5.3.0, semver@~5.3.0:
+"semver@2 || 3 || 4 || 5", semver@^5.3.0, semver@~5.3.0:
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.3.0.tgz#9b2ce5d3de02d17c6012ad326aa6b4d0cf54f94f"
 
-semver@^4.0.3:
+"semver@2.x || 3.x || 4 || 5", semver@^4.0.3:
   version "4.3.6"
   resolved "https://registry.yarnpkg.com/semver/-/semver-4.3.6.tgz#300bc6e0e86374f7ba61068b5b1ecd57fc6532da"
 
