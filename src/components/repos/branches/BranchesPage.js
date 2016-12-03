@@ -5,6 +5,7 @@ import {browserHistory} from 'react-router';
 import BranchesList from './BranchesList';
 import LoadingNotice from '../../common/LoadingNotice';
 import * as repoActions from '../../../actions/repoActions';
+import {getRepoById} from '../../../utils/utilityMethods';
 
 import toastr from 'toastr';
 
@@ -76,16 +77,6 @@ BranchesPage.propTypes = {
   repo: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired
 };
-
-function getRepoById(repos, id){
-  const repo = repos.find(repo => repo.id == id);
-
-  if (repo){
-    return repo;
-  }else{
-    return {};
-  }
-}
 
 function mapStateToProps(state, ownProps) {
   const repoId = ownProps.params.id;  // from the path '/repobranches/:id'
