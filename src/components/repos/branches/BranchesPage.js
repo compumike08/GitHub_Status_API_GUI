@@ -14,6 +14,7 @@ class BranchesPage extends React.Component {
     super(props, context);
 
     this.handleBranchSelect = this.handleBranchSelect.bind(this);
+    this.redirectToCommitsListPage = this.redirectToCommitsListPage.bind(this);
   }
 
   componentWillMount(){
@@ -34,14 +35,14 @@ class BranchesPage extends React.Component {
 
   handleBranchSelect(evt){
     evt.preventDefault();
-    let selectedBranchName = evt.currentTarget.value;
+    this.redirectToCommitsListPage(evt.currentTarget.value);
+  }
 
-    this.props.actions.loadCommitsForBranch(selectedBranchName, this.props.repo.name).then(() => {
-      toastr.success("Commit list for branch '" + selectedBranchName + "' in repo '" + this.props.repo.name + "' fetched successfully!");
-    }).catch(error => {
-      console.log(error);
-      toastr.error("Commit list for branch '" + selectedBranchName + "' in repo '" + this.props.repo.name + "' fetch failed!");
-    });
+  redirectToCommitsListPage(selectedBranchName){
+    let branches = this.props.repo.branches;
+    let selectedBranch = branches.find(branch => branch.name == selectedBranchName);
+
+    browserHistory.push("/repobranches/" + this.props.repo.id + "/commits/" + selectedBranch.name);
   }
 
   render() {
