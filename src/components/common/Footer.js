@@ -1,10 +1,16 @@
 import React, {PropTypes} from 'react';
-import {Link} from 'react-router';
+import {browserHistory} from 'react-router';
 import {HOME_PAGE_URI} from '../../utils/constants';
 
 class Footer extends React.Component {
   constructor(props, context) {
     super(props, context);
+
+    this.redirectToPreviousPage = this.redirectToPreviousPage.bind(this);
+  }
+
+  redirectToPreviousPage(){
+    browserHistory.goBack();
   }
 
   render() {
@@ -17,7 +23,7 @@ class Footer extends React.Component {
     return (
       <div className="footer">
         {isHomepage === true ? "" :
-          <Link className="btn btn-link" to={HOME_PAGE_URI}>Go Back</Link>
+          <span className="btn btn-link" onClick={this.redirectToPreviousPage}>Go Back</span>
         }
       </div>
     );
