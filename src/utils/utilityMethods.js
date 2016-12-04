@@ -8,8 +8,8 @@ export function getRepoById(repos, id){
   }
 }
 
-export function getBranchById(branches, id){
-  const branch = branches.find(branch => branch.id == id);
+export function getBranchByName(branches, branchName){
+  const branch = branches.find(branch => branch.name == branchName);
 
   if (branch){
     return branch;
