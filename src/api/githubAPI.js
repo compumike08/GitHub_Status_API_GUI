@@ -1,4 +1,4 @@
-import {GITHUB_USER_NAME,
+import {GITHUB_ACCOUNT_NAME,
   GITHUB_REPO_NAME} from '../utils/constants';
 import * as Axis from '../../node_modules/axis.js';
 
@@ -163,7 +163,7 @@ class GithubApi {
       }
 
       if(isCommitRefParamValid){
-        octo.repos(GITHUB_USER_NAME, GITHUB_REPO_NAME).commits(commitRef).statuses.fetch().then(result => {
+        octo.repos(GITHUB_ACCOUNT_NAME, GITHUB_REPO_NAME).commits(commitRef).statuses.fetch().then(result => {
           resolve(result);
         }).catch(error => {
           console.log(getErrorResponseMsg(error));

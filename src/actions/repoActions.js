@@ -1,5 +1,6 @@
 import * as types from './actionTypes';
 import GithubAPI from '../api/githubAPI';
+import {GITHUB_ACCOUNT_NAME} from '../utils/constants';
 
 export function reposLoaded(repos){
   return {type: types.REPOS_LOADED, repos};
@@ -17,7 +18,7 @@ export function loadRepos(){
   return function(dispatch, getState) {
     const currentState = getState();
 
-    return GithubAPI.getUserOwnedRepos(currentState.oauths.authenticatedUser.login).then(repos => {
+    return GithubAPI.getUserOwnedRepos(GITHUB_ACCOUNT_NAME).then(repos => {
       dispatch(reposLoaded(repos));
     }).catch(error => {
       //TODO: Improve error handling instead of re-throwing error
