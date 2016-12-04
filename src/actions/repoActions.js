@@ -18,7 +18,7 @@ export function loadRepos(){
   return function(dispatch, getState) {
     const currentState = getState();
 
-    return GithubAPI.getUserOwnedRepos(GITHUB_ACCOUNT_NAME).then(repos => {
+    return GithubAPI.getReposByOwner(GITHUB_ACCOUNT_NAME).then(repos => {
       dispatch(reposLoaded(repos));
     }).catch(error => {
       //TODO: Improve error handling instead of re-throwing error

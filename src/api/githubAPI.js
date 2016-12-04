@@ -81,17 +81,17 @@ class GithubApi {
   }
 
   /**
-   * Gets a list of repositories owned by the specified user.
+   * Gets a list of repositories owned by specified owner login.
    *
    * https://developer.github.com/v3/repos/#list-user-repositories
    *
-   * @param {String} userLogin - A string specifying the user login name for which to get owned repos.
+   * @param {String} ownerLogin - The GitHub owner login name for which to get owned repos.
    * @returns {Promise} A promise which resolves to a list of repository objects, or rejects with a String error message.
    * @public
    */
-  static getUserOwnedRepos(userLogin){
+  static getReposByOwner(ownerLogin){
     return new Promise((resolve, reject) => {
-      octo.users(userLogin).repos.fetch().then(result => {
+      octo.users(ownerLogin).repos.fetch().then(result => {
         resolve(result);
       }).catch(error => {
         console.log(getErrorResponseMsg(error));
@@ -105,7 +105,7 @@ class GithubApi {
    *
    * https://developer.github.com/v3/repos/branches/#list-branches
    *
-   * @param {String} ownerLogin - The GitHub username/login ID of the owner of the repo.
+   * @param {String} ownerLogin - The GitHub owner login name of the owner of the repo.
    * @param {String} repoName - The name of the repo.
    * @returns {Promise} A promise which resolves to a list of branch objects, or rejects with a String error message.
    * @public
@@ -126,7 +126,7 @@ class GithubApi {
    *
    * https://developer.github.com/v3/repos/commits/#list-commits-on-a-repository
    *
-   * @param {String} ownerLogin - The GitHub username/login ID of the owner of the repo.
+   * @param {String} ownerLogin - The GitHub owner login name of the owner of the repo.
    * @param {String} repoName - The name of the repo.
    * @param {String} branchName - The name of the branch.
    * @returns {Promise} A promise which resolves to a list of commit objects, or rejects with a String error message.
