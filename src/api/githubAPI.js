@@ -1,5 +1,3 @@
-import {GITHUB_ACCOUNT_NAME,
-  GITHUB_REPO_NAME} from '../utils/constants';
 import * as Axis from '../../node_modules/axis.js';
 
 let Octokat = require('octokat');
@@ -148,14 +146,17 @@ class GithubApi {
    *
    * https://developer.github.com/v3/repos/statuses/#list-statuses-for-a-specific-ref
    *
+   * @param {String} ownerLogin - The GitHub owner login name of the owner of the repo.
+   * @param {String} repoName - The name of the repo.
    * @param {String} commitRef - A string specifying the commit reference (can be commit SHA ID, branch name, or tag name).
    * @returns {Promise} A promise which resolves to a list of commit status objects, or rejects with a String error message.
    * @public
    */
-  static getStatusesForCommit(commitRef){
+  static getStatusesForCommit(ownerLogin, repoName, commitRef){
     return new Promise((resolve, reject) => {
       let isCommitRefParamValid = false;
 
+      // TODO: Improve validation of commitRef parameter input value
       if(Axis.isString(commitRef) === true){
         if(commitRef.length > 0){
           isCommitRefParamValid = true;
@@ -163,7 +164,7 @@ class GithubApi {
       }
 
       if(isCommitRefParamValid){
-        octo.repos(GITHUB_ACCOUNT_NAME, GITHUB_REPO_NAME).commits(commitRef).statuses.fetch().then(result => {
+        octo.repos(ownerLogin, repoName).commits(commitRef).statuses.fetch().then(result => {
           resolve(result);
         }).catch(error => {
           console.log(getErrorResponseMsg(error));
