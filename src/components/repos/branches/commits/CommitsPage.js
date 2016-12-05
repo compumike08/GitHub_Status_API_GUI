@@ -5,7 +5,7 @@ import {browserHistory} from 'react-router';
 import LoadingNotice from '../../../common/LoadingNotice';
 import CommitsList from './CommitsList';
 import * as repoActions from '../../../../actions/repoActions';
-import {getBranchByName, getRepoById} from '../../../../utils/utilityMethods';
+import {getBranchByName, getRepoById, firstSevenOfSha} from '../../../../utils/utilityMethods';
 
 import toastr from 'toastr';
 
@@ -39,7 +39,17 @@ class CommitsPage extends React.Component {
   }
 
   handleCommitSelect(evt){
+    evt.persist();
     evt.preventDefault();
+    let repoName = evt.target.attributes.getNamedItem("data-repo-name").value;
+    let branchName = evt.target.attributes.getNamedItem("data-branch-name").value;
+
+    this.props.actions.loadCommitStatuses(evt.target.value, branchName, repoName).then(() => {
+      toastr.success("Statuses loaded for commit '" + firstSevenOfSha(evt.target.value) + "'!");
+    }).catch(error => {
+      console.log(error);
+      toastr.error("Statuses for commit '" + firstSevenOfSha(evt.target.value) + "' on branch '" + branchName + "' in repo '" + repoName + "' fetch failed!");
+    });
   }
 
   render() {
