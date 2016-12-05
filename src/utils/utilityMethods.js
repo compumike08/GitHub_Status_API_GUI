@@ -17,3 +17,7 @@ export function getBranchByName(branches, branchName){
     return {};
   }
 }
+
+export function firstSevenOfSha(sha){
+  return sha.slice(0, 7);
+}
