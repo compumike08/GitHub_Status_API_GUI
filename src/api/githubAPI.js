@@ -154,13 +154,17 @@ class GithubApi {
    */
   static getStatusesForCommit(ownerLogin, repoName, commitRef){
     return new Promise((resolve, reject) => {
-      let isCommitRefParamValid = false;
+      let isCommitRefParamValid = validateCommitReference(commitRef);
 
-      // TODO: Improve validation of commitRef parameter input value
-      if(Axis.isString(commitRef) === true){
-        if(commitRef.length > 0){
-          isCommitRefParamValid = true;
-        }
+      if(isCommitRefParamValid){
+        octo.repos(ownerLogin, repoName).commits(commitRef).statuses.fetch().then(result => {
+          resolve(result);
+        }).catch(error => {
+          console.log(getErrorResponseMsg(error));
+          reject("ERROR: GitHub responded with an error.");
+        });
+      }else{
+        reject("ERROR: Invalid commitRef parameter passed to GithubApi component.");
       }
 
       if(isCommitRefParamValid){
@@ -176,6 +180,28 @@ class GithubApi {
 
     });
   }
+}
+
+
+/**
+ * Checks input commit reference parameter and returns true or
+ * false to calling function to indicate validity of input.
+ *
+ * @param {String} commitRef - The commit reference input to be validated.
+ * @returns {boolean} True if commit reference is valid, false otherwise.
+ * @private
+ */
+function validateCommitReference(commitRef){
+  let isCommitRefParamValid = false;
+
+  // TODO: Improve validation of commitRef parameter input value
+  if(Axis.isString(commitRef) === true){
+    if(commitRef.length > 0){
+      isCommitRefParamValid = true;
+    }
+  }
+
+  return isCommitRefParamValid;
 }
 
 /**
