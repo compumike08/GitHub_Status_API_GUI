@@ -166,18 +166,6 @@ class GithubApi {
       }else{
         reject("ERROR: Invalid commitRef parameter passed to GithubApi component.");
       }
-
-      if(isCommitRefParamValid){
-        octo.repos(ownerLogin, repoName).commits(commitRef).statuses.fetch().then(result => {
-          resolve(result);
-        }).catch(error => {
-          console.log(getErrorResponseMsg(error));
-          reject("ERROR: GitHub responded with an error.");
-        });
-      }else{
-        reject("ERROR: Invalid commitRef parameter passed to GithubApi component.");
-      }
-
     });
   }
 }
