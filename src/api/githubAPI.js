@@ -168,6 +168,35 @@ class GithubApi {
       }
     });
   }
+
+  /**
+   * Gets the latest status for each context, as well as a
+   * single combined 'state', for the specified commit reference.
+   *
+   * https://developer.github.com/v3/repos/statuses/#get-the-combined-status-for-a-specific-ref
+   *
+   * @param {String} ownerLogin - The GitHub owner login name of the owner of the repo.
+   * @param {String} repoName - The name of the repo.
+   * @param {String} commitRef - A string specifying the commit reference (can be commit SHA ID, branch name, or tag name).
+   * @returns {Promise} A promise which resolves to a combined status object, or rejects with a String error message.
+   * @public
+   */
+  static getCombinedStatusForCommit(ownerLogin, repoName, commitRef){
+    return new Promise((resolve, reject) => {
+      let isCommitRefParamValid = validateCommitReference(commitRef);
+
+      if(isCommitRefParamValid){
+        octo.repos(ownerLogin, repoName).commits(commitRef).status.fetch().then(result => {
+          resolve(result);
+        }).catch(error => {
+          console.log(getErrorResponseMsg(error));
+          reject("ERROR: GitHub responded with an error.");
+        });
+      }else{
+        reject("ERROR: Invalid commitRef parameter passed to GithubApi component.");
+      }
+    });
+  }
 }
 
 
