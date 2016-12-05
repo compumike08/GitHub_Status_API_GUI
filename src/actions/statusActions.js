@@ -1,7 +1,7 @@
 import * as types from './actionTypes';
 
 export function commitStatusesLoaded(statuses) {
-    return {type: types.COMMIT_STATUSES_LOADED, statuses};
+    return {type: types.STATUSES_LOADED_FOR_COMMIT, statuses};
 }
 
 export function loadAllCommitStatuses(statuses) {

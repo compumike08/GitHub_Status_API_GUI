@@ -4,6 +4,6 @@ export default {
     oauthReturnedToken: "",
     authenticatedUser: {}
   },
-  commitStatuses: null,
+  statuses: null,
   repos: null
 };
