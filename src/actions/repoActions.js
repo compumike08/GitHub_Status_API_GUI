@@ -81,3 +81,14 @@ function findBranchByNameFromRepo(repoObj, branchNameToFind){
 
   return returnBranch;
 }
+
+function findCommitByShaFromBranch(branchObj, commitShaToFind){
+  let returnCommit = branchObj.commits.find(commit => commit.sha == commitShaToFind);
+
+  if ((returnCommit === undefined) || (returnCommit === null)){
+    //TODO: Improve error handling for case when commit not found
+    throw new Error("FATAL ERROR: Unable to find specified commit in branch object", "repoActions.js");
+  }
+
+  return returnCommit;
+}
