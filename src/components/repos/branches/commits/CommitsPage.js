@@ -54,7 +54,7 @@ class CommitsPage extends React.Component {
       commitsListElement = (
         <div className="panel-body">
           <span className="bold">Select a commit:</span>
-          <CommitsList repoId={repo.id} branchName={branch.name} commits={branch.commits} onSelect={this.handleCommitSelect}/>
+          <CommitsList repoId={repo.id} repoName={repo.name} branchName={branch.name} commits={branch.commits} onSelect={this.handleCommitSelect}/>
         </div>
       );
     }
