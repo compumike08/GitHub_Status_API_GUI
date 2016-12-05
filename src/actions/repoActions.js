@@ -14,6 +14,10 @@ export function commitsLoadedForBranch(commits, branch, repo){
   return {type: types.COMMITS_LOADED_FOR_BRANCH, commits, branch, repo};
 }
 
+export function commitStatusesLoaded(statuses, commit, branch, repo) {
+  return {type: types.STATUSES_LOADED_FOR_COMMIT, statuses, commit, branch, repo};
+}
+
 export function loadRepos(){
   return function(dispatch, getState) {
     const currentState = getState();
@@ -59,6 +63,25 @@ export function loadCommitsForBranch(branchName, repoName){
 
   };
 }
+
+export function loadCommitStatuses(commitSha, branchName, repoName){
+  return function (dispatch, getState){
+    const currentState = getState();
+
+    let repo = findRepoByNameFromState(currentState.repos, repoName);
+    let branch = findBranchByNameFromRepo(repo, branchName);
+    let commit = findCommitByShaFromBranch(branch, commitSha);
+
+    return GithubAPI.getStatusesForCommit(repo.owner.login, repo.name, commit.sha).then(statuses => {
+      dispatch(commitStatusesLoaded(statuses, commit, branch, repo));
+    }).catch(error => {
+      //TODO: Improve error handling instead of re-throwing error
+      throw(error);
+    });
+  };
+}
+
+
 
 function findRepoByNameFromState(currentStateRepos, repoNameToFind){
   let returnRepo = currentStateRepos.find(repo => repo.name == repoNameToFind);

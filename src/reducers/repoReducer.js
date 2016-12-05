@@ -35,6 +35,27 @@ export default function repoReducer(state = initialState.repos, action) {
 
       newRepo.branches[findBranchIndex].commits = Array.from(action.commits);
 
+      newRepo.branches[findBranchIndex].commits = newRepo.branches[findBranchIndex].commits.map(commit => {
+        let newCommitObj = {
+          ...commit,
+          statuses: null
+        };
+
+        return newCommitObj;
+      });
+
+      return [
+        ...state.filter(filterRepo => filterRepo.name !== action.repo.name),
+        Object.assign({}, newRepo)
+      ];
+    }
+    case types.STATUSES_LOADED_FOR_COMMIT: {
+      let newRepo = getRepoFromState(action.repo.name, state);
+      let findBranchIndex = getBranchIndexFromRepo(action.branch.name, newRepo);
+      let findCommitIndex = getCommitIndexFromBranch(action.commit.sha, newRepo.branches[findBranchIndex]);
+
+      newRepo.branches[findBranchIndex].commits[findCommitIndex].statuses = Array.from(action.statuses);
+
       return [
         ...state.filter(filterRepo => filterRepo.name !== action.repo.name),
         Object.assign({}, newRepo)
