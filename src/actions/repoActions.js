@@ -19,8 +19,7 @@ export function commitStatusesLoaded(statuses, commit, branch, repo) {
 }
 
 export function loadRepos(){
-  return function(dispatch, getState) {
-    const currentState = getState();
+  return function(dispatch) {
 
     return GithubAPI.getReposByOwner(GITHUB_ACCOUNT_NAME).then(repos => {
       dispatch(reposLoaded(repos));
