@@ -1,10 +1,14 @@
 import * as types from '../actions/actionTypes';
 import initialState from './initialState';
 
-export default function statusReducer(state = initialState.repos, action) {
+export default function statusReducer(state = initialState.combinedStatusData, action) {
   switch (action.type) {
-    case types.STATUSES_LOADED_FOR_COMMIT: {
-      return action.statuses;
+    case types.COMBINED_STATUS_LOADED_FOR_BRANCH: {
+      return {
+        repoId: action.repoId,
+        branchName: action.branchName,
+        combinedStatus: action.combinedStatus
+      };
     }
     default: {
       return state;

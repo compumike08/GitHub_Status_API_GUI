@@ -4,6 +4,10 @@ export default {
     oauthReturnedToken: "",
     authenticatedUser: {}
   },
-  statuses: null,
+  combinedStatusData: {
+    repoId: null,
+    branchName: null,
+    combinedStatus: null
+  },
   repos: null
 };
