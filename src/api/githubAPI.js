@@ -177,23 +177,23 @@ class GithubApi {
    *
    * @param {String} ownerLogin - The GitHub owner login name of the owner of the repo.
    * @param {String} repoName - The name of the repo.
-   * @param {String} commitRef - A string specifying the commit reference (can be commit SHA ID, branch name, or tag name).
+   * @param {String} ref - A string specifying the commit reference (can be commit SHA ID, branch name, or tag name).
    * @returns {Promise} A promise which resolves to a combined status object, or rejects with a String error message.
    * @public
    */
-  static getCombinedStatusForCommit(ownerLogin, repoName, commitRef){
+  static getCombinedStatusForRef(ownerLogin, repoName, ref){
     return new Promise((resolve, reject) => {
-      let isCommitRefParamValid = validateCommitReference(commitRef);
+      let isCommitRefParamValid = validateCommitReference(ref);
 
       if(isCommitRefParamValid){
-        octo.repos(ownerLogin, repoName).commits(commitRef).status.fetch().then(result => {
+        octo.repos(ownerLogin, repoName).commits(ref).status.fetch().then(result => {
           resolve(result);
         }).catch(error => {
           console.log(getErrorResponseMsg(error));
           reject("ERROR: GitHub responded with an error.");
         });
       }else{
-        reject("ERROR: Invalid commitRef parameter passed to GithubApi component.");
+        reject("ERROR: Invalid ref parameter passed to GithubApi component.");
       }
     });
   }
@@ -201,24 +201,24 @@ class GithubApi {
 
 
 /**
- * Checks input commit reference parameter and returns true or
+ * Checks input reference parameter and returns true or
  * false to calling function to indicate validity of input.
  *
- * @param {String} commitRef - The commit reference input to be validated.
+ * @param {String} ref - The commit reference input to be validated.
  * @returns {boolean} True if commit reference is valid, false otherwise.
  * @private
  */
-function validateCommitReference(commitRef){
-  let isCommitRefParamValid = false;
+function validateCommitReference(ref){
+  let isRefParamValid = false;
 
-  // TODO: Improve validation of commitRef parameter input value
-  if(Axis.isString(commitRef) === true){
-    if(commitRef.length > 0){
-      isCommitRefParamValid = true;
+  // TODO: Improve validation of ref parameter input value
+  if(Axis.isString(ref) === true){
+    if(ref.length > 0){
+      isRefParamValid = true;
     }
   }
 
-  return isCommitRefParamValid;
+  return isRefParamValid;
 }
 
 /**
