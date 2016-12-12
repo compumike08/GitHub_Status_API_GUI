@@ -23,7 +23,7 @@ class Footer extends React.Component {
     return (
       <div className="footer">
         {isHomepage === true ? "" :
-          <span className="btn btn-link" onClick={this.redirectToPreviousPage}>Go Back</span>
+          <button type="button" className="btn btn-link" onClick={this.redirectToPreviousPage}>Go Back</button>
         }
       </div>
     );
