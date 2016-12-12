@@ -11,11 +11,6 @@ import toastr from 'toastr';
 class CombinedStatusPage extends React.Component {
   constructor(props, context) {
     super(props, context);
-
-    //Bind component class functions to this context
-    /* Example:
-     this.functionName = this.functionName.bind(this);
-     */
   }
 
   componentWillMount(){
