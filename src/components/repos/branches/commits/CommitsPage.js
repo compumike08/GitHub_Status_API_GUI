@@ -13,6 +13,7 @@ class CommitsPage extends React.Component {
   constructor(props, context) {
     super(props, context);
 
+    this.handleViewCombinedStatusSelect = this.handleViewCombinedStatusSelect.bind(this);
     this.handleCommitSelect = this.handleCommitSelect.bind(this);
   }
 
@@ -36,6 +37,16 @@ class CommitsPage extends React.Component {
         });
       }
     }
+  }
+
+  handleViewCombinedStatusSelect(evt){
+    evt.persist();
+    evt.preventDefault();
+
+    let repoId = this.props.repo.id;
+    let branchName = this.props.branch.name;
+
+    browserHistory.push("/combinedStatus/repo/" + repoId + "/branch/" + branchName);
   }
 
   handleCommitSelect(evt){
@@ -71,6 +82,12 @@ class CommitsPage extends React.Component {
 
     return (
       <div>
+        <div className="row">
+          <div className="col-sm-3">
+            <button className="btn btn-info" onClick={this.handleViewCombinedStatusSelect}>View Combined Status For <span className="italic">{branch.name}</span> Branch</button>
+          </div>
+        </div>
+
         <div className="row">
           <div className="col-sm-12">
             <div className="panel panel-default">
