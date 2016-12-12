@@ -70,11 +70,13 @@ class CommitsPage extends React.Component {
     }
 
     return (
-      <div className="row">
-        <div className="col-sm-12">
-          <div className="panel panel-default">
-            <div className="panel-heading">Commits On <span className="italic">{branch.name}</span> In <span className="italic">{repo.name}</span></div>
-            {commitsListElement}
+      <div>
+        <div className="row">
+          <div className="col-sm-12">
+            <div className="panel panel-default">
+              <div className="panel-heading">Commits On <span className="italic">{branch.name}</span> In <span className="italic">{repo.name}</span></div>
+              {commitsListElement}
+            </div>
           </div>
         </div>
       </div>
