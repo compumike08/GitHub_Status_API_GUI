@@ -24,6 +24,7 @@ class CombinedStatusPage extends React.Component {
     const {actions} = this.props;
 
     if((!repo.id) || (!branch.name)) {
+      // TODO: Remove console.log statements below.
       console.log("repoId and/or branchName was null.");
       console.log("repoId: " + repo.id);
       console.log("branchName: " + branch.name);
