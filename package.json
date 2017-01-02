@@ -30,7 +30,7 @@
     "axis.js": "1.2.1",
     "bootstrap": "3.3.7",
     "font-awesome": "4.6.3",
-    "jquery": "3.1.0",
+    "jquery": "^3.1.1",
     "object-assign": "4.1.0",
     "octokat": "0.6.0-0",
     "react": "15.3.0",
