@@ -3733,9 +3733,9 @@ mocha@^3.2.0:
     mkdirp "0.5.1"
     supports-color "3.1.2"
 
-mockdate@1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/mockdate/-/mockdate-1.0.4.tgz#00aa9ef0a5995851e3f12d11779300815a5319ed"
+mockdate@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/mockdate/-/mockdate-2.0.1.tgz#51bc309e2c4396600d56b6c23a6a0f4182943a36"
 
 ms@0.7.1:
   version "0.7.1"
