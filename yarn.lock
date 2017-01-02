@@ -483,10 +483,11 @@ babel-helpers@^6.8.0:
     babel-runtime "^6.0.0"
     babel-template "^6.16.0"
 
-babel-loader@6.2.4:
-  version "6.2.4"
-  resolved "https://registry.yarnpkg.com/babel-loader/-/babel-loader-6.2.4.tgz#aa70aff8ddc223a5952e839a43a6c3a4c8bfa1e9"
+babel-loader@^6.2.10:
+  version "6.2.10"
+  resolved "https://registry.yarnpkg.com/babel-loader/-/babel-loader-6.2.10.tgz#adefc2b242320cd5d15e65b31cea0e8b1b02d4b0"
   dependencies:
+    find-cache-dir "^0.1.1"
     loader-utils "^0.2.11"
     mkdirp "^0.5.1"
     object-assign "^4.0.1"
@@ -1458,6 +1459,10 @@ commander@2.9.0, commander@2.9.x, commander@^2.2.0, commander@^2.8.1, commander@
   dependencies:
     graceful-readlink ">= 1.0.0"
 
+commondir@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/commondir/-/commondir-1.0.1.tgz#ddd800da0c66127393cca5950ea968a3aaf1253b"
+
 component-bind@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/component-bind/-/component-bind-1.0.0.tgz#00c608ab7dcd93897c0009651b1d3a8e1e73bbd1"
@@ -2402,6 +2407,14 @@ finalhandler@0.4.1:
     escape-html "~1.0.3"
     on-finished "~2.3.0"
     unpipe "~1.0.0"
+
+find-cache-dir@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/find-cache-dir/-/find-cache-dir-0.1.1.tgz#c8defae57c8a52a8a784f9e31c57c742e993a0b9"
+  dependencies:
+    commondir "^1.0.1"
+    mkdirp "^0.5.1"
+    pkg-dir "^1.0.0"
 
 find-up@^1.0.0:
   version "1.1.2"
