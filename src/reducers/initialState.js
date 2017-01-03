@@ -9,5 +9,12 @@ export default {
     branchName: null,
     combinedStatus: null
   },
+  currentCommitStatuesData: {
+    repoId: null,
+    isFromBranch: null,
+    branchName: null,
+    commit: null,
+    statuses: null
+  },
   repos: null
 };
