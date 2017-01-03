@@ -3,7 +3,7 @@ import { combineReducers } from 'redux';
 import {routerReducer} from 'react-router-redux';
 import oauths from './oauthReducer';
 import repos from './repoReducer';
-import combinedStatusData from './statusReducer';
+import combinedStatusData from './combinedStatusReducer';
 
 const rootReducer = combineReducers({
   routing: routerReducer,

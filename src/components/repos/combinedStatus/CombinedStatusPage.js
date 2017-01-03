@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {browserHistory} from 'react-router';
 import {bindActionCreators} from 'redux';
-import * as statusActions from '../../../actions/statusActions';
+import * as combinedStatusActions from '../../../actions/combinedStatusActions';
 import {getBranchByName, getRepoById} from '../../../utils/utilityMethods';
 import LoadingNotice from '../../common/LoadingNotice';
 
@@ -98,7 +98,7 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch){
   return {
-    actions: bindActionCreators(statusActions, dispatch)
+    actions: bindActionCreators(combinedStatusActions, dispatch)
   };
 }
 
