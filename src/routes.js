@@ -7,6 +7,8 @@ import BranchPage from './components/repos/branches/BranchesPage';
 import CommitsPage from './components/repos/branches/commits/CommitsPage';
 import CombinedStatusPage from './components/repos/combinedStatus/CombinedStatusPage';
 
+import CurrentStatusPage from './components/repos/currentStatus/CurrentStatusPage';
+
 export default (
     <Route path="/" component={App}>
         <IndexRoute component={HomePage}/>
@@ -14,5 +16,7 @@ export default (
         <Route path="repobranches/:id" component={BranchPage}/>
         <Route path="repobranches/:id/commits/:branchName" component={CommitsPage}/>
         <Route path="combinedStatus/repo/:repoId/branch/:branchName" component={CombinedStatusPage}/>
+
+        <Route path="currentstatusplaceholder" component={CurrentStatusPage}/>
     </Route>
 );

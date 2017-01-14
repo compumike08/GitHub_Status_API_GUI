@@ -1,7 +1,27 @@
+$BS_SM_MIN_WIDTH: 768px;
+$BS_MD_MIN_WIDTH: 992px;
+$BS_LG_MIN_WIDTH: 1200px;
+
+$BS_XS_MAX_WIDTH: 767px;
+$BS_SM_MAX_WIDTH: 991px;
+$BS_MD_MAX_WIDTH: 1199px;
+
 //Panel Formatting
 .panel > .panel-heading {
   @extend .bold;
   font-size: 16px;
+}
+
+.panel > .panel-heading.panel-heading-small {
+  font-size: 14px;
+}
+
+.buffer-space {
+  margin: 15px;
+}
+
+.panel .panel.sub-panel {
+  margin: 20px;
 }
 
 // Utility Classes
@@ -11,4 +31,20 @@
 
 .italic {
   font-style: italic;
+}
+
+.normal {
+  font-weight: normal;
+}
+
+@media (min-width: $BS_SM_MIN_WIDTH) {
+  .pull-right-sm {
+    float: right !important;
+  }
+}
+
+@media (max-width: $BS_XS_MAX_WIDTH) {
+  .pad-top-xs {
+    padding-top: 5px;
+  }
 }
