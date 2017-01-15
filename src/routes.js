@@ -17,6 +17,6 @@ export default (
         <Route path="repobranches/:id/commits/:branchName" component={CommitsPage}/>
         <Route path="combinedStatus/repo/:repoId/branch/:branchName" component={CombinedStatusPage}/>
 
-        <Route path="currentstatusplaceholder" component={CurrentStatusPage}/>
+        <Route path="currentStatuses" component={CurrentStatusPage}/>
     </Route>
 );

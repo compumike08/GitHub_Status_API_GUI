@@ -4,8 +4,8 @@ import {connect} from 'react-redux';
 //import {browserHistory} from 'react-router';
 import LoadingNotice from '../../common/LoadingNotice';
 //import * as currentStatusActions from '../../../actions/currentStatusActions';
-//import {getBranchByName, getRepoById, firstSevenOfSha} from '../../../utils/utilityMethods';
-import CurrentStatusListRow from './CurrentStatusListRow';
+import {getRepoById, firstSevenOfSha} from '../../../utils/utilityMethods';
+import CurrentStatusList from './CurrentStatusList';
 
 class CurrentStatusPage extends React.Component {
   constructor(props, context) {
@@ -18,20 +18,32 @@ class CurrentStatusPage extends React.Component {
   }
 
   render() {
+    let {currentCommitStatuesData} = this.props;
+    let {currentCommitStatusRepoName} = this.props;
+
+    let commitShaShort = null;
+
     let statusesListElement = (
       <LoadingNotice/>
     );
 
-    statusesListElement = (
-      <CurrentStatusListRow/>
-    );
+    if ((currentCommitStatuesData.commit !== null) && (currentCommitStatuesData.commit !== undefined)) {
+      commitShaShort = firstSevenOfSha(currentCommitStatuesData.commit);
+      statusesListElement = (
+        <CurrentStatusList repoId={currentCommitStatuesData.repoId}
+                           isFromBranch={currentCommitStatuesData.isFromBranch}
+                           branchName={currentCommitStatuesData.branchName}
+                           commitSha={currentCommitStatuesData.commit}
+                           statuses={currentCommitStatuesData.statuses} />
+      );
+    }
 
     return (
       <div>
         <div className="row">
           <div className="col-sm-12">
             <div className="panel panel-default">
-              <div className="panel-heading">Current Status For Commit <span className="italic">...</span></div>
+              <div className="panel-heading">Current Statuses For Commit <span className="italic">{commitShaShort}</span> On Branch <span className="italic">{currentCommitStatuesData.branchName}</span> In Repo <span className="italic">{currentCommitStatusRepoName}</span></div>
               {statusesListElement}
             </div>
           </div>
@@ -42,19 +54,25 @@ class CurrentStatusPage extends React.Component {
 }
 
 CurrentStatusPage.propTypes = {
-  //property: PropTypes.type[.isRequired]
+  currentCommitStatusRepoName: PropTypes.string,
+  currentCommitStatuesData: PropTypes.object.isRequired
 };
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
+  let currentCommitStatusRepoName = null;
+
+  if (state.repos !== null){
+    let currentCommitStatusRepo = getRepoById(state.repos, state.currentCommitStatuesData.repoId);
+
+    if ((currentCommitStatusRepo.name !== null) && (currentCommitStatusRepo.name !== undefined)){
+      currentCommitStatusRepoName = currentCommitStatusRepo.name;
+    }
+  }
+
   return {
-    //property: state
+    currentCommitStatusRepoName: currentCommitStatusRepoName,
+    currentCommitStatuesData: state.currentCommitStatuesData
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    //actions: bindActionCreators(actions_object, dispatch)
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CurrentStatusPage);
+export default connect(mapStateToProps)(CurrentStatusPage);

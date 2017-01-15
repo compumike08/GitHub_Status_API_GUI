@@ -66,6 +66,7 @@ class CommitsPage extends React.Component {
 
     this.props.currentStatusActions.loadStatusesForCurrentCommit(repoId, true, branchName, evt.target.value).then(() => {
       toastr.success("Statuses loaded for current commit '" + firstSevenOfSha(evt.target.value) + "'!");
+      browserHistory.push("/currentStatuses");
     }).catch(error => {
       console.log(error);
       toastr.error("Statuses for current commit '" + firstSevenOfSha(evt.target.value) + "' on branch '" + branchName + "' in repo '" + repoName + "' fetch failed!");
