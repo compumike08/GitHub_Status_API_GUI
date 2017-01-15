@@ -48,3 +48,9 @@ $BS_MD_MAX_WIDTH: 1199px;
     padding-top: 5px;
   }
 }
+
+@media (max-width: $BS_XS_MAX_WIDTH) {
+  .text-center-xs {
+    text-align: center;
+  }
+}
