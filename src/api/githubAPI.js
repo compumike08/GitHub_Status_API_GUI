@@ -197,6 +197,38 @@ class GithubApi {
       }
     });
   }
+
+
+  static setStatusForCommit(ownerLogin, repoName, commitSha, state, description, target_url){
+    return new Promise((resolve, reject) => {
+      let isCommitRefParamValid = validateCommitReference(commitSha);
+
+      if(isCommitRefParamValid){
+        let createParams = {};
+
+        createParams.state = state;
+
+        if((description !== undefined) && (description !== null)){
+          createParams.description = description;
+        }
+
+        if((target_url !== undefined) && (target_url !== null)){
+          createParams.target_url = target_url;
+        }
+
+        console.log(createParams);
+
+        octo.repos(ownerLogin, repoName).statuses(commitSha).create(createParams).then(result => {
+          resolve(result);
+        }).catch(error => {
+          console.log(getErrorResponseMsg(error));
+          reject("ERROR: GitHub responded with an error.");
+        });
+      }else{
+        reject("ERROR: Invalid ref parameter passed to GithubApi component.");
+      }
+    });
+  }
 }
 
 
