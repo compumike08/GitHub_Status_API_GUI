@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import moment from 'moment';
 
-const CurrentStatusListRow = ({repoId, isFromBranch, branchName, commitSha, status}) => {
+const CurrentStatusesListRow = ({repoId, isFromBranch, branchName, commitSha, status}) => {
   let statusCreatedAtDateTime = moment(status.createdAt);
   let statusCreatedAtString = statusCreatedAtDateTime.format("MM/DD/YYYY h:mm:ss A");
 
@@ -69,7 +69,7 @@ const CurrentStatusListRow = ({repoId, isFromBranch, branchName, commitSha, stat
 };
 
 
-CurrentStatusListRow.propTypes = {
+CurrentStatusesListRow.propTypes = {
   repoId: PropTypes.string.isRequired,
   isFromBranch: PropTypes.bool.isRequired,
   branchName: PropTypes.string.isRequired,
@@ -77,4 +77,4 @@ CurrentStatusListRow.propTypes = {
   status: PropTypes.object.isRequired
 };
 
-export default CurrentStatusListRow;
+export default CurrentStatusesListRow;

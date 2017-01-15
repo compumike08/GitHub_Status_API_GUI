@@ -5,9 +5,9 @@ import {connect} from 'react-redux';
 import LoadingNotice from '../../common/LoadingNotice';
 //import * as currentStatusActions from '../../../actions/currentStatusActions';
 import {getRepoById, firstSevenOfSha} from '../../../utils/utilityMethods';
-import CurrentStatusList from './CurrentStatusList';
+import CurrentStatusesList from './CurrentStatusesList';
 
-class CurrentStatusPage extends React.Component {
+class CurrentStatusesPage extends React.Component {
   constructor(props, context) {
     super(props, context);
 
@@ -30,11 +30,11 @@ class CurrentStatusPage extends React.Component {
     if ((currentCommitStatuesData.commit !== null) && (currentCommitStatuesData.commit !== undefined)) {
       commitShaShort = firstSevenOfSha(currentCommitStatuesData.commit);
       statusesListElement = (
-        <CurrentStatusList repoId={currentCommitStatuesData.repoId}
-                           isFromBranch={currentCommitStatuesData.isFromBranch}
-                           branchName={currentCommitStatuesData.branchName}
-                           commitSha={currentCommitStatuesData.commit}
-                           statuses={currentCommitStatuesData.statuses} />
+        <CurrentStatusesList repoId={currentCommitStatuesData.repoId}
+                             isFromBranch={currentCommitStatuesData.isFromBranch}
+                             branchName={currentCommitStatuesData.branchName}
+                             commitSha={currentCommitStatuesData.commit}
+                             statuses={currentCommitStatuesData.statuses} />
       );
     }
 
@@ -53,7 +53,7 @@ class CurrentStatusPage extends React.Component {
   }
 }
 
-CurrentStatusPage.propTypes = {
+CurrentStatusesPage.propTypes = {
   currentCommitStatusRepoName: PropTypes.string,
   currentCommitStatuesData: PropTypes.object.isRequired
 };
@@ -75,4 +75,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(CurrentStatusPage);
+export default connect(mapStateToProps)(CurrentStatusesPage);
