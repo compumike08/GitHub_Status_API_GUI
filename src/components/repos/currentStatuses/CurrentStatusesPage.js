@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 //import {bindActionCreators} from 'redux';
 //import {browserHistory} from 'react-router';
 import LoadingNotice from '../../common/LoadingNotice';
-//import * as currentStatusActions from '../../../actions/currentStatusActions';
+//import * as currentStatusesActions from '../../../actions/currentStatusesActions';
 import {getRepoById, firstSevenOfSha} from '../../../utils/utilityMethods';
 import CurrentStatusesList from './CurrentStatusesList';
 
@@ -18,7 +18,7 @@ class CurrentStatusesPage extends React.Component {
   }
 
   render() {
-    let {currentCommitStatuesData} = this.props;
+    let {currentCommitStatusesData} = this.props;
     let {currentCommitStatusRepoName} = this.props;
 
     let commitShaShort = null;
@@ -27,14 +27,14 @@ class CurrentStatusesPage extends React.Component {
       <LoadingNotice/>
     );
 
-    if ((currentCommitStatuesData.commit !== null) && (currentCommitStatuesData.commit !== undefined)) {
-      commitShaShort = firstSevenOfSha(currentCommitStatuesData.commit);
+    if ((currentCommitStatusesData.commit !== null) && (currentCommitStatusesData.commit !== undefined)) {
+      commitShaShort = firstSevenOfSha(currentCommitStatusesData.commit);
       statusesListElement = (
-        <CurrentStatusesList repoId={currentCommitStatuesData.repoId}
-                             isFromBranch={currentCommitStatuesData.isFromBranch}
-                             branchName={currentCommitStatuesData.branchName}
-                             commitSha={currentCommitStatuesData.commit}
-                             statuses={currentCommitStatuesData.statuses} />
+        <CurrentStatusesList repoId={currentCommitStatusesData.repoId}
+                             isFromBranch={currentCommitStatusesData.isFromBranch}
+                             branchName={currentCommitStatusesData.branchName}
+                             commitSha={currentCommitStatusesData.commit}
+                             statuses={currentCommitStatusesData.statuses} />
       );
     }
 
@@ -43,7 +43,7 @@ class CurrentStatusesPage extends React.Component {
         <div className="row">
           <div className="col-sm-12">
             <div className="panel panel-default">
-              <div className="panel-heading">Current Statuses For Commit <span className="italic">{commitShaShort}</span> On Branch <span className="italic">{currentCommitStatuesData.branchName}</span> In Repo <span className="italic">{currentCommitStatusRepoName}</span></div>
+              <div className="panel-heading">Current Statuses For Commit <span className="italic">{commitShaShort}</span> On Branch <span className="italic">{currentCommitStatusesData.branchName}</span> In Repo <span className="italic">{currentCommitStatusRepoName}</span></div>
               {statusesListElement}
             </div>
           </div>
@@ -55,14 +55,14 @@ class CurrentStatusesPage extends React.Component {
 
 CurrentStatusesPage.propTypes = {
   currentCommitStatusRepoName: PropTypes.string,
-  currentCommitStatuesData: PropTypes.object.isRequired
+  currentCommitStatusesData: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
   let currentCommitStatusRepoName = null;
 
   if (state.repos !== null){
-    let currentCommitStatusRepo = getRepoById(state.repos, state.currentCommitStatuesData.repoId);
+    let currentCommitStatusRepo = getRepoById(state.repos, state.currentCommitStatusesData.repoId);
 
     if ((currentCommitStatusRepo.name !== null) && (currentCommitStatusRepo.name !== undefined)){
       currentCommitStatusRepoName = currentCommitStatusRepo.name;
@@ -71,7 +71,7 @@ function mapStateToProps(state) {
 
   return {
     currentCommitStatusRepoName: currentCommitStatusRepoName,
-    currentCommitStatuesData: state.currentCommitStatuesData
+    currentCommitStatusesData: state.currentCommitStatusesData
   };
 }
 

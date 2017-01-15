@@ -5,7 +5,7 @@ import {browserHistory} from 'react-router';
 import LoadingNotice from '../../../common/LoadingNotice';
 import CommitsList from './CommitsList';
 import * as repoActions from '../../../../actions/repoActions';
-import * as currentStatusActions from '../../../../actions/currentStatusActions';
+import * as currentStatusesActions from '../../../../actions/currentStatusesActions';
 import {getBranchByName, getRepoById, firstSevenOfSha} from '../../../../utils/utilityMethods';
 
 import toastr from 'toastr';
@@ -64,7 +64,7 @@ class CommitsPage extends React.Component {
       toastr.error("Statuses for commit '" + firstSevenOfSha(evt.target.value) + "' on branch '" + branchName + "' in repo '" + repoName + "' fetch failed!");
     });
 
-    this.props.currentStatusActions.loadStatusesForCurrentCommit(repoId, true, branchName, evt.target.value).then(() => {
+    this.props.currentStatusesActions.loadStatusesForCurrentCommit(repoId, true, branchName, evt.target.value).then(() => {
       toastr.success("Statuses loaded for current commit '" + firstSevenOfSha(evt.target.value) + "'!");
       browserHistory.push("/currentStatuses");
     }).catch(error => {
@@ -115,7 +115,7 @@ CommitsPage.propTypes = {
   repo: PropTypes.object.isRequired,
   branch: PropTypes.object.isRequired,
   repoActions: PropTypes.object.isRequired,
-  currentStatusActions: PropTypes.object.isRequired
+  currentStatusesActions: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state, ownProps) {
@@ -142,7 +142,7 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch) {
   return {
     repoActions: bindActionCreators(repoActions, dispatch),
-    currentStatusActions: bindActionCreators(currentStatusActions, dispatch)
+    currentStatusesActions: bindActionCreators(currentStatusesActions, dispatch)
   };
 }
 
