@@ -199,6 +199,22 @@ class GithubApi {
   }
 
 
+  /**
+   * Creates a new status on the specified commit.
+   *
+   * https://developer.github.com/v3/repos/statuses/#create-a-status
+   *
+   * @param {String} ownerLogin - The GitHub owner login name of the owner of the repo.
+   * @param {String} repoName - The name of the repo.
+   * @param {String} commitSha - The sha of the commit for which the new status should be created.
+   * @param {String} state - The state to set for the new status ("pending", "success", "error", or "failure").
+   * @param {String} description - The description to set for the new status.
+   * @param {String} target_url - A URL related to the new status (e.g. link to output from CI server build
+   *                              which triggered status).
+   * @returns {Promise} A promise which resolves to the newly created status object, or rejects with a String
+   *                    error message.
+   * @public
+   */
   static setStatusForCommit(ownerLogin, repoName, commitSha, state, description, target_url){
     return new Promise((resolve, reject) => {
       let isCommitRefParamValid = validateCommitReference(commitSha);
