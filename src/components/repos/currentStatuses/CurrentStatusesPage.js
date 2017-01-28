@@ -1,9 +1,6 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
-//import {bindActionCreators} from 'redux';
-//import {browserHistory} from 'react-router';
 import LoadingNotice from '../../common/LoadingNotice';
-//import * as currentStatusesActions from '../../../actions/currentStatusesActions';
 import {getRepoById, firstSevenOfSha} from '../../../utils/utilityMethods';
 import CurrentStatusesList from './CurrentStatusesList';
 
