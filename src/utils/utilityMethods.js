@@ -42,3 +42,17 @@ export function makeOptionsArrayFromStrings(stringArray){
 
   return optionsArray;
 }
+
+export function validateObjectExists(obj){
+  let isValid = true;
+
+  if(obj === null){
+    isValid = false;
+  }
+
+  if(obj === undefined){
+    isValid = false;
+  }
+
+  return isValid;
+}
