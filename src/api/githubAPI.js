@@ -224,11 +224,11 @@ class GithubApi {
 
         createParams.state = state;
 
-        if((description !== undefined) && (description !== null)){
+        if(utilityMethods.isValidString(description)){
           createParams.description = description;
         }
 
-        if((target_url !== undefined) && (target_url !== null)){
+        if(utilityMethods.isValidString(target_url)){
           createParams.target_url = target_url;
         }
 
