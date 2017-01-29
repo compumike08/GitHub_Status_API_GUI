@@ -18,6 +18,16 @@ export function getBranchByName(branches, branchName){
   }
 }
 
+export function findCommitBySha(commits, sha){
+  const commit = commits.find(commit => commit.sha == sha);
+
+  if (commit){
+    return commit;
+  }else{
+    return {};
+  }
+}
+
 export function firstSevenOfSha(sha){
   return sha.slice(0, 7);
 }
