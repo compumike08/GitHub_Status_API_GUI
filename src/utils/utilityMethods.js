@@ -89,3 +89,16 @@ export function isValidString(inVar){
 
   return isValid;
 }
+
+/**
+ * Checks if a commit reference input value is valid.
+ *
+ * @param {String} ref - The commit reference input to be validated.
+ * @returns {boolean} True if commit reference is valid, false otherwise.
+ */
+export function validateCommitReference(ref){
+  // TODO: Improve validation of ref parameter input value
+  let isRefParamValid = isValidString(ref);
+
+  return isRefParamValid;
+}

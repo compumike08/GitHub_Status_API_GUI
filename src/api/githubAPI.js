@@ -1,4 +1,4 @@
-import * as Axis from '../../node_modules/axis.js';
+import * as utilityMethods from '../utils/utilityMethods';
 
 let Octokat = require('octokat');
 
@@ -154,7 +154,7 @@ class GithubApi {
    */
   static getStatusesForCommit(ownerLogin, repoName, commitRef){
     return new Promise((resolve, reject) => {
-      let isCommitRefParamValid = validateCommitReference(commitRef);
+      let isCommitRefParamValid = utilityMethods.validateCommitReference(commitRef);
 
       if(isCommitRefParamValid){
         octo.repos(ownerLogin, repoName).commits(commitRef).statuses.fetch().then(result => {
@@ -183,7 +183,7 @@ class GithubApi {
    */
   static getCombinedStatusForRef(ownerLogin, repoName, ref){
     return new Promise((resolve, reject) => {
-      let isCommitRefParamValid = validateCommitReference(ref);
+      let isCommitRefParamValid = utilityMethods.validateCommitReference(ref);
 
       if(isCommitRefParamValid){
         octo.repos(ownerLogin, repoName).commits(ref).status.fetch().then(result => {
@@ -217,7 +217,7 @@ class GithubApi {
    */
   static createStatusForCommit(ownerLogin, repoName, commitSha, state, description, target_url){
     return new Promise((resolve, reject) => {
-      let isCommitRefParamValid = validateCommitReference(commitSha);
+      let isCommitRefParamValid = utilityMethods.validateCommitReference(commitSha);
 
       if(isCommitRefParamValid){
         let createParams = {};
@@ -245,28 +245,6 @@ class GithubApi {
       }
     });
   }
-}
-
-
-/**
- * Checks input reference parameter and returns true or
- * false to calling function to indicate validity of input.
- *
- * @param {String} ref - The commit reference input to be validated.
- * @returns {boolean} True if commit reference is valid, false otherwise.
- * @private
- */
-function validateCommitReference(ref){
-  let isRefParamValid = false;
-
-  // TODO: Improve validation of ref parameter input value
-  if(Axis.isString(ref) === true){
-    if(ref.length > 0){
-      isRefParamValid = true;
-    }
-  }
-
-  return isRefParamValid;
 }
 
 /**
