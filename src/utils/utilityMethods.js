@@ -1,4 +1,5 @@
 import * as Axis from '../../node_modules/axis.js';
+import {GITHUB_STATUS_STATES} from './constants';
 
 export function getRepoById(repos, id){
   const repo = repos.find(repo => repo.id == id);
@@ -101,4 +102,25 @@ export function validateCommitReference(ref){
   let isRefParamValid = isValidString(ref);
 
   return isRefParamValid;
+}
+
+/**
+ * Validates a GitHub status state input value against defined
+ * constant values in the GITHUB_STATUS_STATES constant object.
+ *
+ * @param {String} statusState - The status state input to be validated.
+ * @returns {boolean} True if statusState equals one of the constants defined in GITHUB_STATUS_STATES, false otherwise.
+ */
+export function validateGitHubStatusState(statusState){
+  let isValid = false;
+
+  for(let prop in GITHUB_STATUS_STATES){
+    if(GITHUB_STATUS_STATES.hasOwnProperty(prop)){
+      if(GITHUB_STATUS_STATES[prop] == statusState){
+        isValid = true;
+      }
+    }
+  }
+
+  return isValid;
 }
