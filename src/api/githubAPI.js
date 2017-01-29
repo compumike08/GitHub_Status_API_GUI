@@ -236,8 +236,6 @@ class GithubApi {
           createParams.target_url = targetUrl;
         }
 
-        console.log(createParams);
-
         octo.repos(ownerLogin, repoName).statuses(commitSha).create(createParams).then(result => {
           resolve(result);
         }).catch(error => {
