@@ -10,13 +10,13 @@ import CombinedStatusPage from './components/repos/combinedStatus/CombinedStatus
 import CurrentStatusesPage from './components/repos/currentStatuses/CurrentStatusesPage';
 
 export default (
-    <Route path="/" component={App}>
-        <IndexRoute component={HomePage}/>
-        <Route path="oauthreturn" component={OAuthReturner}/>
-        <Route path="repobranches/:id" component={BranchPage}/>
-        <Route path="repobranches/:id/commits/:branchName" component={CommitsPage}/>
-        <Route path="combinedStatus/repo/:repoId/branch/:branchName" component={CombinedStatusPage}/>
+  <Route path="/" component={App}>
+    <IndexRoute component={HomePage}/>
+    <Route path="oauthreturn" component={OAuthReturner}/>
+    <Route path="repobranches/:id" component={BranchPage}/>
+    <Route path="repobranches/:id/commits/:branchName" component={CommitsPage}/>
+    <Route path="combinedStatus/repo/:repoId/branch/:branchName" component={CombinedStatusPage}/>
 
-        <Route path="currentStatuses" component={CurrentStatusesPage}/>
-    </Route>
+    <Route path="currentStatuses" component={CurrentStatusesPage}/>
+  </Route>
 );
