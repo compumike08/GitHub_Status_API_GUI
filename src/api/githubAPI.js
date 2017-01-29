@@ -222,7 +222,11 @@ class GithubApi {
       if(isCommitRefParamValid){
         let createParams = {};
 
-        createParams.state = state;
+        if(utilityMethods.validateGitHubStatusState(state)){
+          createParams.state = state;
+        }else{
+          throw new Error("Invalid GitHub status state string passed to createStatusForCommit method in GithubApi componenet.");
+        }
 
         if(utilityMethods.isValidString(description)){
           createParams.description = description;
