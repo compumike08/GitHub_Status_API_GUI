@@ -12,6 +12,14 @@ export default function currentStatusesReducer(state = initialState.currentCommi
         statuses: action.statuses
       };
     }
+    case types.STATUS_CREATED_FOR_COMMIT: {
+      let newStatusesArray = Object.assign([], state.statuses);
+
+      // Insert new status into beginning of array
+      newStatusesArray.unshift(action.newStatus);
+
+      return Object.assign({}, state, {statuses: newStatusesArray});
+    }
     default: {
       return state;
     }
