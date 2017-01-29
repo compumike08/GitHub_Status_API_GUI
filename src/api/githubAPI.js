@@ -209,13 +209,13 @@ class GithubApi {
    * @param {String} commitSha - The sha of the commit for which the new status should be created.
    * @param {String} state - The state to set for the new status ("pending", "success", "error", or "failure").
    * @param {String} description - The description to set for the new status.
-   * @param {String} target_url - A URL related to the new status (e.g. link to output from CI server build
+   * @param {String} targetUrl - A URL related to the new status (e.g. link to output from CI server build
    *                              which triggered status).
    * @returns {Promise} A promise which resolves to the newly created status object, or rejects with a String
    *                    error message.
    * @public
    */
-  static createStatusForCommit(ownerLogin, repoName, commitSha, state, description, target_url){
+  static createStatusForCommit(ownerLogin, repoName, commitSha, state, description, targetUrl){
     return new Promise((resolve, reject) => {
       let isCommitRefParamValid = utilityMethods.validateCommitReference(commitSha);
 
@@ -228,8 +228,8 @@ class GithubApi {
           createParams.description = description;
         }
 
-        if(utilityMethods.isValidString(target_url)){
-          createParams.target_url = target_url;
+        if(utilityMethods.isValidString(targetUrl)){
+          createParams.target_url = targetUrl;
         }
 
         console.log(createParams);
