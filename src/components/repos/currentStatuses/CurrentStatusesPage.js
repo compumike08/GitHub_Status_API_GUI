@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
+import {browserHistory} from 'react-router';
 import LoadingNotice from '../../common/LoadingNotice';
 import {getRepoById, firstSevenOfSha} from '../../../utils/utilityMethods';
 import CurrentStatusesList from './CurrentStatusesList';
@@ -8,10 +9,19 @@ class CurrentStatusesPage extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    //Bind component class functions to this context
-    /* Example:
-     this.functionName = this.functionName.bind(this);
-     */
+    this.handleCreateStatus = this.handleCreateStatus.bind(this);
+  }
+
+  handleCreateStatus(evt) {
+    evt.preventDefault();
+
+    let {currentCommitStatusesData} = this.props;
+
+    let repoId = currentCommitStatusesData.repoId;
+    let branchName = currentCommitStatusesData.branchName;
+    let commitSha = currentCommitStatusesData.commit;
+
+    browserHistory.push("/createStatus/repo/" + repoId + "/branch/" + branchName + "/sha/" + commitSha);
   }
 
   render() {
@@ -37,6 +47,11 @@ class CurrentStatusesPage extends React.Component {
 
     return (
       <div>
+        <div className="row">
+          <div className="col-sm-12">
+            <button type="button" className="btn btn-primary" onClick={this.handleCreateStatus}>Create New Status</button>
+          </div>
+        </div>
         <div className="row">
           <div className="col-sm-12">
             <div className="panel panel-default">

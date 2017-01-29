@@ -8,6 +8,7 @@ import CommitsPage from './components/repos/branches/commits/CommitsPage';
 import CombinedStatusPage from './components/repos/combinedStatus/CombinedStatusPage';
 
 import CurrentStatusesPage from './components/repos/currentStatuses/CurrentStatusesPage';
+import CreateStatusPage from './components/repos/createStatus/CreateStatusPage';
 
 export default (
   <Route path="/" component={App}>
@@ -18,5 +19,6 @@ export default (
     <Route path="combinedStatus/repo/:repoId/branch/:branchName" component={CombinedStatusPage}/>
 
     <Route path="currentStatuses" component={CurrentStatusesPage}/>
+    <Route path="createStatus/repo/:repoId/branch/:branchName/sha/:sha" component={CreateStatusPage}/>
   </Route>
 );
