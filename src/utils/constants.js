@@ -12,4 +12,11 @@ export const GITHUB_REFS = {
   MASTER: "master"
 };
 
+export const GITHUB_STATUS_STATES = {
+  PENDING: "pending",
+  SUCCESS: "success",
+  ERROR: "error",
+  FAILURE: "failure"
+};
+
 export const HOME_PAGE_URI = "/";
