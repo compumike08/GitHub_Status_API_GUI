@@ -31,3 +31,14 @@ export function findCommitBySha(commits, sha){
 export function firstSevenOfSha(sha){
   return sha.slice(0, 7);
 }
+
+export function makeOptionsArrayFromStrings(stringArray){
+  let optionsArray = stringArray.map(string => {
+    return {
+      value: string,
+      text: string
+    };
+  });
+
+  return optionsArray;
+}
