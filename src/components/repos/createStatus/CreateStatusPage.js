@@ -1,6 +1,8 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {browserHistory} from 'react-router';
+import * as currentStatusesActions from '../../../actions/currentStatusesActions';
 import CreateStatusForm from './CreateStatusForm';
 import ErrorNotice from '../../common/ErrorNotice';
 
@@ -20,7 +22,8 @@ class CreateStatusPage extends React.Component {
 
     this.state = {
       newStatus: {
-        repoName: props.repo.name,
+        repoId: props.repo.id,
+        branchName: props.branch.name,
         commitSha: props.commit.sha,
         state: GITHUB_STATUS_STATES.PENDING,
         description: "",
@@ -42,7 +45,17 @@ class CreateStatusPage extends React.Component {
 
   createNewStatus(evt){
     evt.preventDefault();
-    console.log(this.state.newStatus);
+    const newStatus = this.state.newStatus;
+
+    this.props.currentStatusesActions.createNewStatusForCommit(newStatus.repoId, newStatus.branchName, newStatus.commitSha, newStatus.state, newStatus.description, newStatus.targetUrl)
+      .then(() => {
+        toastr.success("New '" + newStatus.state + "' status for commit '" + firstSevenOfSha(newStatus.commitSha) + "' created successfully!");
+        browserHistory.push("/currentStatuses");
+      })
+      .catch(error => {
+        console.log(error);
+        toastr.error("Failed to create new '" + newStatus.state + "' status for commit '" + firstSevenOfSha(newStatus.commitSha) + "!");
+      });
   }
 
   render() {
@@ -91,7 +104,8 @@ class CreateStatusPage extends React.Component {
 CreateStatusPage.propTypes = {
   repo: PropTypes.object.isRequired,
   branch: PropTypes.object.isRequired,
-  commit: PropTypes.object.isRequired
+  commit: PropTypes.object.isRequired,
+  currentStatusesActions: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state, ownProps) {
@@ -130,7 +144,7 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    //actions: bindActionCreators(actions_object, dispatch)
+    currentStatusesActions: bindActionCreators(currentStatusesActions, dispatch)
   };
 }
 
