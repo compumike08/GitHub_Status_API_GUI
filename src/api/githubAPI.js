@@ -215,7 +215,7 @@ class GithubApi {
    *                    error message.
    * @public
    */
-  static setStatusForCommit(ownerLogin, repoName, commitSha, state, description, target_url){
+  static createStatusForCommit(ownerLogin, repoName, commitSha, state, description, target_url){
     return new Promise((resolve, reject) => {
       let isCommitRefParamValid = validateCommitReference(commitSha);
 
