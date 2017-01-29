@@ -1,3 +1,5 @@
+import * as Axis from '../../node_modules/axis.js';
+
 export function getRepoById(repos, id){
   const repo = repos.find(repo => repo.id == id);
 
@@ -64,4 +66,26 @@ export function isEmpty(obj) {
     }
   }
   return true;
+}
+
+/**
+ * Checks if input is a valid string
+ *
+ *  The input variable is valid if it is ALL of the following:
+ *      1) variable is a string
+ *      2) variable string length > 0
+ *
+ * @param inVar - input variable to check
+ * @returns {boolean}
+ */
+export function isValidString(inVar){
+  let isValid = false;
+
+  if(Axis.isString(inVar)){
+    if(inVar.length > 0){
+      isValid = true;
+    }
+  }
+
+  return isValid;
 }
