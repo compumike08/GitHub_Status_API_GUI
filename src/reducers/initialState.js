@@ -13,7 +13,7 @@ export default {
     repoId: null,
     isFromBranch: null,
     branchName: null,
-    commit: null,
+    commitSha: null,
     statuses: null
   },
   repos: null

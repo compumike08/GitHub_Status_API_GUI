@@ -8,7 +8,7 @@ export default function currentStatusesReducer(state = initialState.currentCommi
         repoId: action.repoId,
         isFromBranch: action.isFromBranch,
         branchName: action.branchName,
-        commit: action.commit,
+        commitSha: action.commitSha,
         statuses: action.statuses
       };
     }

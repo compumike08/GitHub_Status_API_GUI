@@ -5,8 +5,7 @@ import {browserHistory} from 'react-router';
 import LoadingNotice from '../../../common/LoadingNotice';
 import CommitsList from './CommitsList';
 import * as repoActions from '../../../../actions/repoActions';
-import * as currentStatusesActions from '../../../../actions/currentStatusesActions';
-import {getBranchByName, getRepoById, firstSevenOfSha} from '../../../../utils/utilityMethods';
+import {getBranchByName, getRepoById} from '../../../../utils/utilityMethods';
 
 import toastr from 'toastr';
 
@@ -47,30 +46,18 @@ class CommitsPage extends React.Component {
     let repoId = this.props.repo.id;
     let branchName = this.props.branch.name;
 
-    browserHistory.push("/combinedStatus/repo/" + repoId + "/branch/" + branchName);
+    browserHistory.push("/repo/" + repoId + "/branch/" + branchName + "/combinedStatus");
   }
 
   handleCommitSelect(evt){
     evt.persist();
     evt.preventDefault();
+
     let repoId = evt.target.attributes.getNamedItem("data-repo-id").value;
-    let repoName = evt.target.attributes.getNamedItem("data-repo-name").value;
     let branchName = evt.target.attributes.getNamedItem("data-branch-name").value;
+    let commitSha = evt.target.value;
 
-    this.props.repoActions.loadCommitStatuses(evt.target.value, branchName, repoName).then(() => {
-      toastr.success("Statuses loaded for commit '" + firstSevenOfSha(evt.target.value) + "'!");
-    }).catch(error => {
-      console.log(error);
-      toastr.error("Statuses for commit '" + firstSevenOfSha(evt.target.value) + "' on branch '" + branchName + "' in repo '" + repoName + "' fetch failed!");
-    });
-
-    this.props.currentStatusesActions.loadStatusesForCurrentCommit(repoId, true, branchName, evt.target.value).then(() => {
-      toastr.success("Statuses loaded for current commit '" + firstSevenOfSha(evt.target.value) + "'!");
-      browserHistory.push("/currentStatuses");
-    }).catch(error => {
-      console.log(error);
-      toastr.error("Statuses for current commit '" + firstSevenOfSha(evt.target.value) + "' on branch '" + branchName + "' in repo '" + repoName + "' fetch failed!");
-    });
+    browserHistory.push("/repo/" + repoId + "/branch/" + branchName + "/commit/" + commitSha + "/statuses");
   }
 
   render() {
@@ -114,13 +101,12 @@ class CommitsPage extends React.Component {
 CommitsPage.propTypes = {
   repo: PropTypes.object.isRequired,
   branch: PropTypes.object.isRequired,
-  repoActions: PropTypes.object.isRequired,
-  currentStatusesActions: PropTypes.object.isRequired
+  repoActions: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state, ownProps) {
-  const repoId = ownProps.params.id;  // from the path '/repobranches/:id'
-  const branchName = ownProps.params.branchName;  // from the path '/repobranches/:id/commits/:branchName'
+  const repoId = ownProps.params.repoId;
+  const branchName = ownProps.params.branchName;
 
   let repo = {};
   let branch = {};
@@ -141,8 +127,7 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    repoActions: bindActionCreators(repoActions, dispatch),
-    currentStatusesActions: bindActionCreators(currentStatusesActions, dispatch)
+    repoActions: bindActionCreators(repoActions, dispatch)
   };
 }
 

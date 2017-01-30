@@ -50,7 +50,7 @@ class CreateStatusPage extends React.Component {
     this.props.currentStatusesActions.createNewStatusForCommit(newStatus.repoId, newStatus.branchName, newStatus.commitSha, newStatus.state, newStatus.description, newStatus.targetUrl)
       .then(() => {
         toastr.success("New '" + newStatus.state + "' status for commit '" + firstSevenOfSha(newStatus.commitSha) + "' created successfully!");
-        browserHistory.push("/currentStatuses");
+        browserHistory.push("/repo/" + newStatus.repoId +"/branch/" + newStatus.branchName + "/commit/" + newStatus.commitSha + "/statuses");
       })
       .catch(error => {
         console.log(error);
@@ -109,9 +109,9 @@ CreateStatusPage.propTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
-  let repoId = ownProps.params.repoId;  // from the path '/repo/:repoId/branch/:branchName/sha/:sha'
-  let commitSha = ownProps.params.sha;  // from the path '/repo/:repoId/branch/:branchName/sha/:sha'
-  let branchName = ownProps.params.branchName;  // from the path '/repo/:repoId/branch/:branchName/sha/:sha'
+  let repoId = ownProps.params.repoId;
+  let commitSha = ownProps.params.commitSha;
+  let branchName = ownProps.params.branchName;
 
   let repo = null;
   let branch = null;

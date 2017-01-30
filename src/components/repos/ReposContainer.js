@@ -35,7 +35,7 @@ class ReposContainer extends React.Component {
 
     let selectedRepo = repos.find(repo => repo.id == selectedRepoId);
 
-    browserHistory.push("/repobranches/" + selectedRepo.id);
+    browserHistory.push("/repo/" + selectedRepo.id + "/branches");
   }
 
   render() {

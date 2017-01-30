@@ -14,7 +14,7 @@ class BranchesPage extends React.Component {
     super(props, context);
 
     this.handleBranchSelect = this.handleBranchSelect.bind(this);
-    this.redirectToCommitsListPage = this.redirectToCommitsListPage.bind(this);
+    this.redirectToCommitsPage = this.redirectToCommitsPage.bind(this);
   }
 
   componentWillMount(){
@@ -35,14 +35,14 @@ class BranchesPage extends React.Component {
 
   handleBranchSelect(evt){
     evt.preventDefault();
-    this.redirectToCommitsListPage(evt.currentTarget.value);
+    this.redirectToCommitsPage(evt.currentTarget.value);
   }
 
-  redirectToCommitsListPage(selectedBranchName){
+  redirectToCommitsPage(selectedBranchName){
     let branches = this.props.repo.branches;
     let selectedBranch = branches.find(branch => branch.name == selectedBranchName);
 
-    browserHistory.push("/repobranches/" + this.props.repo.id + "/commits/" + selectedBranch.name);
+    browserHistory.push("/repo/" + this.props.repo.id + "/branch/" + selectedBranch.name + "/commits");
   }
 
   render() {
@@ -82,7 +82,7 @@ BranchesPage.propTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
-  const repoId = ownProps.params.id;  // from the path '/repobranches/:id'
+  const repoId = ownProps.params.repoId;
 
   let repo = {};
 

@@ -4,8 +4,8 @@ import * as utilityMethods from '../utils/utilityMethods';
 
 import * as repoActions from './repoActions';
 
-export function statusesLoadedForCurrentCommit(repoId, isFromBranch, branchName, commit, statuses) {
-  return {type: types.STATUSES_LOADED_FOR_CURRENT_COMMIT, repoId, isFromBranch, branchName, commit, statuses};
+export function statusesLoadedForCurrentCommit(repoId, isFromBranch, branchName, commitSha, statuses) {
+  return {type: types.STATUSES_LOADED_FOR_CURRENT_COMMIT, repoId, isFromBranch, branchName, commitSha, statuses};
 }
 
 export function statusCreatedForCommit(newStatus) {
@@ -19,6 +19,7 @@ export function loadStatusesForCurrentCommit(repoId, isFromBranch, branchName, c
 
     return GithubAPI.getStatusesForCommit(repo.owner.login, repo.name, commitSha).then(statuses => {
       dispatch(statusesLoadedForCurrentCommit(repoId, isFromBranch, branchName, commitSha, statuses));
+      repoActions.loadCommitStatuses(commitSha, branchName, repo.name);
     }).catch(error => {
       //TODO: Improve error handling instead of re-throwing error
       throw(error);
