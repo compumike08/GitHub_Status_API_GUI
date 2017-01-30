@@ -17,7 +17,7 @@ export default (
     <Route path="repo/:repoId/branches" component={BranchPage}/>
     <Route path="repo/:repoId/branch/:branchName/commits" component={CommitsPage}/>
     <Route path="repo/:repoId/branch/:branchName/commit/:commitSha/statuses" component={CurrentStatusesPage}/>
-    <Route path="repo/:repoId/branch/:branchName/commit/:commitSha/createStatus" component={CreateStatusPage}/>
+    <Route path="repo/:repoId/branch/:branchName/commit/:commitSha/status" component={CreateStatusPage}/>
 
     <Route path="repo/:repoId/branch/:branchName/combinedStatus" component={CombinedStatusPage}/>
   </Route>

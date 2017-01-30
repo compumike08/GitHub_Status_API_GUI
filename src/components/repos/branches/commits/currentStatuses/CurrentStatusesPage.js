@@ -37,7 +37,7 @@ class CurrentStatusesPage extends React.Component {
     const branchName = this.props.branchName;
     const commitSha = this.props.commitSha;
 
-    browserHistory.push("/repo/" + repoId + "/branch/" + branchName + "/commit/" + commitSha + "/createStatus");
+    browserHistory.push("/repo/" + repoId + "/branch/" + branchName + "/commit/" + commitSha + "/status");
   }
 
   render() {
@@ -91,7 +91,7 @@ CurrentStatusesPage.propTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
-  const repoId = ownProps.params.repoId;
+  const repoId = ownProps.params.repoId.toString();
   const branchName = ownProps.params.branchName;
   const commitSha = ownProps.params.commitSha;
 
@@ -105,7 +105,7 @@ function mapStateToProps(state, ownProps) {
   }
 
   return {
-    repoId: repo.id,
+    repoId: repoId,
     repoName: repo.name,
     branchName: branchName,
     commitSha: commitSha,
