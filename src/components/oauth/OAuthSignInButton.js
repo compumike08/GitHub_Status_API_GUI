@@ -67,6 +67,7 @@ OAuthSignInButton.propTypes = {
 };
 
 function authenticate(currentThis){
+  const windowClosedCheckRepeatInterval = 500;
   //each scope in the builtScopeList string should be separated by a space
   let builtScopeList = OAUTH_GH_REPO_STATUS_SCOPE;
   let builtOAuthRequestURL = encodeURI(OAUTH_AUTHORIZE_URL + "?client_id=" + CLIENT_ID + "&scope=" + builtScopeList);
@@ -76,8 +77,7 @@ function authenticate(currentThis){
 
   authWindow = window.open(builtOAuthRequestURL, OAUTH_PROVIDER_NAME, "width=500,height=800");
 
-  //TODO: Refactor '500' timer interval out to constant
-  timer = setInterval(checkAuthWindow, 500);
+  timer = setInterval(checkAuthWindow, windowClosedCheckRepeatInterval);
 
   function checkAuthWindow() {
     if (authWindow.closed) {
