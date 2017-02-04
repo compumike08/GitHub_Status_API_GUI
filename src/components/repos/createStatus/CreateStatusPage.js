@@ -47,7 +47,7 @@ class CreateStatusPage extends React.Component {
     evt.preventDefault();
     const newStatus = this.state.newStatus;
 
-    this.props.currentStatusesActions.createNewStatusForCommit(newStatus.repoId, newStatus.branchName, newStatus.commitSha, newStatus.state, newStatus.description, newStatus.targetUrl)
+    this.props.currentStatusesActions.createNewStatusForCommit(newStatus.repoId, newStatus.commitSha, newStatus.state, newStatus.description, newStatus.targetUrl)
       .then(() => {
         toastr.success("New '" + newStatus.state + "' status for commit '" + firstSevenOfSha(newStatus.commitSha) + "' created successfully!");
         browserHistory.push("/repo/" + newStatus.repoId +"/branch/" + newStatus.branchName + "/commit/" + newStatus.commitSha + "/statuses");
