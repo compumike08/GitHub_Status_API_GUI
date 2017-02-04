@@ -10,7 +10,15 @@ class Footer extends React.Component {
   }
 
   redirectToPreviousPage(){
-    browserHistory.goBack();
+    const slashChar = "/";
+    const curLocPath = this.context.location.pathname;
+
+    let upOneLevelLocCharIndx = curLocPath.lastIndexOf(slashChar);
+    let upOneLevelLocStr = curLocPath.slice(0, upOneLevelLocCharIndx);
+    let upTwoLevelsLocCharIndx = upOneLevelLocStr.lastIndexOf(slashChar);
+    let upTwoLevelsLocStr = upOneLevelLocStr.slice(0, upTwoLevelsLocCharIndx);
+
+    browserHistory.push(upTwoLevelsLocStr);
   }
 
   render() {
