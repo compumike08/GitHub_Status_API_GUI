@@ -12,14 +12,6 @@ import * as repoActions from '../../actions/repoActions';
 import toastr from 'toastr';
 
 class OAuthSignInButton extends React.Component {
-  static notifyAuthSuccess(){
-    toastr.success("Logged into GitHub successfully!");
-  }
-
-  static notifyAuthFailure(errMsg){
-    toastr.error(errMsg);
-  }
-
   constructor(props, context) {
     super(props, context);
 
@@ -43,28 +35,46 @@ class OAuthSignInButton extends React.Component {
     }
   }
 
+  notifyAuthSuccess(){
+    this.resetGitHubTempCodeFlag();
+    toastr.success("Logged into GitHub successfully!");
+  }
+
+  notifyAuthFailure(errMsg){
+    this.resetGitHubTempCodeFlag();
+    toastr.error(errMsg);
+  }
+
+  resetGitHubTempCodeFlag(){
+    this.setState({isOAuthTempCodeReceived: false});
+  }
+
+  setGitHubTempCodeFlag(){
+    this.setState({isOAuthTempCodeReceived: true});
+  }
+
   getTokenFromCode(oauthTempCode){
     this.props.oauthActions.exchangeCodeForToken(oauthTempCode).then(() => {
       GithubServices.loadStoredTokenIntoOcto(this.props.oauths.oauthReturnedToken).then(() => {
         this.props.oauthActions.loadAuthenticatedUser().then(() => {
-          OAuthSignInButton.notifyAuthSuccess();
+          this.notifyAuthSuccess();
         }).catch(error => {
           console.log(error);
-          OAuthSignInButton.notifyAuthFailure("Unable to load authenticated GitHub user data.");
+          this.notifyAuthFailure("Unable to load authenticated GitHub user data.");
         });
       }).catch(error => {
         console.log(error);
-        OAuthSignInButton.notifyAuthFailure("Unable to load authenticated OAuth token into Octokat instance.");
+        this.notifyAuthFailure("Unable to load authenticated OAuth token into Octokat instance.");
       });
     }).catch(error => {
       console.log(error);
-      OAuthSignInButton.notifyAuthFailure("GitHub Login Failed!");
+      this.notifyAuthFailure("GitHub Login Failed!");
     });
   }
 
   logoutGithub(){
     this.props.oauthActions.destroyOAuthToken().then(() => {
-      this.setState({isOAuthTempCodeReceived: false});
+      this.resetGitHubTempCodeFlag();
       toastr.success("Successfully logged out of GitHub!");
     }).catch(error => {
       console.log(error);
@@ -73,11 +83,26 @@ class OAuthSignInButton extends React.Component {
   }
 
   render() {
-    let isToken = this.props.oauths.oauthReturnedToken.length === 0;
+    let authenticatedUser = this.props.oauths.authenticatedUser;
+    let classesString = "btn btn-success";
+    let buttonLabel = "Sign Into GitHub";
+    let isDisabled = false;
+
+    if(this.state.isOAuthTempCodeReceived === true){
+      classesString = "btn btn-warning";
+      buttonLabel = "Signing In...";
+      isDisabled = true;
+    }else{
+      if(authenticatedUser.id){
+        classesString = "btn btn-danger";
+        buttonLabel = "Sign Out of GitHub";
+        isDisabled = false;
+      }
+    }
 
     return (
-      <button type="button" className={isToken === true ? "btn btn-success" : "btn btn-danger"} onClick={this.handleOAuthClick}>
-        {isToken === true ? "Sign Into GitHub" : "Sign Out of GitHub"}
+      <button type="button" className={classesString} disabled={isDisabled} onClick={this.handleOAuthClick}>
+        {buttonLabel}
       </button>
     );
   }
@@ -108,7 +133,7 @@ function authenticate(currentThis){
 
       if(!currentThis.state.isOAuthTempCodeReceived){
         window.removeEventListener('message', windowReturnHandler);
-        OAuthSignInButton.notifyAuthFailure("GitHub Login Cancelled");
+        currentThis.notifyAuthFailure("GitHub Login Cancelled");
       }
     }
   }
@@ -116,7 +141,7 @@ function authenticate(currentThis){
   function windowReturnHandler(event) {
     let tempCode = event.data;
     window.removeEventListener('message', windowReturnHandler);
-    currentThis.setState({isOAuthTempCodeReceived: true});
+    currentThis.setGitHubTempCodeFlag();
     currentThis.getTokenFromCode(tempCode);
   }
 }
