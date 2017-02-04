@@ -32,7 +32,12 @@ export function storeOAuthToken(token) {
 
 export function destroyOAuthToken() {
   return function (dispatch){
-    dispatch(oauthTokenDestroyed());
+    return GithubAPI.removeTokenFromOcto().then(() => {
+      dispatch(oauthTokenDestroyed());
+    }).catch(error => {
+      //TODO: Improve error handling instead of re-throwing error
+      throw(error);
+    });
   };
 }
 
