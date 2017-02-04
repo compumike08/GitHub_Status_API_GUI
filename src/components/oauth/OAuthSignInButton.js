@@ -5,16 +5,27 @@ import {OAUTH_AUTHORIZE_URL,
   OAUTH_PROVIDER_NAME,
   CLIENT_ID,
   OAUTH_GH_REPO_STATUS_SCOPE} from '../../utils/constants';
+import * as GithubServices from '../../services/githubServices';
 import * as oauthActions from '../../actions/oauthActions';
 import * as repoActions from '../../actions/repoActions';
-import GatekeeperApi from '../../api/gatekeeperAPI';
-import GithubAPI from '../../api/githubAPI';
 
 import toastr from 'toastr';
 
 class OAuthSignInButton extends React.Component {
+  static notifyAuthSuccess(){
+    toastr.success("Logged into GitHub successfully!");
+  }
+
+  static notifyAuthFailure(errMsg){
+    toastr.error(errMsg);
+  }
+
   constructor(props, context) {
     super(props, context);
+
+    this.state = {
+      isOAuthTempCodeReceived: false
+    };
 
     this.handleOAuthClick = this.handleOAuthClick.bind(this);
     this.getTokenFromCode = this.getTokenFromCode.bind(this);
@@ -32,20 +43,32 @@ class OAuthSignInButton extends React.Component {
     }
   }
 
-  getTokenFromCode(){
-    GatekeeperApi.exchangeCodeForToken(this.props.oauths.oauthReturnedTempCode).then(result => {
-      this.props.oauthActions.storeOAuthToken(result);
-      GithubAPI.addTokenToOcto(this.props.oauths.oauthReturnedToken).then(() => {
-        this.props.oauthActions.loadAuthenticatedUser();
+  getTokenFromCode(oauthTempCode){
+    this.props.oauthActions.exchangeCodeForToken(oauthTempCode).then(() => {
+      GithubServices.loadStoredTokenIntoOcto(this.props.oauths.oauthReturnedToken).then(() => {
+        this.props.oauthActions.loadAuthenticatedUser().then(() => {
+          OAuthSignInButton.notifyAuthSuccess();
+        }).catch(error => {
+          console.log(error);
+          OAuthSignInButton.notifyAuthFailure("Unable to load authenticated GitHub user data.");
+        });
+      }).catch(error => {
+        console.log(error);
+        OAuthSignInButton.notifyAuthFailure("Unable to load authenticated OAuth token into Octokat instance.");
       });
     }).catch(error => {
-      throw(error);
+      console.log(error);
+      OAuthSignInButton.notifyAuthFailure("GitHub Login Failed!");
     });
   }
 
   logoutGithub(){
-    GithubAPI.removeTokenFromOcto().then(() => {
-      this.props.oauthActions.destroyOAuthToken();
+    this.props.oauthActions.destroyOAuthToken().then(() => {
+      this.setState({isOAuthTempCodeReceived: false});
+      toastr.success("Successfully logged out of GitHub!");
+    }).catch(error => {
+      console.log(error);
+      toastr.error("Unable to log out of GitHub!");
     });
   }
 
@@ -83,9 +106,9 @@ function authenticate(currentThis){
     if (authWindow.closed) {
       clearInterval(timer);
 
-      if(!currentThis.props.oauths.oauthReturnedTempCode){
+      if(!currentThis.state.isOAuthTempCodeReceived){
         window.removeEventListener('message', windowReturnHandler);
-        toastr.error("GitHub Login Failed");
+        OAuthSignInButton.notifyAuthFailure("GitHub Login Cancelled");
       }
     }
   }
@@ -93,8 +116,8 @@ function authenticate(currentThis){
   function windowReturnHandler(event) {
     let tempCode = event.data;
     window.removeEventListener('message', windowReturnHandler);
-    currentThis.props.oauthActions.storeOAuthTempCode(tempCode);
-    currentThis.getTokenFromCode();
+    currentThis.setState({isOAuthTempCodeReceived: true});
+    currentThis.getTokenFromCode(tempCode);
   }
 }
 

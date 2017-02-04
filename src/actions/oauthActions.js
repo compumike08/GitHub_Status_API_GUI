@@ -1,9 +1,6 @@
 import * as types from './actionTypes';
 import GithubAPI from '../api/githubAPI';
-
-export function oauthTempCodeReceived(tempCode) {
-    return {type: types.OAUTH_TEMP_CODE_RECEIVED, tempCode};
-}
+import GatekeeperApi from '../api/gatekeeperAPI';
 
 export function oauthTokenReceived(token) {
   return {type: types.OAUTH_TOKEN_RECEIVED, token};
@@ -18,15 +15,15 @@ export function oauthAuthUserLoaded(user) {
 }
 
 
-export function storeOAuthTempCode(tempCode) {
-  return function (dispatch){
-    dispatch(oauthTempCodeReceived(tempCode));
-  };
-}
-
-export function storeOAuthToken(token) {
-  return function (dispatch){
-    dispatch(oauthTokenReceived(token));
+export function exchangeCodeForToken(oauthTempCode){
+  return function(dispatch){
+    return GatekeeperApi.exchangeCodeForToken(oauthTempCode).then(result => {
+      dispatch(oauthTokenReceived(result));
+    }).catch(error => {
+      //TODO: Improve error handling instead of just rethrowing error.
+      console.log(error);
+      throw(error);
+    });
   };
 }
 
