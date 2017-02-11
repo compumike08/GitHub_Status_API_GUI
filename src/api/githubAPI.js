@@ -211,11 +211,12 @@ class GithubApi {
    * @param {String} description - The description to set for the new status.
    * @param {String} targetUrl - A URL related to the new status (e.g. link to output from CI server build
    *                              which triggered status).
+   * @param {String} context - The name of the context under which the status should be created.
    * @returns {Promise} A promise which resolves to the newly created status object, or rejects with a String
    *                    error message.
    * @public
    */
-  static createStatusForCommit(ownerLogin, repoName, commitSha, state, description, targetUrl){
+  static createStatusForCommit(ownerLogin, repoName, commitSha, state, description, targetUrl, context){
     return new Promise((resolve, reject) => {
       let isCommitRefParamValid = utilityMethods.validateCommitReference(commitSha);
 
@@ -234,6 +235,10 @@ class GithubApi {
 
         if(utilityMethods.isValidString(targetUrl)){
           createParams.target_url = targetUrl;
+        }
+
+        if(utilityMethods.isValidString(context)){
+          createParams.context = context;
         }
 
         octo.repos(ownerLogin, repoName).statuses(commitSha).create(createParams).then(result => {
