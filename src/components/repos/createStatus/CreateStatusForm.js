@@ -12,6 +12,8 @@ const CreateStatusForm = ({newStatus, onChange, onSubmit}) => {
     <form>
       <SelectInput name="state" value={newStatus.state} label="State" onChange={onChange} options={optionsArray} />
 
+      <TextInput name="context" label="Context" onChange={onChange} value={newStatus.context} />
+
       <TextInput name="description" label="Description" onChange={onChange} value={newStatus.description} />
 
       <TextInput name="targetUrl" label="Target URL" onChange={onChange} value={newStatus.targetUrl}/>

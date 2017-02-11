@@ -25,12 +25,12 @@ export function loadStatusesForCurrentCommit(repoId, isFromBranch, branchName, c
   };
 }
 
-export function createNewStatusForCommit(repoId, commitSha, state, description, targetUrl) {
+export function createNewStatusForCommit(repoId, commitSha, state, description, targetUrl, context) {
   return function (dispatch, getState) {
     const currentState = getState();
     const repo = utilityMethods.getRepoById(currentState.repos, repoId);
 
-    return GithubAPI.createStatusForCommit(repo.owner.login, repo.name, commitSha, state, description, targetUrl).then(newStatus => {
+    return GithubAPI.createStatusForCommit(repo.owner.login, repo.name, commitSha, state, description, targetUrl, context).then(newStatus => {
       dispatch(statusCreatedForCommit(newStatus));
     }).catch(error => {
       //TODO: Improve error handling instead of re-throwing error
