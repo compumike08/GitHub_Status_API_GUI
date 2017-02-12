@@ -13,7 +13,8 @@ export default {
     isFromBranch: null,
     branchName: null,
     commitSha: null,
-    statuses: null
+    statuses: null,
+    contextsList: null
   },
   repos: null
 };
