@@ -124,3 +124,15 @@ export function validateGitHubStatusState(statusState){
 
   return isValid;
 }
+
+/**
+ * Removes all duplicate elements from an array.
+ *
+ *  Reference: https://www.codementor.io/tips/8243973127/how-to-remove-duplicates-within-a-javascript-array-using-es6-in-just-one-line
+ *
+ * @param {Array} inputArray - The raw array to be deduplicated
+ * @returns {Array} The deduplicated array
+ */
+export function deduplicateArray(inputArray){
+  return Array.from(new Set(inputArray));
+}
