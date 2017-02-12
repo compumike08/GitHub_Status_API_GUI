@@ -75,7 +75,9 @@ class CurrentStatusesPage extends React.Component {
           <div className="col-sm-12">
             <div className="panel panel-default">
               <div className="panel-heading">Current Statuses For Commit <span className="italic">{commitShaShort}</span> On Branch <span className="italic">{currentCommitStatusesData.branchName}</span> In Repo <span className="italic">{repoName}</span></div>
-              {statusesListElement}
+              <div className="panel-body">
+                {statusesListElement}
+              </div>
             </div>
           </div>
         </div>

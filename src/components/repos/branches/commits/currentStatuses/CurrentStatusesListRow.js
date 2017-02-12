@@ -41,27 +41,29 @@ const CurrentStatusesListRow = ({repoId, isFromBranch, branchName, commitSha, st
               </div>
             </div>
           </div>
-          <form className="form">
-            <div className="row buffer-space">
-              <div className="col-sm-8 col-md-6">
-                <div className="form-group">
-                  <label className="control-label">Description:</label>
-                  <div>
-                    <p className="form-control-static">{status.description}</p>
+          <div className="panel-body">
+            <form className="form">
+              <div className="row">
+                <div className="col-sm-8 col-md-6">
+                  <div className="form-group">
+                    <label className="control-label">Description:</label>
+                    <div>
+                      <p className="form-control-static">{status.description}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="col-sm-4 col-md-6">
-                <div className="form-group">
-                  <label className="control-label">Created By:</label>
-                  <div>
-                    <p className="form-control-static">{status.creator.login}</p>
+                <div className="col-sm-4 col-md-6">
+                  <div className="form-group">
+                    <label className="control-label">Created By:</label>
+                    <div>
+                      <p className="form-control-static">{status.creator.login}</p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
       </div>
     </div>
