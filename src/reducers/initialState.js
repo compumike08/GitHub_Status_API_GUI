@@ -14,7 +14,7 @@ export default {
     branchName: null,
     commitSha: null,
     statuses: null,
-    contextsList: null
+    contexts: null
   },
   repos: null
 };

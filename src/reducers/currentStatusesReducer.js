@@ -17,11 +17,11 @@ export default function currentStatusesReducer(state = initialState.currentCommi
         branchName: action.branchName,
         commitSha: action.commitSha,
         statuses: action.statuses,
-        contextsList: filteredContextsList
+        contexts: filteredContextsList
       };
     }
     case types.STATUS_CREATED_FOR_COMMIT: {
-      let newRawContextsList = Object.assign([], state.contextsList);
+      let newRawContextsList = Object.assign([], state.contexts);
       let newStatusesArray = Object.assign([], state.statuses);
 
       // Insert new status into beginning of array
@@ -32,7 +32,7 @@ export default function currentStatusesReducer(state = initialState.currentCommi
 
       return Object.assign({}, state, {
         statuses: newStatusesArray,
-        contextsList: newFilteredContextsList
+        contexts: newFilteredContextsList
       });
     }
     default: {
