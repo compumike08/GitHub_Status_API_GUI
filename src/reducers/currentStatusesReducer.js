@@ -9,15 +9,22 @@ export default function currentStatusesReducer(state = initialState.currentCommi
         return status.context;
       });
 
-      const filteredContexts = deduplicateArray(rawContexts);
+      const newStatuses = action.statuses;
+
+      const filteredStatusesByContexts = deduplicateArray(rawContexts).map(contextName => {
+        return {
+          context: contextName,
+          statuses: newStatuses.filter(newStatus => contextName == newStatus.context)
+        };
+      });
 
       return {
         repoId: action.repoId,
         isFromBranch: action.isFromBranch,
         branchName: action.branchName,
         commitSha: action.commitSha,
-        statuses: action.statuses,
-        contexts: filteredContexts
+        statuses: newStatuses,
+        contexts: filteredStatusesByContexts
       };
     }
     case types.STATUS_CREATED_FOR_COMMIT: {
@@ -28,11 +35,16 @@ export default function currentStatusesReducer(state = initialState.currentCommi
       newStatusesArray.unshift(action.newStatus);
       newRawContexts.unshift(action.newStatus.context);
 
-      let newFilteredContexts = deduplicateArray(newRawContexts);
+      let newFilteredStatusesByContexts = deduplicateArray(newRawContexts).map(contextName => {
+        return {
+          context: contextName,
+          statuses: newStatusesArray.filter(newStatus => contextName == newStatus.context)
+        };
+      });
 
       return Object.assign({}, state, {
         statuses: newStatusesArray,
-        contexts: newFilteredContexts
+        contexts: newFilteredStatusesByContexts
       });
     }
     default: {
