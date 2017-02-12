@@ -5,11 +5,11 @@ import {deduplicateArray} from '../utils/utilityMethods';
 export default function currentStatusesReducer(state = initialState.currentCommitStatusesData, action) {
   switch (action.type) {
     case types.STATUSES_LOADED_FOR_CURRENT_COMMIT: {
-      const rawContextsList = action.statuses.map(status => {
+      const rawContexts = action.statuses.map(status => {
         return status.context;
       });
 
-      const filteredContextsList = deduplicateArray(rawContextsList);
+      const filteredContexts = deduplicateArray(rawContexts);
 
       return {
         repoId: action.repoId,
@@ -17,22 +17,22 @@ export default function currentStatusesReducer(state = initialState.currentCommi
         branchName: action.branchName,
         commitSha: action.commitSha,
         statuses: action.statuses,
-        contexts: filteredContextsList
+        contexts: filteredContexts
       };
     }
     case types.STATUS_CREATED_FOR_COMMIT: {
-      let newRawContextsList = Object.assign([], state.contexts);
+      let newRawContexts = Object.assign([], state.contexts);
       let newStatusesArray = Object.assign([], state.statuses);
 
       // Insert new status into beginning of array
       newStatusesArray.unshift(action.newStatus);
-      newRawContextsList.unshift(action.newStatus.context);
+      newRawContexts.unshift(action.newStatus.context);
 
-      let newFilteredContextsList = deduplicateArray(newRawContextsList);
+      let newFilteredContexts = deduplicateArray(newRawContexts);
 
       return Object.assign({}, state, {
         statuses: newStatusesArray,
-        contexts: newFilteredContextsList
+        contexts: newFilteredContexts
       });
     }
     default: {
