@@ -51,13 +51,16 @@ class CurrentStatusesPage extends React.Component {
     );
 
     if ((currentCommitStatusesData.commitSha !== null) && (currentCommitStatusesData.commitSha !== undefined)) {
+      let optionalProps = {};
+
       commitShaShort = firstSevenOfSha(currentCommitStatusesData.commitSha);
       statusesListElement = (
         <CurrentStatusesList repoId={currentCommitStatusesData.repoId.toString()}
                              isFromBranch={currentCommitStatusesData.isFromBranch}
                              branchName={currentCommitStatusesData.branchName}
                              commitSha={currentCommitStatusesData.commitSha}
-                             statuses={currentCommitStatusesData.statuses} />
+                             statuses={currentCommitStatusesData.statuses}
+                             optionalProps={optionalProps} />
       );
     }
 
