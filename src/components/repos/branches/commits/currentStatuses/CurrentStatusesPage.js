@@ -5,7 +5,7 @@ import {browserHistory} from 'react-router';
 import LoadingNotice from '../../../../common/LoadingNotice';
 import * as currentStatusesActions from '../../../../../actions/currentStatusesActions';
 import {getRepoById, firstSevenOfSha} from '../../../../../utils/utilityMethods';
-import CurrentStatusesList from './CurrentStatusesList';
+import CurrentStatusesForContext from './CurrentStatusesForContext';
 
 import toastr from 'toastr';
 
@@ -46,21 +46,24 @@ class CurrentStatusesPage extends React.Component {
 
     let commitShaShort = null;
 
-    let statusesListElement = (
+    let statusesByContextListElement = (
       <LoadingNotice/>
     );
 
     if ((currentCommitStatusesData.commitSha !== null) && (currentCommitStatusesData.commitSha !== undefined)) {
-      let optionalProps = {};
-
       commitShaShort = firstSevenOfSha(currentCommitStatusesData.commitSha);
-      statusesListElement = (
-        <CurrentStatusesList repoId={currentCommitStatusesData.repoId.toString()}
-                             isFromBranch={currentCommitStatusesData.isFromBranch}
-                             branchName={currentCommitStatusesData.branchName}
-                             commitSha={currentCommitStatusesData.commitSha}
-                             statuses={currentCommitStatusesData.statuses}
-                             optionalProps={optionalProps} />
+      statusesByContextListElement = (
+        currentCommitStatusesData.contexts.map(context => {
+          return (
+            <CurrentStatusesForContext key={context.contextName}
+                                       repoId={currentCommitStatusesData.repoId.toString()}
+                                       isFromBranch={currentCommitStatusesData.isFromBranch}
+                                       branchName={currentCommitStatusesData.branchName}
+                                       commitSha={currentCommitStatusesData.commitSha}
+                                       contextName={context.contextName}
+                                       statusesInContext={context.statuses} />
+          );
+        })
       );
     }
 
@@ -76,7 +79,7 @@ class CurrentStatusesPage extends React.Component {
             <div className="panel panel-default">
               <div className="panel-heading">Current Statuses For Commit <span className="italic">{commitShaShort}</span> On Branch <span className="italic">{currentCommitStatusesData.branchName}</span> In Repo <span className="italic">{repoName}</span></div>
               <div className="panel-body">
-                {statusesListElement}
+                {statusesByContextListElement}
               </div>
             </div>
           </div>

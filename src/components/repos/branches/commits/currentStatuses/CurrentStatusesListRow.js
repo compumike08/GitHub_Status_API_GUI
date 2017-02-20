@@ -30,10 +30,7 @@ const CurrentStatusesListRow = ({repoId, isFromBranch, branchName, commitSha, st
                 {status.state == "failure" &&
                 <div className="label label-danger">failure</div>
                 }
-
-                <span className="hidden-xs"> Context: <span className="normal">{status.context}</span></span>
               </div>
-              <div className="col-xs-12 visible-xs-block text-center-xs pad-top-xs">Context: <span className="normal">{status.context}</span></div>
               <div className="col-xs-12 col-sm-5 text-center-xs">
                 <div className="pull-right-sm">
                   Created At: <span className="normal">{statusCreatedAtString}</span>
