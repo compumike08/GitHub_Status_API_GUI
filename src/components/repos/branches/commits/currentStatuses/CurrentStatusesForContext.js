@@ -1,10 +1,8 @@
 import React, {PropTypes} from 'react';
-import CurrentStatusesList from './CurrentStatusesList';
+import CurrentStatusesListRow from './CurrentStatusesListRow';
 
 const CurrentStatusesForContext = ({repoId, isFromBranch, branchName, commitSha, contextName, statusesInContext}) => {
-  let propsToAdd = {
-    contextName: contextName
-  };
+  let mostRecentStatusInContext = statusesInContext[0];
 
   return (
     <div className="row">
@@ -12,7 +10,9 @@ const CurrentStatusesForContext = ({repoId, isFromBranch, branchName, commitSha,
         <div className="panel panel-default">
           <div className="panel-heading">Context: <span className="normal">{contextName}</span></div>
           <div className="panel-body">
-            <CurrentStatusesList repoId={repoId} isFromBranch={isFromBranch} branchName={branchName} commitSha={commitSha} statuses={statusesInContext} optionalProps={propsToAdd} />
+            <div>
+              <CurrentStatusesListRow repoId={repoId} isFromBranch={isFromBranch} branchName={branchName} commitSha={commitSha} status={mostRecentStatusInContext} />
+            </div>
           </div>
         </div>
       </div>
