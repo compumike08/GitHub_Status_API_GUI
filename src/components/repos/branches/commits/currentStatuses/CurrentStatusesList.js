@@ -10,7 +10,7 @@ const CurrentStatusesList = ({repoId, isFromBranch, branchName, commitSha, statu
   return (
     <div>
       {statuses.map(status =>
-        <CurrentStatusesListRow key={status.id} repoId={repoId} isFromBranch={isFromBranch} branchName={branchName} commitSha={commitSha} status={status} {...optionalPropsToAdd} />
+        <CurrentStatusesListRow key={status.id} repoId={repoId} isFromBranch={isFromBranch} branchName={branchName} commitSha={commitSha} status={status} />
       )}
     </div>
   );
