@@ -49,7 +49,7 @@ export default function currentStatusesReducer(state = initialState.currentCommi
         commitSha: state.commitSha,
         statuses: updatedStatusesArray,
         contexts: filteredStatusesByContexts
-      }
+      };
     }
     default: {
       return state;
