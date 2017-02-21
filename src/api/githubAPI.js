@@ -1,23 +1,23 @@
+import GitHub from 'github-api';
 import * as utilityMethods from '../utils/utilityMethods';
 
-let Octokat = require('octokat');
-
-let octo = new Octokat({});
+let ghInstance = new GitHub({});
 
 class GithubApi {
 
   /**
-   * Creates new Octokat instance initialized with the oauth token passed to this method.
+   * Creates new GitHub instance initialized with the oauth token passed to this method.
    *
-   * https://github.com/philschatz/octokat.js#in-a-browser
+   * http://github-tools.github.io/github/docs/3.1.0/GitHub.html
+   * http://github-tools.github.io/github/docs/3.1.0/Requestable.html#.auth
    *
-   * @param {String} token - The oauth token to store in new Octokat instance.
-   * @returns {Promise} A promise which resolves after Octokat instance is created with oauth token.
+   * @param {String} token - The oauth token to store in new GitHub instance.
+   * @returns {Promise} A promise which resolves after GitHub instance is created with oauth token.
    * @public
    */
-  static addTokenToOcto(token){
+  static addTokenToGhApi(token) {
     return new Promise(resolve => {
-      octo = new Octokat({
+      ghInstance = new GitHub({
         token: token
       });
       resolve();
@@ -25,17 +25,18 @@ class GithubApi {
   }
 
   /**
-   * Removes currently stored GitHub oauth token from Octokat instance by
-   * overwriting current Octokat instance with a new, empty Ocktokat instance.
+   * Removes currently stored GitHub oauth token from GitHub instance by
+   * overwriting current GitHub instance with a new, empty GitHub instance.
    *
-   * https://github.com/philschatz/octokat.js#in-a-browser
+   * http://github-tools.github.io/github/docs/3.1.0/GitHub.html
+   * http://github-tools.github.io/github/docs/3.1.0/Requestable.html#.auth
    *
-   * @returns {Promise} A promise which resolves after Octokat instance is overwritten.
+   * @returns {Promise} A promise which resolves after GitHub instance is overwritten.
    * @public
    */
-  static removeTokenFromOcto(){
+  static removeTokenFromGhApi() {
     return new Promise((resolve) => {
-      octo = new Octokat({});
+      ghInstance = new GitHub({});
       resolve();
     });
   }
@@ -48,10 +49,12 @@ class GithubApi {
    * @returns {Promise} A promise which resolves to a user object, or rejects with a String error message.
    * @public
    */
-  static getAuthenticatedUser(){
+  static getAuthenticatedUser() {
     return new Promise((resolve, reject) => {
-      octo.user.fetch().then(result => {
-        resolve(result);
+      let user = ghInstance.getUser();
+
+      user.getProfile().then(response => {
+        resolve(response.data);
       }).catch(error => {
         console.log(getErrorResponseMsg(error));
         reject("ERROR: GitHub responded with an error.");
@@ -67,10 +70,16 @@ class GithubApi {
    * @returns {Promise} A promise which resolves to a list of repository objects, or rejects with a String error message.
    * @public
    */
-  static getCurrentUserAllRepos(){
+  static getCurrentUserAllRepos() {
     return new Promise((resolve, reject) => {
-      octo.fromUrl("/user/repos").fetch().then(result => {
-        resolve(result);
+      let ownerUser = ghInstance.getUser();
+
+      let configOptions = {
+        type: "owner"
+      };
+
+      ownerUser.listRepos(configOptions).then(response => {
+        resolve(response.data);
       }).catch(error => {
         console.log(getErrorResponseMsg(error));
         reject("ERROR: GitHub responded with an error.");
@@ -87,10 +96,16 @@ class GithubApi {
    * @returns {Promise} A promise which resolves to a list of repository objects, or rejects with a String error message.
    * @public
    */
-  static getReposByOwner(ownerLogin){
+  static getReposByOwner(ownerLogin) {
     return new Promise((resolve, reject) => {
-      octo.users(ownerLogin).repos.fetch().then(result => {
-        resolve(result);
+      let ownerUser = ghInstance.getUser(ownerLogin);
+
+      let configOptions = {
+        type: "owner"
+      };
+
+      ownerUser.listRepos(configOptions).then(response => {
+        resolve(response.data);
       }).catch(error => {
         console.log(getErrorResponseMsg(error));
         reject("ERROR: GitHub responded with an error.");
@@ -108,10 +123,12 @@ class GithubApi {
    * @returns {Promise} A promise which resolves to a list of branch objects, or rejects with a String error message.
    * @public
    */
-  static getBranchesInRepo(ownerLogin, repoName){
+  static getBranchesInRepo(ownerLogin, repoName) {
     return new Promise((resolve, reject) => {
-      octo.repos(ownerLogin, repoName).branches.fetch().then(result => {
-        resolve(result);
+      let repo = ghInstance.getRepo(ownerLogin, repoName);
+
+      repo.listBranches().then(response => {
+        resolve(response.data);
       }).catch(error => {
         console.log(getErrorResponseMsg(error));
         reject("ERROR: GitHub responded with an error when fetching branches in repo '" + ownerLogin + "/" + repoName + "'");
@@ -130,10 +147,16 @@ class GithubApi {
    * @returns {Promise} A promise which resolves to a list of commit objects, or rejects with a String error message.
    * @public
    */
-  static getCommitsOnBranch(ownerLogin, repoName, branchName){
+  static getCommitsOnBranch(ownerLogin, repoName, branchName) {
     return new Promise((resolve, reject) => {
-      octo.repos(ownerLogin, repoName).commits.fetch({sha: branchName}).then(result => {
-        resolve(result);
+      let repo = ghInstance.getRepo(ownerLogin, repoName);
+
+      let options = {
+        sha: branchName
+      };
+
+      repo.listCommits(options).then(response => {
+        resolve(response.data);
       }).catch(error => {
         console.log(getErrorResponseMsg(error));
         reject("ERROR: GitHub responded with an error when fetching commits on branch '" + branchName + "' in repo '" + ownerLogin + "/" + repoName + "'");
@@ -152,18 +175,20 @@ class GithubApi {
    * @returns {Promise} A promise which resolves to a list of commit status objects, or rejects with a String error message.
    * @public
    */
-  static getStatusesForCommit(ownerLogin, repoName, commitRef){
+  static getStatusesForCommit(ownerLogin, repoName, commitRef) {
     return new Promise((resolve, reject) => {
       let isCommitRefParamValid = utilityMethods.validateCommitReference(commitRef);
 
-      if(isCommitRefParamValid){
-        octo.repos(ownerLogin, repoName).commits(commitRef).statuses.fetch().then(result => {
-          resolve(result);
+      if (isCommitRefParamValid) {
+        let repo = ghInstance.getRepo(ownerLogin, repoName);
+
+        repo.listStatuses(commitRef).then(response => {
+          resolve(response.data);
         }).catch(error => {
           console.log(getErrorResponseMsg(error));
           reject("ERROR: GitHub responded with an error.");
         });
-      }else{
+      } else {
         reject("ERROR: Invalid commitRef parameter passed to GithubApi component.");
       }
     });
@@ -181,23 +206,26 @@ class GithubApi {
    * @returns {Promise} A promise which resolves to a combined status object, or rejects with a String error message.
    * @public
    */
-  static getCombinedStatusForRef(ownerLogin, repoName, ref){
+  static getCombinedStatusForRef(ownerLogin, repoName, ref) {
     return new Promise((resolve, reject) => {
+      reject("Support for the combined status endpoint is not yet available in the Github.js library");
+
+      /*
       let isCommitRefParamValid = utilityMethods.validateCommitReference(ref);
 
-      if(isCommitRefParamValid){
-        octo.repos(ownerLogin, repoName).commits(ref).status.fetch().then(result => {
+      if (isCommitRefParamValid) {
+        ghInstance.repos(ownerLogin, repoName).commits(ref).status.fetch().then(result => {
           resolve(result);
-        }).catch(error => {
+      }).catch(error => {
           console.log(getErrorResponseMsg(error));
           reject("ERROR: GitHub responded with an error.");
-        });
-      }else{
+      });
+      } else {
         reject("ERROR: Invalid ref parameter passed to GithubApi component.");
       }
+      */
     });
   }
-
 
   /**
    * Creates a new status on the specified commit.
@@ -216,38 +244,39 @@ class GithubApi {
    *                    error message.
    * @public
    */
-  static createStatusForCommit(ownerLogin, repoName, commitSha, state, description, targetUrl, context){
+  static createStatusForCommit(ownerLogin, repoName, commitSha, state, description, targetUrl, context) {
     return new Promise((resolve, reject) => {
       let isCommitRefParamValid = utilityMethods.validateCommitReference(commitSha);
 
-      if(isCommitRefParamValid){
+      if (isCommitRefParamValid) {
+        let repo = ghInstance.getRepo(ownerLogin, repoName);
         let createParams = {};
 
-        if(utilityMethods.validateGitHubStatusState(state)){
+        if (utilityMethods.validateGitHubStatusState(state)) {
           createParams.state = state;
-        }else{
+        } else {
           throw new Error("Invalid GitHub status state string passed to createStatusForCommit method in GithubApi componenet.");
         }
 
-        if(utilityMethods.isValidString(description)){
+        if (utilityMethods.isValidString(description)) {
           createParams.description = description;
         }
 
-        if(utilityMethods.isValidString(targetUrl)){
+        if (utilityMethods.isValidString(targetUrl)) {
           createParams.target_url = targetUrl;
         }
 
-        if(utilityMethods.isValidString(context)){
+        if (utilityMethods.isValidString(context)) {
           createParams.context = context;
         }
 
-        octo.repos(ownerLogin, repoName).statuses(commitSha).create(createParams).then(result => {
-          resolve(result);
+        repo.updateStatus(commitSha, createParams).then(response => {
+          resolve(response.data);
         }).catch(error => {
           console.log(getErrorResponseMsg(error));
           reject("ERROR: GitHub responded with an error.");
         });
-      }else{
+      } else {
         reject("ERROR: Invalid ref parameter passed to GithubApi component.");
       }
     });
@@ -255,28 +284,14 @@ class GithubApi {
 }
 
 /**
- * Parse 'error.message' from error JSON string to JavaScript object.
+ * Extracts error message from error returned from Github.js library.
  *
- * @param {String} error - The error returned from GitHub as a JSON string.
- * @returns {Object} The 'error.message' JSON parsed to an object.
+ * @param {Error} error - The error returned from GitHub.js library.
+ * @returns {string} The 'error.message' string extracted from the Error.
  * @private
  */
-function parseErrorResponse(error){
-  let errObj = JSON.parse(error.message);
-  return errObj;
-}
-
-/**
- * Parse 'error.message.message' from error JSON string to JavaScript object.
- *
- * @param {String} error - The error returned from GitHub as a JSON string.
- * @returns {Object} The 'error.message.message' JSON parsed to an object.
- * @private
- */
-function getErrorResponseMsg(error){
-  let errObj = parseErrorResponse(error);
-  let errMsg = errObj.message;
-
+function getErrorResponseMsg(error) {
+  let errMsg = error.message;
   return errMsg;
 }
 

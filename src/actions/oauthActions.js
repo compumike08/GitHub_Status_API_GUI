@@ -29,7 +29,7 @@ export function exchangeCodeForToken(oauthTempCode){
 
 export function destroyOAuthToken() {
   return function (dispatch){
-    return GithubAPI.removeTokenFromOcto().then(() => {
+    return GithubAPI.removeTokenFromGhApi().then(() => {
       dispatch(oauthTokenDestroyed());
     }).catch(error => {
       //TODO: Improve error handling instead of re-throwing error

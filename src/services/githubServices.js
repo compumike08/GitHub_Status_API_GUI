@@ -7,7 +7,7 @@ export function loadStoredTokenIntoOcto(oauthToken){
       reject("Unable to retrieve valid stored oauth token from Redux store");
     }
 
-    return GithubAPI.addTokenToOcto(oauthToken).then(() => {
+    return GithubAPI.addTokenToGhApi(oauthToken).then(() => {
       resolve();
     }).catch(error => {
       console.log(error);
