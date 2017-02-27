@@ -1,3 +1,4 @@
+import URLSearchParams from 'url-search-params';
 import * as Axis from '../../node_modules/axis.js';
 import {GITHUB_STATUS_STATES} from './constants';
 
@@ -135,4 +136,19 @@ export function validateGitHubStatusState(statusState){
  */
 export function deduplicateArray(inputArray){
   return Array.from(new Set(inputArray));
+}
+
+/**
+ *
+ * @param {string} paramName - The name of the parameter to extract
+ * @param {string} urlString - The full url as a string from which to extract the parameter
+ * @return {*} The extracted parameter value
+ */
+export function extractParamFromURL(paramName, urlString){
+  /* Since URLSearchParams will ignore a param that starts with '?', we have to remove the '?'
+   (and everything before it) from the link string before creating the URLSearchParams object. */
+  let urlParamsString = urlString.slice(urlString.indexOf("?") + 1);
+  let urlParams = new URLSearchParams(urlParamsString);
+
+  return urlParams.get(paramName).toString();
 }
