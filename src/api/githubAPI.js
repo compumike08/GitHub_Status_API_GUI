@@ -284,6 +284,60 @@ class GithubApi {
 }
 
 /**
+ * Processes an HTTP response object and wraps it in a pagination object.
+ *
+ * @param {Object} responseObj - The HTTP response object to be processed
+ * @return {{pageData: *, pageNum: *, lastPageNum: (*|Number)}} The response data wrapped in a pagination object
+ * @private
+ */
+function processPagination(responseObj){
+  const REL_SEARCH_START_STRING = "rel=\"";
+  const REL_SEARCH_END_STRING = "\"";
+  const REL_SEARCH_STRING_LEN = REL_SEARCH_START_STRING.length;
+  const LINK_SEARCH_START_STRING = "<";
+  const LINK_SEARCH_END_STRING = ">";
+  const LINK_SEARCH_START_STRING_LEN = LINK_SEARCH_START_STRING.length;
+
+  let pageLinkString = responseObj.headers.link;
+  let pageLinkArray = pageLinkString.split(", ");
+  let parsedPageArray = [];
+
+  let requestURL = responseObj.request.responseURL;
+  let currentPageNum = utilityMethods.extractParamFromURL("page", requestURL);
+
+  pageLinkArray.forEach(pageLink => {
+    let relStartIdx = pageLink.indexOf(REL_SEARCH_START_STRING) + REL_SEARCH_STRING_LEN;
+    let relStopIdx = pageLink.indexOf(REL_SEARCH_END_STRING, relStartIdx);
+
+    let linkStartIdx = pageLink.indexOf(LINK_SEARCH_START_STRING) + LINK_SEARCH_START_STRING_LEN;
+    let linkStopIdx = pageLink.indexOf(LINK_SEARCH_END_STRING, linkStartIdx);
+
+    let relNameString = pageLink.slice(relStartIdx, relStopIdx);
+    let linkString = pageLink.slice(linkStartIdx, linkStopIdx);
+
+    let pageNumValue = utilityMethods.extractParamFromURL("page", linkString);
+
+    let newPageLinkObj = {
+      rel: relNameString,
+      link: linkString,
+      pageNum: pageNumValue
+    };
+
+    parsedPageArray.push(newPageLinkObj);
+  });
+
+  let lastPageNum = parsedPageArray.find(parsedPage => parsedPage.rel == "last").pageNum;
+
+  let constructedResponseObj = {
+    pageData: responseObj.data,
+    pageNum: currentPageNum,
+    lastPageNum: lastPageNum
+  };
+
+  return constructedResponseObj;
+}
+
+/**
  * Extracts error message from error returned from Github.js library.
  *
  * @param {Error} error - The error returned from GitHub.js library.
