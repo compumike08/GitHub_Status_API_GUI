@@ -139,10 +139,8 @@ function authenticate(currentThis){
   }
 
   function windowReturnHandler(event) {
-    const rawTempCode = event.data;
+    let tempCode = event.data;
     window.removeEventListener('message', windowReturnHandler);
-    let indexOfAmpersand = rawTempCode.indexOf("&");
-    let tempCode = rawTempCode.substring(0, indexOfAmpersand);
     currentThis.setGitHubTempCodeFlag();
     currentThis.getTokenFromCode(tempCode);
   }
