@@ -306,6 +306,7 @@ function processPagination(responseObj){
   if(pageLinkString){
     let pageLinkArray = pageLinkString.split(", ");
     let parsedPageArray = [];
+    let lastPageNumLink;
 
     pageLinkArray.forEach(pageLink => {
       let relStartIdx = pageLink.indexOf(REL_SEARCH_START_STRING) + REL_SEARCH_STRING_LEN;
@@ -328,7 +329,14 @@ function processPagination(responseObj){
       parsedPageArray.push(newPageLinkObj);
     });
 
-    lastPageNum = parsedPageArray.find(parsedPage => parsedPage.rel == "last").pageNum;
+    lastPageNumLink = parsedPageArray.find(parsedPage => parsedPage.rel == "last");
+
+    if(lastPageNumLink){
+      lastPageNum = lastPageNumLink.pageNum;
+    }else{
+      lastPageNum = currentPageNum;
+    }
+
   }else{
     lastPageNum = 1;
   }
