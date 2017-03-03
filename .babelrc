@@ -13,7 +13,10 @@
     "production": {
       "plugins": [
         "transform-react-constant-elements",
-        "transform-react-remove-prop-types"
+        "transform-react-remove-prop-types",
+        "babel-plugin-transform-builtin-extend", {
+          "globals": ["Error", "Array"]
+        }
       ]
     }
   }
