@@ -144,19 +144,23 @@ class GithubApi {
    * @param {String} ownerLogin - The GitHub owner login name of the owner of the repo.
    * @param {String} repoName - The name of the repo.
    * @param {String} branchName - The name of the branch.
+   * @param {Number} inPageNum - The page number of data to retrieve (required for GitHub pagination support).
    * @returns {Promise} A promise which resolves to a list of commit objects, or rejects with a String error message.
    * @public
    */
-  static getCommitsOnBranch(ownerLogin, repoName, branchName) {
+  static getCommitsOnBranch(ownerLogin, repoName, branchName, inPageNum) {
     return new Promise((resolve, reject) => {
       let repo = ghInstance.getRepo(ownerLogin, repoName);
 
       let options = {
+        page: inPageNum,
         sha: branchName
       };
 
       repo.listCommits(options).then(response => {
-        resolve(response.data);
+        let paginatedResponseObject = processPagination(response);
+
+        resolve(paginatedResponseObject);
       }).catch(error => {
         console.log(getErrorResponseMsg(error));
         reject("ERROR: GitHub responded with an error when fetching commits on branch '" + branchName + "' in repo '" + ownerLogin + "/" + repoName + "'");

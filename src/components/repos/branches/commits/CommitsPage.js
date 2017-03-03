@@ -6,6 +6,7 @@ import LoadingNotice from '../../../common/LoadingNotice';
 import CommitsList from './CommitsList';
 import * as repoActions from '../../../../actions/repoActions';
 import {getBranchByName, getRepoById} from '../../../../utils/utilityMethods';
+import InvalidPageError from '../../../../errors/InvalidPageError';
 
 import toastr from 'toastr';
 
@@ -15,6 +16,8 @@ class CommitsPage extends React.Component {
 
     this.handleViewCombinedStatusSelect = this.handleViewCombinedStatusSelect.bind(this);
     this.handleCommitSelect = this.handleCommitSelect.bind(this);
+    this.handleNextPage = this.handleNextPage.bind(this);
+    this.loadPagedData = this.loadPagedData.bind(this);
   }
 
   componentWillMount(){
@@ -29,12 +32,7 @@ class CommitsPage extends React.Component {
         toastr.error("ERROR: No branch found with matching branch name");
         browserHistory.push("/");
       }else{
-        this.props.repoActions.loadCommitsForBranch(branch.name, repo.name).then(() => {
-          toastr.success("Commit list for branch '" + branch.name + "' in repo '" + repo.name + "' fetched successfully!");
-        }).catch(error => {
-          console.log(error);
-          toastr.error("Commit list for branch '" + branch.name + "' in repo '" + repo.name + "' fetch failed!");
-        });
+        this.loadPagedData(1);
       }
     }
   }
@@ -60,6 +58,56 @@ class CommitsPage extends React.Component {
     browserHistory.push("/repo/" + repoId + "/branch/" + branchName + "/commit/" + commitSha + "/statuses");
   }
 
+  handleNextPage(evt){
+    evt.persist();
+    evt.preventDefault();
+
+    let currentPageNum = this.props.branch.commits.currentPageNum;
+
+    this.loadPagedData(currentPageNum + 1);
+  }
+
+  loadPagedData(pageNum){
+    const repoName = this.props.repo.name;
+    const branchName = this.props.branch.name;
+
+    this.props.repoActions.loadCommitsForBranch(branchName, repoName, pageNum).then(() => {
+      let currentPageNum = this.props.branch.commits.currentPageNum;
+      toastr.success("Loaded page of commits. (Page " + currentPageNum + " of " + this.props.branch.commits.totalNumPages + ")");
+    }).catch(error => {
+      let currentPageNum = 0;
+      let totalNumPages = 0;
+      let branchCommitsObj = this.props.branch.commits;
+
+      if(branchCommitsObj){
+        let tempCurPageNum = branchCommitsObj.currentPageNum;
+        let tempTotalNumPages = branchCommitsObj.totalNumPages;
+
+        if(tempCurPageNum){
+          currentPageNum = tempCurPageNum;
+        }
+
+        if(tempTotalNumPages){
+          totalNumPages = tempTotalNumPages;
+        }
+
+      }
+
+      if(error instanceof InvalidPageError){
+        // TODO: Once a better error logger has been implemented, change the following console.log statement outputs to only display when logging is set to DEBUG
+        console.log("InvalidPageError message: " + error.message);
+        console.log("Attempted To Request Page Number: " + pageNum);
+        console.log("Total Number Of Paginated Pages Available: " + totalNumPages);
+        console.log("Current Page Number: " + currentPageNum);
+
+        toastr.error("The page of data you requested is not valid.");
+      }else {
+        console.log(error);
+        toastr.error("ERROR: Unable to load page of commits. (Page " + currentPageNum + " of " + totalNumPages + ")");
+      }
+    });
+  }
+
   render() {
     const {repo} = this.props;
     const {branch} = this.props;
@@ -72,7 +120,8 @@ class CommitsPage extends React.Component {
       commitsListElement = (
         <div className="panel-body">
           <span className="bold">Select a commit:</span>
-          <CommitsList repoId={repo.id} repoName={repo.name} branchName={branch.name} commits={branch.commits} onSelect={this.handleCommitSelect}/>
+          <CommitsList repoId={repo.id} repoName={repo.name} branchName={branch.name} commits={branch.commits.paginatedCommits} onSelect={this.handleCommitSelect}/>
+          <button type="button" className="btn btn-default" onClick={this.handleNextPage} >Next Page</button>
         </div>
       );
     }

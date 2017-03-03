@@ -1,6 +1,8 @@
 import * as types from './actionTypes';
 import GithubAPI from '../api/githubAPI';
 import {GITHUB_ACCOUNT_NAME} from '../utils/constants';
+import * as utilityMethods from '../utils/utilityMethods';
+import InvalidPageError from '../errors/InvalidPageError';
 
 export function reposLoaded(repos){
   return {type: types.REPOS_LOADED, repos};
@@ -10,8 +12,8 @@ export function branchesLoadedForRepo(branches, repo){
   return {type: types.BRANCHES_LOADED_FOR_REPO, branches, repo};
 }
 
-export function commitsLoadedForBranch(commits, branch, repo){
-  return {type: types.COMMITS_LOADED_FOR_BRANCH, commits, branch, repo};
+export function commitsLoadedForBranch(commitsPageObj, branch, repo){
+  return {type: types.COMMITS_LOADED_FOR_BRANCH, commitsPageObj, branch, repo};
 }
 
 export function loadRepos(){
@@ -42,20 +44,39 @@ export function loadBranchesForRepo(repoName){
   };
 }
 
-export function loadCommitsForBranch(branchName, repoName){
+/**
+ * Loads specified page of commits for specified branch
+ *
+ *    Note: If no page number is specified as a parameter, then it will default to page 1.
+ *
+ * @param {string} branchName - The name of the branch for which to load commits
+ * @param {string} repoName - The name of the repository containing the specified branch
+ * @param {Number} [pageNum=1] - The page number of paginated commits to load (defaults to 1 if not specified)
+ * @return {Function}
+ * @throws {InvalidPageError}
+ */
+export function loadCommitsForBranch(branchName, repoName, pageNum = 1){
   return function(dispatch, getState) {
     const currentState = getState();
 
     let repo = findRepoByNameFromState(currentState.repos, repoName);
     let branch = findBranchByNameFromRepo(repo, branchName);
+    let paginatedCommitsObj = branch.commits;
 
-    return GithubAPI.getCommitsOnBranch(repo.owner.login, repo.name, branch.name).then(commits => {
-      dispatch(commitsLoadedForBranch(commits, branch, repo));
+    let isValidRequestedPageNum = utilityMethods.validateRequestedPageNum(pageNum, paginatedCommitsObj);
+
+    if(!isValidRequestedPageNum) {
+      return new Promise(() => {
+        throw new InvalidPageError();
+      });
+    }
+
+    return GithubAPI.getCommitsOnBranch(repo.owner.login, repo.name, branch.name, pageNum).then(commitsPageObj => {
+      dispatch(commitsLoadedForBranch(commitsPageObj, branch, repo));
     }).catch(error => {
       //TODO: Improve error handling instead of re-throwing error
       throw(error);
     });
-
   };
 }
 
