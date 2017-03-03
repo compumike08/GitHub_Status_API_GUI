@@ -298,35 +298,40 @@ function processPagination(responseObj){
   const LINK_SEARCH_END_STRING = ">";
   const LINK_SEARCH_START_STRING_LEN = LINK_SEARCH_START_STRING.length;
 
-  let pageLinkString = responseObj.headers.link;
-  let pageLinkArray = pageLinkString.split(", ");
-  let parsedPageArray = [];
-
   let requestURL = responseObj.request.responseURL;
   let currentPageNum = utilityMethods.extractParamFromURL("page", requestURL);
+  let pageLinkString = responseObj.headers.link;
+  let lastPageNum;
 
-  pageLinkArray.forEach(pageLink => {
-    let relStartIdx = pageLink.indexOf(REL_SEARCH_START_STRING) + REL_SEARCH_STRING_LEN;
-    let relStopIdx = pageLink.indexOf(REL_SEARCH_END_STRING, relStartIdx);
+  if(pageLinkString){
+    let pageLinkArray = pageLinkString.split(", ");
+    let parsedPageArray = [];
 
-    let linkStartIdx = pageLink.indexOf(LINK_SEARCH_START_STRING) + LINK_SEARCH_START_STRING_LEN;
-    let linkStopIdx = pageLink.indexOf(LINK_SEARCH_END_STRING, linkStartIdx);
+    pageLinkArray.forEach(pageLink => {
+      let relStartIdx = pageLink.indexOf(REL_SEARCH_START_STRING) + REL_SEARCH_STRING_LEN;
+      let relStopIdx = pageLink.indexOf(REL_SEARCH_END_STRING, relStartIdx);
 
-    let relNameString = pageLink.slice(relStartIdx, relStopIdx);
-    let linkString = pageLink.slice(linkStartIdx, linkStopIdx);
+      let linkStartIdx = pageLink.indexOf(LINK_SEARCH_START_STRING) + LINK_SEARCH_START_STRING_LEN;
+      let linkStopIdx = pageLink.indexOf(LINK_SEARCH_END_STRING, linkStartIdx);
 
-    let pageNumValue = utilityMethods.extractParamFromURL("page", linkString);
+      let relNameString = pageLink.slice(relStartIdx, relStopIdx);
+      let linkString = pageLink.slice(linkStartIdx, linkStopIdx);
 
-    let newPageLinkObj = {
-      rel: relNameString,
-      link: linkString,
-      pageNum: pageNumValue
-    };
+      let pageNumValue = utilityMethods.extractParamFromURL("page", linkString);
 
-    parsedPageArray.push(newPageLinkObj);
-  });
+      let newPageLinkObj = {
+        rel: relNameString,
+        link: linkString,
+        pageNum: pageNumValue
+      };
 
-  let lastPageNum = parsedPageArray.find(parsedPage => parsedPage.rel == "last").pageNum;
+      parsedPageArray.push(newPageLinkObj);
+    });
+
+    lastPageNum = parsedPageArray.find(parsedPage => parsedPage.rel == "last").pageNum;
+  }else{
+    lastPageNum = 1;
+  }
 
   let constructedResponseObj = {
     pageData: responseObj.data,
