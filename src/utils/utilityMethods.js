@@ -198,3 +198,38 @@ export function validateRequestedPageNum(requestedPageNum, paginationWrappedObj)
 
   return isValid;
 }
+
+/**
+ * ES6 Generator function which returns the numerical sequence of integers in the specified range
+ *
+ * @param inStartInt - The first integer to be in the generated sequence
+ * @param inEndInt - The last integer to be in the generated sequence (must be greater than or equal to inStartInt)
+ */
+export function* genIntegerSequence(inStartInt, inEndInt){
+  const startInt = inStartInt;
+  const endInt = inEndInt;
+
+  let curInt = startInt;
+
+  if(!Axis.isNumber(startInt)){
+    console.log("Value of startInt: " + startInt);
+    console.log("Value of endInt: " + endInt);
+    throw new TypeError("The value of startInt in the genIntegerSequence generator was not type Number");
+  }
+
+  if(!Axis.isNumber(endInt)){
+    console.log("Value of startInt: " + startInt);
+    console.log("Value of endInt: " + endInt);
+    throw new TypeError("The value of endInt in the genIntegerSequence generator was not type Number");
+  }
+
+  if(startInt > endInt){
+    console.log("Value of startInt: " + startInt);
+    console.log("Value of endInt: " + endInt);
+    throw new RangeError("The value of endInt in the genIntegerSequence generator was less than the value of starInt.");
+  }
+
+  while(curInt <= endInt){
+    yield curInt++;
+  }
+}
