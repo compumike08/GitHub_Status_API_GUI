@@ -5,7 +5,7 @@ import {browserHistory} from 'react-router';
 import LoadingNotice from '../../../common/LoadingNotice';
 import CommitsList from './CommitsList';
 import * as repoActions from '../../../../actions/repoActions';
-import {getBranchByName, getRepoById} from '../../../../utils/utilityMethods';
+import {getBranchByName, getRepoById, genIntegerSequence} from '../../../../utils/utilityMethods';
 import InvalidPageError from '../../../../errors/InvalidPageError';
 
 import toastr from 'toastr';
@@ -18,7 +18,11 @@ class CommitsPage extends React.Component {
 
     this.handleViewCombinedStatusSelect = this.handleViewCombinedStatusSelect.bind(this);
     this.handleCommitSelect = this.handleCommitSelect.bind(this);
-    this.handleNextPage = this.handleNextPage.bind(this);
+    this.handlePageSelect = this.handlePageSelect.bind(this);
+    this.handleNextPageSelect = this.handleNextPageSelect.bind(this);
+    this.handlePrevPageSelect = this.handlePrevPageSelect.bind(this);
+    this.handleFirstPageSelect = this.handleFirstPageSelect.bind(this);
+    this.handleLastPageSelect = this.handleLastPageSelect.bind(this);
     this.loadPagedData = this.loadPagedData.bind(this);
   }
 
@@ -60,13 +64,44 @@ class CommitsPage extends React.Component {
     browserHistory.push("/repo/" + repoId + "/branch/" + branchName + "/commit/" + commitSha + "/statuses");
   }
 
-  handleNextPage(evt){
-    evt.persist();
+  handlePageSelect(evt){
+    evt.preventDefault();
+
+    let selectedPageNum = evt.currentTarget.value;
+    this.loadPagedData(selectedPageNum);
+  }
+
+  handleNextPageSelect(evt){
+    evt.preventDefault();
+
+    let currentPageNum = this.props.branch.commits.currentPageNum;
+    let lastPageNum = this.props.branch.commits.totalNumPages;
+
+    if(currentPageNum < lastPageNum){
+      this.loadPagedData(currentPageNum + 1);
+    }
+  }
+
+  handlePrevPageSelect(evt){
     evt.preventDefault();
 
     let currentPageNum = this.props.branch.commits.currentPageNum;
 
-    this.loadPagedData(currentPageNum + 1);
+    if(currentPageNum > FIRST_PAGE_NUM){
+      this.loadPagedData(currentPageNum - 1);
+    }
+  }
+
+  handleFirstPageSelect(evt){
+    evt.preventDefault();
+    this.loadPagedData(FIRST_PAGE_NUM);
+  }
+
+  handleLastPageSelect(evt){
+    evt.preventDefault();
+
+    let lastPageNum = this.props.branch.commits.totalNumPages;
+    this.loadPagedData(lastPageNum);
   }
 
   loadPagedData(pageNum){
@@ -119,13 +154,81 @@ class CommitsPage extends React.Component {
     );
 
     if(branch.commits !== null){
-      commitsListElement = (
-        <div className="panel-body">
-          <span className="bold">Select a commit:</span>
-          <CommitsList repoId={repo.id} repoName={repo.name} branchName={branch.name} commits={branch.commits.paginatedCommits} onSelect={this.handleCommitSelect}/>
-          <button type="button" className="btn btn-default" onClick={this.handleNextPage} >Next Page</button>
-        </div>
-      );
+      let totalNumPages = branch.commits.totalNumPages;
+      let currentPageNum = branch.commits.currentPageNum;
+      let paginatedCommits = branch.commits.paginatedCommits;
+
+      if(paginatedCommits !== null) {
+        let pageNumsArray = [...genIntegerSequence(FIRST_PAGE_NUM, totalNumPages)];
+        let pagesArray = pageNumsArray.map(pageNum => {
+          let isFirstPage = pageNum == FIRST_PAGE_NUM;
+          let isCurrentPage = pageNum == currentPageNum;
+          let isLastPage = pageNum == totalNumPages;
+
+          return {
+            pageNum: pageNum,
+            isFirstPage: isFirstPage,
+            isCurrentPage: isCurrentPage,
+            isLastPage: isLastPage
+          };
+        });
+
+        commitsListElement = (
+          <div className="panel-body">
+            <span className="bold">Select a commit:</span>
+
+            {totalNumPages > FIRST_PAGE_NUM &&
+              <nav aria-label="Commits navigation">
+                <ul className="pagination">
+                  {currentPageNum > FIRST_PAGE_NUM &&
+                  <li onClick={this.handleFirstPageSelect}>
+                        <span aria-label="First">
+                          <span aria-hidden="true">First</span>
+                        </span>
+                  </li>
+                  }
+
+                  {currentPageNum > FIRST_PAGE_NUM &&
+                  <li onClick={this.handlePrevPageSelect}>
+                      <span aria-label="Previous">
+                        <span aria-hidden="true">&lsaquo;</span>
+                      </span>
+                  </li>
+                  }
+
+                  {pagesArray.map(pageObj =>
+                    <li key={pageObj.pageNum}
+                        value={pageObj.pageNum}
+                        onClick={pageObj.isCurrentPage === false ? this.handlePageSelect : ""}
+                        className={pageObj.isCurrentPage === true ? "active" : ""}>
+                      <span>{pageObj.pageNum}</span>
+                    </li>
+                  )}
+
+                  {currentPageNum < totalNumPages &&
+                  <li onClick={this.handleNextPageSelect}>
+                      <span aria-label="Next">
+                        <span aria-hidden="true">&rsaquo;</span>
+                      </span>
+                  </li>
+                  }
+
+                  {currentPageNum < totalNumPages &&
+                  <li onClick={this.handleLastPageSelect}>
+                      <span aria-label="Last">
+                        <span aria-hidden="true">Last</span>
+                      </span>
+                  </li>
+                  }
+                </ul>
+              </nav>
+            }
+
+            <CommitsList repoId={repo.id} repoName={repo.name} branchName={branch.name}
+                         commits={paginatedCommits} onSelect={this.handleCommitSelect}/>
+          </div>
+        );
+      }
     }
 
     return (
