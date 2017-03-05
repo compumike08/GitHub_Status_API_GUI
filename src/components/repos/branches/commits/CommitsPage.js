@@ -10,6 +10,8 @@ import InvalidPageError from '../../../../errors/InvalidPageError';
 
 import toastr from 'toastr';
 
+const FIRST_PAGE_NUM = 1;
+
 class CommitsPage extends React.Component {
   constructor(props, context) {
     super(props, context);
@@ -32,7 +34,7 @@ class CommitsPage extends React.Component {
         toastr.error("ERROR: No branch found with matching branch name");
         browserHistory.push("/");
       }else{
-        this.loadPagedData(1);
+        this.loadPagedData(FIRST_PAGE_NUM);
       }
     }
   }
