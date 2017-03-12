@@ -16,5 +16,9 @@ export default {
     statuses: null,
     contexts: null
   },
+  currentPaginationState: {
+    currentPageNum: 0,
+    totalNumPages: 0
+  },
   repos: null
 };

@@ -5,13 +5,15 @@ import oauths from './oauthReducer';
 import repos from './repoReducer';
 import combinedStatusData from './combinedStatusReducer';
 import currentCommitStatusesData from './currentStatusesReducer';
+import currentPaginationState from './paginationReducer';
 
 const rootReducer = combineReducers({
   routing: routerReducer,
   oauths: oauths,
   repos: repos,
   combinedStatusData: combinedStatusData,
-  currentCommitStatusesData: currentCommitStatusesData
+  currentCommitStatusesData: currentCommitStatusesData,
+  currentPaginationState: currentPaginationState
 });
 
 export default rootReducer;
