@@ -1,5 +1,6 @@
 import GitHub from 'github-api';
 import * as utilityMethods from '../utils/utilityMethods';
+import PaginatedResponse from '../data_structures/PaginatedResponse';
 
 let ghInstance = new GitHub({});
 
@@ -145,7 +146,7 @@ class GithubApi {
    * @param {String} repoName - The name of the repo.
    * @param {String} branchName - The name of the branch.
    * @param {Number} inPageNum - The page number of data to retrieve (required for GitHub pagination support).
-   * @returns {Promise} A promise which resolves to a list of commit objects, or rejects with a String error message.
+   * @returns {Promise} A promise which resolves to a list of commit objects wrapped in a PaginatedResponse object, or rejects with a String error message.
    * @public
    */
   static getCommitsOnBranch(ownerLogin, repoName, branchName, inPageNum) {
@@ -291,7 +292,7 @@ class GithubApi {
  * Processes an HTTP response object and wraps it in a pagination object.
  *
  * @param {Object} responseObj - The HTTP response object to be processed
- * @return {{pageData: *, pageNum: *, lastPageNum: (*|Number)}} The response data wrapped in a pagination object
+ * @return {PaginatedResponse} The response data wrapped in a pagination object
  * @private
  */
 function processPagination(responseObj){
@@ -345,13 +346,7 @@ function processPagination(responseObj){
     lastPageNum = 1;
   }
 
-  let constructedResponseObj = {
-    pageData: responseObj.data,
-    pageNum: currentPageNum,
-    lastPageNum: lastPageNum
-  };
-
-  return constructedResponseObj;
+  return new PaginatedResponse(parseInt(currentPageNum), parseInt(lastPageNum), responseObj.data);
 }
 
 /**

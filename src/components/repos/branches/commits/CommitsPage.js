@@ -75,8 +75,8 @@ class CommitsPage extends React.Component {
   handleNextPageSelect(evt){
     evt.preventDefault();
 
-    let currentPageNum = this.props.branch.commits.currentPageNum;
-    let lastPageNum = this.props.branch.commits.totalNumPages;
+    let currentPageNum = this.props.currentPaginationState.currentPageNum;
+    let lastPageNum = this.props.currentPaginationState.totalNumPages;
 
     if(currentPageNum < lastPageNum){
       this.loadPagedData(currentPageNum + 1);
@@ -86,7 +86,7 @@ class CommitsPage extends React.Component {
   handlePrevPageSelect(evt){
     evt.preventDefault();
 
-    let currentPageNum = this.props.branch.commits.currentPageNum;
+    let currentPageNum = this.props.currentPaginationState.currentPageNum;
 
     if(currentPageNum > FIRST_PAGE_NUM){
       this.loadPagedData(currentPageNum - 1);
@@ -101,7 +101,7 @@ class CommitsPage extends React.Component {
   handleLastPageSelect(evt){
     evt.preventDefault();
 
-    let lastPageNum = this.props.branch.commits.totalNumPages;
+    let lastPageNum = this.props.currentPaginationState.totalNumPages;
     this.loadPagedData(lastPageNum);
   }
 
@@ -110,25 +110,21 @@ class CommitsPage extends React.Component {
     const branchName = this.props.branch.name;
 
     this.props.repoActions.loadCommitsForBranch(branchName, repoName, pageNum).then(() => {
-      let currentPageNum = this.props.branch.commits.currentPageNum;
-      toastr.success("Loaded page of commits. (Page " + currentPageNum + " of " + this.props.branch.commits.totalNumPages + ")");
+      let currentPageNum = this.props.currentPaginationState.currentPageNum;
+      toastr.success("Loaded page of commits. (Page " + currentPageNum + " of " + this.props.currentPaginationState.totalNumPages + ")");
     }).catch(error => {
       let currentPageNum = 0;
       let totalNumPages = 0;
-      let branchCommitsObj = this.props.branch.commits;
 
-      if(branchCommitsObj){
-        let tempCurPageNum = branchCommitsObj.currentPageNum;
-        let tempTotalNumPages = branchCommitsObj.totalNumPages;
+      let tempCurPageNum = this.props.currentPaginationState.currentPageNum;
+      let tempTotalNumPages = this.props.currentPaginationState.totalNumPages;
 
-        if(tempCurPageNum){
-          currentPageNum = tempCurPageNum;
-        }
+      if(tempCurPageNum){
+        currentPageNum = tempCurPageNum;
+      }
 
-        if(tempTotalNumPages){
-          totalNumPages = tempTotalNumPages;
-        }
-
+      if(tempTotalNumPages){
+        totalNumPages = tempTotalNumPages;
       }
 
       if(error instanceof InvalidPageError){
@@ -155,29 +151,26 @@ class CommitsPage extends React.Component {
     );
 
     if(branch.commits !== null){
-      let totalNumPages = branch.commits.totalNumPages;
-      let currentPageNum = branch.commits.currentPageNum;
-      let paginatedCommits = branch.commits.paginatedCommits;
+      const {totalNumPages} = this.props.currentPaginationState;
+      const {currentPageNum} = this.props.currentPaginationState;
 
-      if(paginatedCommits !== null) {
-        commitsListElement = (
-          <div className="panel-body">
-            <span className="bold">Select a commit:</span>
+      commitsListElement = (
+        <div className="panel-body">
+          <span className="bold">Select a commit:</span>
 
-            <Pagination firstPageNum={FIRST_PAGE_NUM}
-                        lastPageNum={totalNumPages}
-                        currentPageNum={currentPageNum}
-                        handlePageSelect={this.handlePageSelect}
-                        handleFirstPageSelect={this.handleFirstPageSelect}
-                        handleLastPageSelect={this.handleLastPageSelect}
-                        handleNextPageSelect={this.handleNextPageSelect}
-                        handlePrevPageSelect={this.handlePrevPageSelect} />
+          <Pagination firstPageNum={FIRST_PAGE_NUM}
+                      lastPageNum={totalNumPages}
+                      currentPageNum={currentPageNum}
+                      handlePageSelect={this.handlePageSelect}
+                      handleFirstPageSelect={this.handleFirstPageSelect}
+                      handleLastPageSelect={this.handleLastPageSelect}
+                      handleNextPageSelect={this.handleNextPageSelect}
+                      handlePrevPageSelect={this.handlePrevPageSelect} />
 
-            <CommitsList repoId={repo.id} repoName={repo.name} branchName={branch.name}
-                         commits={paginatedCommits} onSelect={this.handleCommitSelect}/>
-          </div>
-        );
-      }
+          <CommitsList repoId={repo.id} repoName={repo.name} branchName={branch.name}
+                       commits={branch.commits} onSelect={this.handleCommitSelect}/>
+        </div>
+      );
     }
 
     return (
@@ -204,12 +197,15 @@ class CommitsPage extends React.Component {
 CommitsPage.propTypes = {
   repo: PropTypes.object.isRequired,
   branch: PropTypes.object.isRequired,
+  currentPaginationState: PropTypes.object.isRequired,
   repoActions: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state, ownProps) {
   const repoId = ownProps.params.repoId;
   const branchName = ownProps.params.branchName;
+
+  const {currentPaginationState} = state;
 
   let repo = {};
   let branch = {};
@@ -224,7 +220,8 @@ function mapStateToProps(state, ownProps) {
 
   return {
     repo: repo,
-    branch: branch
+    branch: branch,
+    currentPaginationState: currentPaginationState
   };
 }
 

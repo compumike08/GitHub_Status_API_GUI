@@ -157,10 +157,10 @@ export function extractParamFromURL(paramName, urlString){
  * Validates that the requested pagination page number falls within the expected range
  *
  * @param {Number} requestedPageNum - The requested page number to validate
- * @param {Object} paginationWrappedObj - The pagination wrapper object
+ * @param {Number} totalNumPages - The total number of pages available
  * @return {boolean} True if requested page number is valid; false otherwise
  */
-export function validateRequestedPageNum(requestedPageNum, paginationWrappedObj){
+export function validateRequestedPageNum(requestedPageNum, totalNumPages){
   let isValid = true;
 
   // TODO: Once a better error logger has been implemented, change all of the following console.log statements to only display when logging is set to DEBUG
@@ -175,22 +175,14 @@ export function validateRequestedPageNum(requestedPageNum, paginationWrappedObj)
         isValid = false;
         console.log("Validation Failed: requestedPageNum is less than 1");
       } else {
-        if (!Axis.isObject(paginationWrappedObj)) {
+        if (!Axis.isNumber(totalNumPages)) {
           isValid = false;
-          console.log("Validation Failed: paginationWrappedObj is not an Object");
+          console.log("Validation Failed: totalNumPages is not a Number");
         } else {
-          const totalNumPages = paginationWrappedObj.totalNumPages;
-
-          if (!Axis.isNumber(totalNumPages)) {
+          if (requestedPageNum > totalNumPages) {
             isValid = false;
-            console.log("Validation Failed: paginationWrappedObj.totalNumPages is not a Number");
-          } else {
-            if (requestedPageNum > totalNumPages) {
-              isValid = false;
-              console.log("Validation Failed: requestedPageNum is greater than paginationWrappedObj.totalNumPages");
-            }
+            console.log("Validation Failed: requestedPageNum is greater than totalNumPages");
           }
-
         }
       }
     }

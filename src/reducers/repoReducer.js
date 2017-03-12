@@ -30,20 +30,14 @@ export default function repoReducer(state = initialState.repos, action) {
       ];
     }
     case types.COMMITS_LOADED_FOR_BRANCH: {
-      let newRepo = state.find(filterRepo => filterRepo.name === action.repo.name);
-      let findBranchIndex = newRepo.branches.findIndex(findBranch => findBranch.name === action.branch.name);
+      const newRepo = state.find(filterRepo => filterRepo.name === action.repo.name);
+      const findBranchIndex = newRepo.branches.findIndex(findBranch => findBranch.name === action.branch.name);
+      const rawCommitsArray = Array.from(action.commits);
 
-      newRepo.branches[findBranchIndex].commits = {};
-      newRepo.branches[findBranchIndex].commits.currentPageNum = parseInt(action.commitsPageObj.pageNum, 10);
-      newRepo.branches[findBranchIndex].commits.totalNumPages = parseInt(action.commitsPageObj.lastPageNum, 10);
-      newRepo.branches[findBranchIndex].commits.paginatedCommits = Array.from(action.commitsPageObj.pageData);
-
-      newRepo.branches[findBranchIndex].commits.paginatedCommits = newRepo.branches[findBranchIndex].commits.paginatedCommits.map(commit => {
-        let newCommitObj = {
+      newRepo.branches[findBranchIndex].commits = rawCommitsArray.map(commit => {
+        return {
           ...commit
         };
-
-        return newCommitObj;
       });
 
       return [

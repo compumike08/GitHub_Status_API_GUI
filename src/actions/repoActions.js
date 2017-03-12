@@ -1,6 +1,7 @@
 import * as types from './actionTypes';
 import GithubAPI from '../api/githubAPI';
 import {GITHUB_ACCOUNT_NAME} from '../utils/constants';
+import {loadPaginationState} from '../actions/paginationActions';
 import * as utilityMethods from '../utils/utilityMethods';
 import InvalidPageError from '../errors/InvalidPageError';
 
@@ -12,8 +13,8 @@ export function branchesLoadedForRepo(branches, repo){
   return {type: types.BRANCHES_LOADED_FOR_REPO, branches, repo};
 }
 
-export function commitsLoadedForBranch(commitsPageObj, branch, repo){
-  return {type: types.COMMITS_LOADED_FOR_BRANCH, commitsPageObj, branch, repo};
+export function commitsLoadedForBranch(commits, branch, repo){
+  return {type: types.COMMITS_LOADED_FOR_BRANCH, commits, branch, repo};
 }
 
 export function loadRepos(){
@@ -58,12 +59,12 @@ export function loadBranchesForRepo(repoName){
 export function loadCommitsForBranch(branchName, repoName, pageNum = 1){
   return function(dispatch, getState) {
     const currentState = getState();
+    const totalNumPages = currentState.currentPaginationState.totalNumPages;
 
     let repo = findRepoByNameFromState(currentState.repos, repoName);
     let branch = findBranchByNameFromRepo(repo, branchName);
-    let paginatedCommitsObj = branch.commits;
 
-    let isValidRequestedPageNum = utilityMethods.validateRequestedPageNum(pageNum, paginatedCommitsObj);
+    let isValidRequestedPageNum = utilityMethods.validateRequestedPageNum(pageNum, totalNumPages);
 
     if(!isValidRequestedPageNum) {
       return new Promise(() => {
@@ -72,7 +73,9 @@ export function loadCommitsForBranch(branchName, repoName, pageNum = 1){
     }
 
     return GithubAPI.getCommitsOnBranch(repo.owner.login, repo.name, branch.name, pageNum).then(commitsPageObj => {
-      dispatch(commitsLoadedForBranch(commitsPageObj, branch, repo));
+      const commitsPageData = commitsPageObj.pageData;
+      dispatch(loadPaginationState(commitsPageObj.pageNum, commitsPageObj.totalNumPages));
+      dispatch(commitsLoadedForBranch(commitsPageData, branch, repo));
     }).catch(error => {
       //TODO: Improve error handling instead of re-throwing error
       throw(error);
