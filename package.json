@@ -1,6 +1,6 @@
 {
   "name": "github-status-api-gui",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "GUI tool to interact with GitHub Status API",
   "engines": {
     "npm": ">=3"
