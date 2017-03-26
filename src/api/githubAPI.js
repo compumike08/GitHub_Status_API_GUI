@@ -211,7 +211,8 @@ class GithubApi {
    * @returns {Promise} A promise which resolves to a combined status object, or rejects with a String error message.
    * @public
    */
-  static getCombinedStatusForRef(ownerLogin, repoName, ref) {
+  //static getCombinedStatusForRef(ownerLogin, repoName, ref) {
+  static getCombinedStatusForRef() {
     return new Promise((resolve, reject) => {
       reject("Support for the combined status endpoint is not yet available in the Github.js library");
 
