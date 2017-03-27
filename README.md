@@ -18,11 +18,11 @@ Make sure you follow the instructions for setting up Gatekeeper in Gatekeeper's 
 ## Configuring GitHub Status API GUI
 You will need to set the following values in the [`src/utils/constants.js`](src/utils/constants.js) file before you can run the GitHub Status API GUI application:
 
-1)  **GitHub Application Client ID:** This is the Client ID which will be generated and provided to you by GitHub when you [register your new OAuth application](#Using-OAuth-with-GitHub).
+1)  **GitHub Application Client ID:** This is the Client ID which will be generated and provided to you by GitHub when you [register your new OAuth application](#using-oauth-with-github).
 ```JavaScript
 export const CLIENT_ID = "abcdefghij0123456789";
 ```
-2)  **Gatekeeper Authentication URL:** This is the URL where you deployed your instance of [Gatekeeper](#Deploying-Gatekeeper).
+2)  **Gatekeeper Authentication URL:** This is the URL where you deployed your instance of [Gatekeeper](#deploying-gatekeeper).
 ```JavaScript
 export const GATEKEEPER_AUTH_URL = "https://your.server.domain/authenticate/";
 ```
