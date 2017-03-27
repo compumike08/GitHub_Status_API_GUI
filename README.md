@@ -11,7 +11,10 @@ In order for OAuth authentication with GitHub to work, you must configure and de
 ##### Deploying Gatekeeper
 You can easily deploy an instance of [Gatekeeper](https://github.com/prose/gatekeeper) directly to Heroku or Azure by clicking the appropriate button in Gatekeeper's [README.md](https://github.com/prose/gatekeeper#deploy-on-heroku) file.
 
-Alternativly, you can clone the Gatekeeper repository and build/deploy Gatekeeper to any web server manually. If you choose this option, make sure you follow the instructions for setting up Gatekeeper in Gatekeeper's [README.md](https://github.com/prose/gatekeeper#setup-your-gatekeeper) file.
+Alternativly, you can clone the Gatekeeper repository and build/deploy Gatekeeper to any web server manually.
+
+Make sure you follow the instructions for setting up Gatekeeper in Gatekeeper's [README.md](https://github.com/prose/gatekeeper#setup-your-gatekeeper) file, including setting the client secret you obtained from GitHub when [registering your OAuth application](#Using-OAuth-with-GitHub). See Gatekeeper's [README.md](https://github.com/prose/gatekeeper#setup-your-gatekeeper) for more details.
+
 
 ## Known Bugs/Limitations
 -   **The commits list page is the only page which currently supports [pagination](https://developer.github.com/v3/#pagination) of data returned from GitHub API.**
