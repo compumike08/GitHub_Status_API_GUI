@@ -13,7 +13,7 @@ You can easily deploy an instance of [Gatekeeper](https://github.com/prose/gatek
 
 Alternativly, you can clone the Gatekeeper repository and build/deploy Gatekeeper to any web server manually.
 
-Make sure you follow the instructions for setting up Gatekeeper in Gatekeeper's [README.md](https://github.com/prose/gatekeeper#setup-your-gatekeeper) file, including setting the client secret you obtained from GitHub when [registering your OAuth application](#Using-OAuth-with-GitHub). See Gatekeeper's [README.md](https://github.com/prose/gatekeeper#setup-your-gatekeeper) for more details.
+Make sure you follow the instructions for setting up Gatekeeper in Gatekeeper's [README.md](https://github.com/prose/gatekeeper#setup-your-gatekeeper) file, including setting the client secret you obtained from GitHub when [registering your OAuth application](#using-oauth-with-github). See Gatekeeper's [README.md](https://github.com/prose/gatekeeper#setup-your-gatekeeper) for more details.
 
 ## Configuring GitHub Status API GUI
 You will need to set the following values in the [`src/utils/constants.js`](src/utils/constants.js) file before you can run the GitHub Status API GUI application:
