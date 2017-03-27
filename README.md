@@ -9,6 +9,9 @@ In order for OAuth authentication with GitHub to work, you must configure and de
 You can easily deploy an instance of [Gatekeeper](https://github.com/prose/gatekeeper) directly to Heroku or Azure by clicking the appropriate button in Gatekeeper's [README.md](https://github.com/prose/gatekeeper#deploy-on-heroku) file.
 
 Alternativly, you can clone the Gatekeeper repository and build/deploy Gatekeeper to any web server manually. If you choose this option, make sure you follow the instructions for setting up Gatekeeper in Gatekeeper's [README.md](https://github.com/prose/gatekeeper#setup-your-gatekeeper) file.
+
+## Using OAuth with GitHub
+In order for your instance of the GitHub Status API GUI application to authenticate to GitHub using OAuth, you must first [register a new OAuth application](https://github.com/settings/applications/new) for your instance. For more information, see GitHub's [OAuth documentation for developers](https://developer.github.com/v3/oauth/#oauth).
 ### License & Copyright
 -   [LICENSE](LICENSE)
 
