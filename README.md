@@ -12,6 +12,18 @@ Alternativly, you can clone the Gatekeeper repository and build/deploy Gatekeepe
 
 ## Using OAuth with GitHub
 In order for your instance of the GitHub Status API GUI application to authenticate to GitHub using OAuth, you must first [register a new OAuth application](https://github.com/settings/applications/new) for your instance. For more information, see GitHub's [OAuth documentation for developers](https://developer.github.com/v3/oauth/#oauth).
+## Known Bugs/Limitations
+-   **The commits list page is the only page which currently supports [pagination](https://developer.github.com/v3/#pagination) of data returned from GitHub API.**
+
+    -   For all other views, you can only see the first page of records returned from the GitHub API. By default, the maximum number of records per page of data is 30 (see GitHub issue [#45](https://github.com/compumike08/GitHub_Status_API_GUI/issues/45))
+
+    -   _This is a result of limitations of the library this application uses to interface with the GitHub API. Full support for pagination of all data views in the GitHub Status API GUI application will be added in a future release._
+-   **The "View Combined Status" button on the commits list page currently doesn't work.**
+
+    -   _This is because the library used to interface with the GitHub API does not currently support the [combined status endpoint](https://developer.github.com/v3/repos/statuses/#get-the-combined-status-for-a-specific-ref)._
+
+    -   ![Combined Status Button Screenshot](docs/img/Combined_Status_Button_Screenshot.png)
+
 ### License & Copyright
 -   [LICENSE](LICENSE)
 
