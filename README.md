@@ -15,6 +15,21 @@ Alternativly, you can clone the Gatekeeper repository and build/deploy Gatekeepe
 
 Make sure you follow the instructions for setting up Gatekeeper in Gatekeeper's [README.md](https://github.com/prose/gatekeeper#setup-your-gatekeeper) file, including setting the client secret you obtained from GitHub when [registering your OAuth application](#Using-OAuth-with-GitHub). See Gatekeeper's [README.md](https://github.com/prose/gatekeeper#setup-your-gatekeeper) for more details.
 
+## Configuring GitHub Status API GUI
+You will need to set the following values in the [`src/utils/constants.js`](src/utils/constants.js) file before you can run the GitHub Status API GUI application:
+
+1)  **GitHub Application Client ID:** This is the Client ID which will be generated and provided to you by GitHub when you [register your new OAuth application](#Using-OAuth-with-GitHub).
+```JavaScript
+export const CLIENT_ID = "abcdefghij0123456789";
+```
+2)  **Gatekeeper Authentication URL:** This is the URL where you deployed your instance of [Gatekeeper](#Deploying-Gatekeeper).
+```JavaScript
+export const GATEKEEPER_AUTH_URL = "https://your.server.domain/authenticate/";
+```
+3) **GitHub Account Name:** This is the GitHub account name for the account which owns the repositories you want to access (it does not have to be the same as the account you log into GitHub with, as long as your login account has been granted access to the repositories in question). It can also be an organziational account name.
+```JavaScript
+export const GITHUB_ACCOUNT_NAME = "anyuser123";
+```
 
 ## Known Bugs/Limitations
 -   **The commits list page is the only page which currently supports [pagination](https://developer.github.com/v3/#pagination) of data returned from GitHub API.**
