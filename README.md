@@ -31,6 +31,8 @@ export const GATEKEEPER_AUTH_URL = "https://your.server.domain/authenticate/";
 export const GITHUB_ACCOUNT_NAME = "anyuser123";
 ```
 
+*__NOTE:__ Future versions of this application will allow these configuration properties to be set in an external properties file on the Node.js web server hosting this application (see GitHub issue [#6](https://github.com/compumike08/GitHub_Status_API_GUI/issues/6)).*
+
 ## Known Bugs/Limitations
 -   __The commits list page is the only page which currently supports [pagination](https://developer.github.com/v3/#pagination) of data returned from GitHub API.__
 
