@@ -45,9 +45,11 @@ export const GITHUB_ACCOUNT_NAME = "anyuser123";
 
     -   ![Combined Status Button Screenshot](docs/img/Combined_Status_Button_Screenshot.png)
 
-### License & Copyright
--   [LICENSE](LICENSE)
+## Tools Used In Development
+This development enviornment for this project was created using Cory House's [`react-slingshot`](https://github.com/coryhouse/react-slingshot) tool, which is [available under the MIT License](https://github.com/coryhouse/react-slingshot/blob/master/LICENSE).
 
-This project was created using Cory House's [`react-slingshot`](https://github.com/coryhouse/react-slingshot) tool, which is [available under the MIT License](https://github.com/coryhouse/react-slingshot/blob/master/LICENSE).
+## License
+This project is licensed under the [MIT License](https://opensource.org/licenses/MIT). See [LICENSE](LICENSE) file for details.
 
+## Copyright
 Copyright &copy; 2017 Michael Hadjiosif
