@@ -18,28 +18,28 @@ Make sure you follow the instructions for setting up Gatekeeper in Gatekeeper's 
 ## Configuring GitHub Status API GUI
 You will need to set the following values in the [`src/utils/constants.js`](src/utils/constants.js) file before you can run the GitHub Status API GUI application:
 
-1)  **GitHub Application Client ID:** This is the Client ID which will be generated and provided to you by GitHub when you [register your new OAuth application](#using-oauth-with-github).
+1)  __GitHub Application Client ID:__ This is the Client ID which will be generated and provided to you by GitHub when you [register your new OAuth application](#using-oauth-with-github).
 ```JavaScript
 export const CLIENT_ID = "abcdefghij0123456789";
 ```
-2)  **Gatekeeper Authentication URL:** This is the URL where you deployed your instance of [Gatekeeper](#deploying-gatekeeper).
+2)  __Gatekeeper Authentication URL:__ This is the URL where you deployed your instance of [Gatekeeper](#deploying-gatekeeper).
 ```JavaScript
 export const GATEKEEPER_AUTH_URL = "https://your.server.domain/authenticate/";
 ```
-3) **GitHub Account Name:** This is the GitHub account name for the account which owns the repositories you want to access (it does not have to be the same as the account you log into GitHub with, as long as your login account has been granted access to the repositories in question). It can also be an organziational account name.
+3) __GitHub Account Name:__ This is the GitHub account name for the account which owns the repositories you want to access (it does not have to be the same as the account you log into GitHub with, as long as your login account has been granted access to the repositories in question). It can also be an organziational account name.
 ```JavaScript
 export const GITHUB_ACCOUNT_NAME = "anyuser123";
 ```
 
 ## Known Bugs/Limitations
--   **The commits list page is the only page which currently supports [pagination](https://developer.github.com/v3/#pagination) of data returned from GitHub API.**
+-   __The commits list page is the only page which currently supports [pagination](https://developer.github.com/v3/#pagination) of data returned from GitHub API.__
 
     -   For all other views, you can only see the first page of records returned from the GitHub API. By default, the maximum number of records per page of data is 30 (see GitHub issue [#45](https://github.com/compumike08/GitHub_Status_API_GUI/issues/45))
 
-    -   _This is a result of limitations of the library this application uses to interface with the GitHub API. Full support for pagination of all data views in the GitHub Status API GUI application will be added in a future release._
--   **The "View Combined Status" button on the commits list page currently doesn't work.**
+    -   *This is a result of limitations of the library this application uses to interface with the GitHub API. Full support for pagination of all data views in the GitHub Status API GUI application will be added in a future release.*
+-   __The "View Combined Status" button on the commits list page currently doesn't work.__
 
-    -   _This is because the library used to interface with the GitHub API does not currently support the [combined status endpoint](https://developer.github.com/v3/repos/statuses/#get-the-combined-status-for-a-specific-ref)._
+    -   *This is because the library used to interface with the GitHub API does not currently support the [combined status endpoint](https://developer.github.com/v3/repos/statuses/#get-the-combined-status-for-a-specific-ref).*
 
     -   ![Combined Status Button Screenshot](docs/img/Combined_Status_Button_Screenshot.png)
 
