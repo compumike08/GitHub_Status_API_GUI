@@ -5808,9 +5808,9 @@ url-loader@0.5.7:
     loader-utils "0.2.x"
     mime "1.2.x"
 
-url-search-params@^0.6.1:
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/url-search-params/-/url-search-params-0.6.1.tgz#3adb7858b807d56b81e7abf3b9dae4978c03f99d"
+url-search-params@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/url-search-params/-/url-search-params-0.7.0.tgz#2545d3425d81ed3c903a213a501edb7d6ddd1be9"
 
 url@~0.10.1:
   version "0.10.3"
