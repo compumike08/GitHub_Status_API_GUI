@@ -123,10 +123,9 @@ function mapStateToProps(state, ownProps) {
 
     if (branchName && repo.branches.length > 0) {
       branch = getBranchByName(repo.branches, branchName);
-      let paginatedCommits = branch.commits.paginatedCommits;
 
-      if (commitSha && paginatedCommits.length > 0) {
-        commit = findCommitBySha(paginatedCommits, commitSha);
+      if (commitSha && branch.commits.length > 0) {
+        commit = findCommitBySha(branch.commits, commitSha);
       } else {
         toastr.error("Invalid commitSha or empty branch.commits array.");
       }
