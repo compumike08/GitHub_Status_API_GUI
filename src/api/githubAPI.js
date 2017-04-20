@@ -270,11 +270,13 @@ class GithubApi {
 /**
  * Processes an HTTP response object and wraps it in a pagination object.
  *
- * @param {Object} responseObj - The HTTP response object to be processed
+ * @param data
+ * @param headers
+ * @param currentPageNum
  * @return {PaginatedResponse} The response data wrapped in a pagination object
  * @private
  */
-function processPagination(responseObj){
+function processPagination(data, headers, currentPageNum){
   const REL_SEARCH_START_STRING = "rel=\"";
   const REL_SEARCH_END_STRING = "\"";
   const REL_SEARCH_STRING_LEN = REL_SEARCH_START_STRING.length;
@@ -282,9 +284,7 @@ function processPagination(responseObj){
   const LINK_SEARCH_END_STRING = ">";
   const LINK_SEARCH_START_STRING_LEN = LINK_SEARCH_START_STRING.length;
 
-  let requestURL = responseObj.request.responseURL;
-  let currentPageNum = utilityMethods.extractParamFromURL("page", requestURL);
-  let pageLinkString = responseObj.headers.link;
+  let pageLinkString = headers.link;
   let lastPageNum;
 
   if(pageLinkString){
@@ -325,7 +325,7 @@ function processPagination(responseObj){
     lastPageNum = 1;
   }
 
-  return new PaginatedResponse(parseInt(currentPageNum), parseInt(lastPageNum), responseObj.data);
+  return new PaginatedResponse(parseInt(currentPageNum), parseInt(lastPageNum), data);
 }
 
 /**
@@ -343,6 +343,28 @@ function cbFactory (resolve, reject) {
       reject("ERROR: GitHub responded with an error.");
     } else {
       resolve(data);
+    }
+  };
+}
+
+/**
+ * Generates a new callback function instance to use with Octonode library requests when response requires pagination
+ *
+ * @param {Function} resolve - a function to be invoked to resolve the promise using this callback
+ * @param {Function} reject - a function to be invoked to reject the promise using this callback
+ * @param {Number} pageNum - the page number of the current page of data being requested
+ * @return {Function} a function to be used as the callback when making a request using the Octonode library
+ * @private
+ */
+function cbWithPaginationFactory (resolve, reject, pageNum) {
+  return function(error, data, headers){
+    console.log(headers);
+    if (error) {
+      console.log(processResponseErrorMsg(error));
+      reject("ERROR: GitHub responded with an error.");
+    } else {
+      let paginatedResponseObj = processPagination(data, headers, pageNum);
+      resolve(paginatedResponseObj);
     }
   };
 }
