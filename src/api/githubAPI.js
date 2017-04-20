@@ -94,19 +94,10 @@ class GithubApi {
    */
   static getReposByOwner(ownerLogin) {
     return new Promise((resolve, reject) => {
-      reject("This API method is currently not supported.");
-      /*let ownerUser = octoClient.getUser(ownerLogin);
+      let octoUser = octoClient.user(ownerLogin);
+      let cb = cbFactory(resolve, reject);
 
-       let configOptions = {
-       type: "owner"
-       };
-
-       ownerUser.listRepos(configOptions).then(response => {
-       resolve(response.data);
-       }).catch(error => {
-       console.log(processResponseErrorMsg(error));
-       reject("ERROR: GitHub responded with an error.");
-       });*/
+      octoUser.repos(cb);
     });
   }
 
