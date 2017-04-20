@@ -1,43 +1,41 @@
-import GitHub from 'github-api';
+let Octo = require('octonode');
 import * as utilityMethods from '../utils/utilityMethods';
 import PaginatedResponse from '../data_structures/PaginatedResponse';
 
-let ghInstance = new GitHub({});
+let octoClient = Octo.client();
 
 class GithubApi {
 
   /**
-   * Creates new GitHub instance initialized with the oauth token passed to this method.
+   * Creates new Octonode client instance initialized with the oauth token passed to this method.
    *
-   * http://github-tools.github.io/github/docs/3.1.0/GitHub.html
-   * http://github-tools.github.io/github/docs/3.1.0/Requestable.html#.auth
+   * https://github.com/pksunkara/octonode#build-a-client-from-an-access-token
    *
-   * @param {String} token - The oauth token to store in new GitHub instance.
-   * @returns {Promise} A promise which resolves after GitHub instance is created with oauth token.
+   * @param {String} token - The oauth token to store in new Octonode client instance.
+   * @returns {Promise} A promise which resolves after Octonode client instance is created.
    * @public
    */
   static addTokenToGhApi(token) {
     return new Promise(resolve => {
-      ghInstance = new GitHub({
-        token: token
-      });
+      octoClient = Octo.client(token);
+      // This is required for CORS requests to pass preflight checks using the Octonode library (due to 'request' library used by Octonode)
+      octoClient.requestDefaults['withCredentials'] = false;
       resolve();
     });
   }
 
   /**
-   * Removes currently stored GitHub oauth token from GitHub instance by
-   * overwriting current GitHub instance with a new, empty GitHub instance.
+   * Removes currently stored GitHub oauth token from Octonode client instance by
+   * overwriting current Octonode client instance with a new, empty Octonode client instance.
    *
-   * http://github-tools.github.io/github/docs/3.1.0/GitHub.html
-   * http://github-tools.github.io/github/docs/3.1.0/Requestable.html#.auth
+   * https://github.com/pksunkara/octonode#build-a-client-which-accesses-any-public-information
    *
-   * @returns {Promise} A promise which resolves after GitHub instance is overwritten.
+   * @returns {Promise} A promise which resolves after Octonode client instance is overwritten.
    * @public
    */
   static removeTokenFromGhApi() {
     return new Promise((resolve) => {
-      ghInstance = new GitHub({});
+      octoClient = Octo.client();
       resolve();
     });
   }
@@ -52,14 +50,18 @@ class GithubApi {
    */
   static getAuthenticatedUser() {
     return new Promise((resolve, reject) => {
-      let user = ghInstance.getUser();
+      let octoMe = octoClient.me();
 
-      user.getProfile().then(response => {
-        resolve(response.data);
-      }).catch(error => {
-        console.log(getErrorResponseMsg(error));
-        reject("ERROR: GitHub responded with an error.");
-      });
+      let cb = function (error, data) {
+        if (error) {
+          console.log(processResponseErrorMsg(error));
+          reject("ERROR: GitHub responded with an error.");
+        }else{
+          resolve(data);
+        }
+      };
+
+      octoMe.info(cb);
     });
   }
 
@@ -357,14 +359,37 @@ function processPagination(responseObj){
 }
 
 /**
- * Extracts error message from error returned from Github.js library.
+ * Logs and processes error messages returned from Octonode library.
  *
- * @param {Error} error - The error returned from GitHub.js library.
- * @returns {string} The 'error.message' string extracted from the Error.
+ * @param {Error} error - The error returned from Octonode library.
+ * @returns {string} A string giving a general description of the type of error.
  * @private
  */
-function getErrorResponseMsg(error) {
-  let errMsg = error.message;
+function processResponseErrorMsg(error) {
+  let errMsg = "";
+
+  if(error instanceof Error){
+    if(error.constructor.name === "HttpError") {
+
+      console.log("An HttpError occurred in response to GitHub HTTP request.");
+      console.log("   HTTP Response Status Code: " + error.statusCode);
+      console.log("   HTTP Response Message: " + error.message);
+
+      console.log("ERROR DETAILS:");
+      console.log(error);
+
+      errMsg = "An HttpError occured in response to GitHub HTTP request.";
+    }else{
+      console.log(error);
+
+      errMsg = "An unknown error occured in response to GitHub HTTP request.";
+    }
+  }else{
+    console.log(error);
+
+    errMsg = "An invalid error object was passed to processResponseErrorMsg function.";
+  }
+
   return errMsg;
 }
 
