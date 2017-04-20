@@ -51,15 +51,7 @@ class GithubApi {
   static getAuthenticatedUser() {
     return new Promise((resolve, reject) => {
       let octoMe = octoClient.me();
-
-      let cb = function (error, data) {
-        if (error) {
-          console.log(processResponseErrorMsg(error));
-          reject("ERROR: GitHub responded with an error.");
-        }else{
-          resolve(data);
-        }
-      };
+      let cb = cbFactory(resolve, reject);
 
       octoMe.info(cb);
     });
@@ -356,6 +348,25 @@ function processPagination(responseObj){
   }
 
   return new PaginatedResponse(parseInt(currentPageNum), parseInt(lastPageNum), responseObj.data);
+}
+
+/**
+ * Generates a new callback function instance to use with Octonode library requests
+ *
+ * @param {Function} resolve - a function to be invoked to resolve the promise using this callback
+ * @param {Function} reject - a function to be invoked to reject the promise using this callback
+ * @return {Function} a function to be used as the callback when making a request using the Octonode library
+ * @private
+ */
+function cbFactory (resolve, reject) {
+  return function(error, data){
+    if (error) {
+      console.log(processResponseErrorMsg(error));
+      reject("ERROR: GitHub responded with an error.");
+    } else {
+      resolve(data);
+    }
+  };
 }
 
 /**
