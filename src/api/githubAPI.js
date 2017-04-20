@@ -73,18 +73,19 @@ class GithubApi {
    */
   static getCurrentUserAllRepos() {
     return new Promise((resolve, reject) => {
-      let ownerUser = ghInstance.getUser();
+      reject("This API method is currently not supported.");
+      /*let ownerUser = octoClient.getUser();
 
-      let configOptions = {
-        type: "owner"
-      };
+       let configOptions = {
+       type: "owner"
+       };
 
-      ownerUser.listRepos(configOptions).then(response => {
-        resolve(response.data);
-      }).catch(error => {
-        console.log(getErrorResponseMsg(error));
-        reject("ERROR: GitHub responded with an error.");
-      });
+       ownerUser.listRepos(configOptions).then(response => {
+       resolve(response.data);
+       }).catch(error => {
+       console.log(processResponseErrorMsg(error));
+       reject("ERROR: GitHub responded with an error.");
+       });*/
     });
   }
 
@@ -99,18 +100,19 @@ class GithubApi {
    */
   static getReposByOwner(ownerLogin) {
     return new Promise((resolve, reject) => {
-      let ownerUser = ghInstance.getUser(ownerLogin);
+      reject("This API method is currently not supported.");
+      /*let ownerUser = octoClient.getUser(ownerLogin);
 
-      let configOptions = {
-        type: "owner"
-      };
+       let configOptions = {
+       type: "owner"
+       };
 
-      ownerUser.listRepos(configOptions).then(response => {
-        resolve(response.data);
-      }).catch(error => {
-        console.log(getErrorResponseMsg(error));
-        reject("ERROR: GitHub responded with an error.");
-      });
+       ownerUser.listRepos(configOptions).then(response => {
+       resolve(response.data);
+       }).catch(error => {
+       console.log(processResponseErrorMsg(error));
+       reject("ERROR: GitHub responded with an error.");
+       });*/
     });
   }
 
@@ -126,14 +128,15 @@ class GithubApi {
    */
   static getBranchesInRepo(ownerLogin, repoName) {
     return new Promise((resolve, reject) => {
-      let repo = ghInstance.getRepo(ownerLogin, repoName);
+      reject("This API method is currently not supported.");
+      /*let repo = octoClient.getRepo(ownerLogin, repoName);
 
-      repo.listBranches().then(response => {
-        resolve(response.data);
-      }).catch(error => {
-        console.log(getErrorResponseMsg(error));
-        reject("ERROR: GitHub responded with an error when fetching branches in repo '" + ownerLogin + "/" + repoName + "'");
-      });
+       repo.listBranches().then(response => {
+       resolve(response.data);
+       }).catch(error => {
+       console.log(processResponseErrorMsg(error));
+       reject("ERROR: GitHub responded with an error when fetching branches in repo '" + ownerLogin + "/" + repoName + "'");
+       });*/
     });
   }
 
@@ -151,21 +154,22 @@ class GithubApi {
    */
   static getCommitsOnBranch(ownerLogin, repoName, branchName, inPageNum) {
     return new Promise((resolve, reject) => {
-      let repo = ghInstance.getRepo(ownerLogin, repoName);
+      reject("This API method is currently not supported.");
+      /*let repo = octoClient.getRepo(ownerLogin, repoName);
 
-      let options = {
-        page: inPageNum,
-        sha: branchName
-      };
+       let options = {
+       page: inPageNum,
+       sha: branchName
+       };
 
-      repo.listCommits(options).then(response => {
-        let paginatedResponseObject = processPagination(response);
+       repo.listCommits(options).then(response => {
+       let paginatedResponseObject = processPagination(response);
 
-        resolve(paginatedResponseObject);
-      }).catch(error => {
-        console.log(getErrorResponseMsg(error));
-        reject("ERROR: GitHub responded with an error when fetching commits on branch '" + branchName + "' in repo '" + ownerLogin + "/" + repoName + "'");
-      });
+       resolve(paginatedResponseObject);
+       }).catch(error => {
+       console.log(processResponseErrorMsg(error));
+       reject("ERROR: GitHub responded with an error when fetching commits on branch '" + branchName + "' in repo '" + ownerLogin + "/" + repoName + "'");
+       });*/
     });
   }
 
@@ -182,20 +186,21 @@ class GithubApi {
    */
   static getStatusesForCommit(ownerLogin, repoName, commitRef) {
     return new Promise((resolve, reject) => {
-      let isCommitRefParamValid = utilityMethods.validateCommitReference(commitRef);
+      reject("This API method is currently not supported.");
+      /*let isCommitRefParamValid = utilityMethods.validateCommitReference(commitRef);
 
-      if (isCommitRefParamValid) {
-        let repo = ghInstance.getRepo(ownerLogin, repoName);
+       if (isCommitRefParamValid) {
+       let repo = octoClient.getRepo(ownerLogin, repoName);
 
-        repo.listStatuses(commitRef).then(response => {
-          resolve(response.data);
-        }).catch(error => {
-          console.log(getErrorResponseMsg(error));
-          reject("ERROR: GitHub responded with an error.");
-        });
-      } else {
-        reject("ERROR: Invalid commitRef parameter passed to GithubApi component.");
-      }
+       repo.listStatuses(commitRef).then(response => {
+       resolve(response.data);
+       }).catch(error => {
+       console.log(processResponseErrorMsg(error));
+       reject("ERROR: GitHub responded with an error.");
+       });
+       } else {
+       reject("ERROR: Invalid commitRef parameter passed to GithubApi component.");
+       }*/
     });
   }
 
@@ -252,39 +257,40 @@ class GithubApi {
    */
   static createStatusForCommit(ownerLogin, repoName, commitSha, state, description, targetUrl, context) {
     return new Promise((resolve, reject) => {
-      let isCommitRefParamValid = utilityMethods.validateCommitReference(commitSha);
+      reject("This API method is currently not supported.");
+      /*let isCommitRefParamValid = utilityMethods.validateCommitReference(commitSha);
 
-      if (isCommitRefParamValid) {
-        let repo = ghInstance.getRepo(ownerLogin, repoName);
-        let createParams = {};
+       if (isCommitRefParamValid) {
+       let repo = octoClient.getRepo(ownerLogin, repoName);
+       let createParams = {};
 
-        if (utilityMethods.validateGitHubStatusState(state)) {
-          createParams.state = state;
-        } else {
-          throw new Error("Invalid GitHub status state string passed to createStatusForCommit method in GithubApi componenet.");
-        }
+       if (utilityMethods.validateGitHubStatusState(state)) {
+       createParams.state = state;
+       } else {
+       throw new Error("Invalid GitHub status state string passed to createStatusForCommit method in GithubApi componenet.");
+       }
 
-        if (utilityMethods.isValidString(description)) {
-          createParams.description = description;
-        }
+       if (utilityMethods.isValidString(description)) {
+       createParams.description = description;
+       }
 
-        if (utilityMethods.isValidString(targetUrl)) {
-          createParams.target_url = targetUrl;
-        }
+       if (utilityMethods.isValidString(targetUrl)) {
+       createParams.target_url = targetUrl;
+       }
 
-        if (utilityMethods.isValidString(context)) {
-          createParams.context = context;
-        }
+       if (utilityMethods.isValidString(context)) {
+       createParams.context = context;
+       }
 
-        repo.updateStatus(commitSha, createParams).then(response => {
-          resolve(response.data);
-        }).catch(error => {
-          console.log(getErrorResponseMsg(error));
-          reject("ERROR: GitHub responded with an error.");
-        });
-      } else {
-        reject("ERROR: Invalid ref parameter passed to GithubApi component.");
-      }
+       repo.updateStatus(commitSha, createParams).then(response => {
+       resolve(response.data);
+       }).catch(error => {
+       console.log(processResponseErrorMsg(error));
+       reject("ERROR: GitHub responded with an error.");
+       });
+       } else {
+       reject("ERROR: Invalid ref parameter passed to GithubApi component.");
+       }*/
     });
   }
 }
