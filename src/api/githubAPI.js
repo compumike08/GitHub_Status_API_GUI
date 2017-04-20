@@ -104,15 +104,11 @@ class GithubApi {
    */
   static getBranchesInRepo(ownerLogin, repoName) {
     return new Promise((resolve, reject) => {
-      reject("This API method is currently not supported.");
-      /*let repo = octoClient.getRepo(ownerLogin, repoName);
+      let repoFullName = ownerLogin + "/" + repoName;
+      let octoRepo = octoClient.repo(repoFullName);
+      let cb = cbFactory(resolve, reject);
 
-       repo.listBranches().then(response => {
-       resolve(response.data);
-       }).catch(error => {
-       console.log(processResponseErrorMsg(error));
-       reject("ERROR: GitHub responded with an error when fetching branches in repo '" + ownerLogin + "/" + repoName + "'");
-       });*/
+      octoRepo.branches(cb);
     });
   }
 
