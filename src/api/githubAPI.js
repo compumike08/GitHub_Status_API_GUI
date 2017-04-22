@@ -126,22 +126,16 @@ class GithubApi {
    */
   static getCommitsOnBranch(ownerLogin, repoName, branchName, inPageNum) {
     return new Promise((resolve, reject) => {
-      reject("This API method is currently not supported.");
-      /*let repo = octoClient.getRepo(ownerLogin, repoName);
+      let repoFullName = ownerLogin + "/" + repoName;
+      let octoRepo = octoClient.repo(repoFullName);
+      let cb = cbWithPaginationFactory(resolve, reject, inPageNum);
 
-       let options = {
-       page: inPageNum,
-       sha: branchName
-       };
+      let params = {
+        sha: branchName,
+        page: inPageNum
+      };
 
-       repo.listCommits(options).then(response => {
-       let paginatedResponseObject = processPagination(response);
-
-       resolve(paginatedResponseObject);
-       }).catch(error => {
-       console.log(processResponseErrorMsg(error));
-       reject("ERROR: GitHub responded with an error when fetching commits on branch '" + branchName + "' in repo '" + ownerLogin + "/" + repoName + "'");
-       });*/
+      octoRepo.commits(params, cb);
     });
   }
 
