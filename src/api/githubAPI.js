@@ -1,4 +1,4 @@
-let Octo = require('octonode');
+import * as Octo from 'octonode';
 import * as utilityMethods from '../utils/utilityMethods';
 import PaginatedResponse from '../data_structures/PaginatedResponse';
 
