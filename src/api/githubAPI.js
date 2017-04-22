@@ -213,40 +213,37 @@ class GithubApi {
    */
   static createStatusForCommit(ownerLogin, repoName, commitSha, state, description, targetUrl, context) {
     return new Promise((resolve, reject) => {
-      reject("This API method is currently not supported.");
-      /*let isCommitRefParamValid = utilityMethods.validateCommitReference(commitSha);
+      let isCommitRefParamValid = utilityMethods.validateCommitReference(commitSha);
 
-       if (isCommitRefParamValid) {
-       let repo = octoClient.getRepo(ownerLogin, repoName);
-       let createParams = {};
+      if(isCommitRefParamValid) {
+        let repoFullName = ownerLogin + "/" + repoName;
+        let octoRepo = octoClient.repo(repoFullName);
+        let cb = cbFactory(resolve, reject);
 
-       if (utilityMethods.validateGitHubStatusState(state)) {
-       createParams.state = state;
-       } else {
-       throw new Error("Invalid GitHub status state string passed to createStatusForCommit method in GithubApi componenet.");
-       }
+        let createParams = {};
 
-       if (utilityMethods.isValidString(description)) {
-       createParams.description = description;
-       }
+        if (utilityMethods.validateGitHubStatusState(state)) {
+          createParams.state = state;
+        } else {
+          throw new Error("Invalid GitHub status state string passed to createStatusForCommit method in GithubApi componenet.");
+        }
 
-       if (utilityMethods.isValidString(targetUrl)) {
-       createParams.target_url = targetUrl;
-       }
+        if (utilityMethods.isValidString(description)) {
+          createParams.description = description;
+        }
 
-       if (utilityMethods.isValidString(context)) {
-       createParams.context = context;
-       }
+        if (utilityMethods.isValidString(targetUrl)) {
+          createParams.target_url = targetUrl;
+        }
 
-       repo.updateStatus(commitSha, createParams).then(response => {
-       resolve(response.data);
-       }).catch(error => {
-       console.log(processResponseErrorMsg(error));
-       reject("ERROR: GitHub responded with an error.");
-       });
-       } else {
-       reject("ERROR: Invalid ref parameter passed to GithubApi component.");
-       }*/
+        if (utilityMethods.isValidString(context)) {
+          createParams.context = context;
+        }
+
+        octoRepo.status(commitSha, createParams, cb);
+      }else{
+        reject("ERROR: Invalid ref parameter passed to GithubApi component.");
+      }
     });
   }
 }
