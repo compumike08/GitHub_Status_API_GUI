@@ -152,21 +152,11 @@ class GithubApi {
    */
   static getStatusesForCommit(ownerLogin, repoName, commitRef) {
     return new Promise((resolve, reject) => {
-      reject("This API method is currently not supported.");
-      /*let isCommitRefParamValid = utilityMethods.validateCommitReference(commitRef);
+      let repoFullName = ownerLogin + "/" + repoName;
+      let octoRepo = octoClient.repo(repoFullName);
+      let cb = cbFactory(resolve, reject);
 
-       if (isCommitRefParamValid) {
-       let repo = octoClient.getRepo(ownerLogin, repoName);
-
-       repo.listStatuses(commitRef).then(response => {
-       resolve(response.data);
-       }).catch(error => {
-       console.log(processResponseErrorMsg(error));
-       reject("ERROR: GitHub responded with an error.");
-       });
-       } else {
-       reject("ERROR: Invalid commitRef parameter passed to GithubApi component.");
-       }*/
+      octoRepo.statuses(commitRef, cb);
     });
   }
 
