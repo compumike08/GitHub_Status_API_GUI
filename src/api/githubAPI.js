@@ -358,7 +358,6 @@ function cbFactory (resolve, reject) {
  */
 function cbWithPaginationFactory (resolve, reject, pageNum) {
   return function(error, data, headers){
-    console.log(headers);
     if (error) {
       console.log(processResponseErrorMsg(error));
       reject("ERROR: GitHub responded with an error.");
