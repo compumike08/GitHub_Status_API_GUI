@@ -1,3 +1,6 @@
+# Ignore dev environment config JSON files
+/configs/**/*.json
+
 # Logs
 logs
 *.log
