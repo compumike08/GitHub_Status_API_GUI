@@ -18,11 +18,7 @@ browserSync({
   https: true,
   cors: true,
   server: {
-    baseDir: 'dist',
-
-    routes: {
-      "/configs": "configs"
-    }
+    baseDir: 'dist'
   },
 
   files: [

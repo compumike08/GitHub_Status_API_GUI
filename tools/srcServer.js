@@ -50,11 +50,7 @@ browserSync({
 
       // bundler should be the same as above
       webpackHotMiddleware(bundler)
-    ],
-
-    routes: {
-      "/configs": "configs"
-    }
+    ]
   },
 
   // no need to watch '*.js' here, webpack will take care of it for us,
