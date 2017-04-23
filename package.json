@@ -9,7 +9,7 @@
     "preinstall": "node tools/nodeVersionCheck.js",
     "start-message": "babel-node tools/startMessage.js",
     "prestart": "npm-run-all --parallel start-message",
-    "start": "npm-run-all --parallel test:watch open:src lint:watch",
+    "start": "npm-run-all --parallel test:watch open:src start-config-server lint:watch",
     "open:src": "babel-node tools/srcServer.js",
     "open:dist": "babel-node tools/distServer.js",
     "lint": "esw webpack.config.* src tools --color",
@@ -22,7 +22,8 @@
     "test:cover": "npm run test -- --coverage ",
     "test:watch": "npm run test -- --watch",
     "open:cover": "npm run test:cover && open coverage/lcov-report/index.html",
-    "analyze-bundle": "babel-node ./tools/analyzeBundle.js"
+    "analyze-bundle": "babel-node ./tools/analyzeBundle.js",
+    "start-config-server": "node ./configServer/configServerRunner.js"
   },
   "author": "Michael Hadjiosif",
   "license": "MIT",
