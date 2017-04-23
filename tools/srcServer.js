@@ -1,5 +1,6 @@
 // This file configures the development web server
 // which supports hot reloading and synchronized testing.
+let proxy = require('http-proxy-middleware');
 
 // Require Browsersync along with webpack and middleware for it
 import browserSync from 'browser-sync';
@@ -12,6 +13,16 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 import config from '../webpack.config.dev';
 
 const bundler = webpack(config);
+
+// TODO: Replace hardcoded values with values from external configurations
+let proxyConfig = {
+  target: 'http://localhost',
+  changeOrigin: true,
+  router: {
+    "/getConfigs": "http://localhost:5000"
+  },
+  logLevel: 'debug'
+};
 
 // Run Browsersync and use middleware for Hot Module Replacement
 browserSync({
@@ -26,6 +37,8 @@ browserSync({
 
     middleware: [
       historyApiFallback(),
+
+      proxy("/getConfigs", proxyConfig),
 
       webpackDevMiddleware(bundler, {
         // Dev middleware can't access config, so we provide publicPath
