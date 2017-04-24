@@ -4753,9 +4753,9 @@ object.values@^1.0.3:
     function-bind "^1.1.0"
     has "^1.0.1"
 
-octonode@^0.7.11:
-  version "0.7.11"
-  resolved "https://registry.yarnpkg.com/octonode/-/octonode-0.7.11.tgz#9855e590e384f3f913af31ae756f5a69b3b29e2c"
+octonode@^0.7.12:
+  version "0.7.12"
+  resolved "https://registry.yarnpkg.com/octonode/-/octonode-0.7.12.tgz#45c2d10ca6770ac1d00b1827c5fd0fc5ade7e111"
   dependencies:
     deep-extend "^0.4.1"
     randomstring "^1.1.5"
