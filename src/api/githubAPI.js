@@ -172,25 +172,19 @@ class GithubApi {
    * @returns {Promise} A promise which resolves to a combined status object, or rejects with a String error message.
    * @public
    */
-  //static getCombinedStatusForRef(ownerLogin, repoName, ref) {
-  static getCombinedStatusForRef() {
+  static getCombinedStatusForRef(ownerLogin, repoName, ref) {
     return new Promise((resolve, reject) => {
-      reject("Support for the combined status endpoint is not yet available in the Github.js library");
-
-      /*
       let isCommitRefParamValid = utilityMethods.validateCommitReference(ref);
 
       if (isCommitRefParamValid) {
-        ghInstance.repos(ownerLogin, repoName).commits(ref).status.fetch().then(result => {
-          resolve(result);
-      }).catch(error => {
-          console.log(getErrorResponseMsg(error));
-          reject("ERROR: GitHub responded with an error.");
-      });
+        let repoFullName = ownerLogin + "/" + repoName;
+        let octoRepo = octoClient.repo(repoFullName);
+        let cb = cbFactory(resolve, reject);
+
+        octoRepo.combinedStatus(ref, cb);
       } else {
         reject("ERROR: Invalid ref parameter passed to GithubApi component.");
       }
-      */
     });
   }
 
