@@ -1,14 +1,11 @@
+let localConfigProps = require('../configs/configProps.json');
 const express = require('express');
 
 let app = express();
 
-// TODO: Replace hardcoded port and params values with values from external configurations
+// TODO: Replace hardcoded port with value from external configurations
 let configServerPort = 5000;
-let configParams = {
-  "CLIENT_ID": "",
-  "GATEKEEPER_AUTH_URL": "",
-  "GITHUB_ACCOUNT_NAME": ""
-};
+let configParams = localConfigProps;
 
 app.get('/getConfigs', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
