@@ -16,8 +16,11 @@ export function oauthAuthUserLoaded(user) {
 
 
 export function exchangeCodeForToken(oauthTempCode){
-  return function(dispatch){
-    return GatekeeperApi.exchangeCodeForToken(oauthTempCode).then(result => {
+  return function(dispatch, getState){
+    const currentState = getState();
+    const GATEKEEPER_AUTH_URL = currentState.configs.GATEKEEPER_AUTH_URL;
+
+    return GatekeeperApi.exchangeCodeForToken(GATEKEEPER_AUTH_URL, oauthTempCode).then(result => {
       dispatch(oauthTokenReceived(result));
     }).catch(error => {
       //TODO: Improve error handling instead of just rethrowing error.

@@ -1,10 +1,7 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {OAUTH_AUTHORIZE_URL,
-  OAUTH_PROVIDER_NAME,
-  CLIENT_ID,
-  OAUTH_GH_REPO_STATUS_SCOPE} from '../../utils/constants';
+import {OAUTH_PROVIDER_NAME, OAUTH_GH_REPO_STATUS_SCOPE} from '../../utils/constants';
 import * as GithubServices from '../../services/githubServices';
 import * as oauthActions from '../../actions/oauthActions';
 import * as repoActions from '../../actions/repoActions';
@@ -111,11 +108,15 @@ class OAuthSignInButton extends React.Component {
 OAuthSignInButton.propTypes = {
   oauthActions: PropTypes.object,
   repoActions: PropTypes.object,
+  configs: PropTypes.object,
   oauths: PropTypes.object
 };
 
 function authenticate(currentThis){
   const windowClosedCheckRepeatInterval = 500;
+  const CLIENT_ID = currentThis.props.configs.CLIENT_ID;
+  const OAUTH_AUTHORIZE_URL = currentThis.props.configs.OAUTH_AUTHORIZE_URL;
+
   //each scope in the builtScopeList string should be separated by a space
   let builtScopeList = OAUTH_GH_REPO_STATUS_SCOPE;
   let builtOAuthRequestURL = encodeURI(OAUTH_AUTHORIZE_URL + "?client_id=" + CLIENT_ID + "&scope=" + builtScopeList);
@@ -148,6 +149,7 @@ function authenticate(currentThis){
 
 function mapStateToProps(state) {
   return {
+    configs: state.configs,
     oauths: state.oauths
   };
 }

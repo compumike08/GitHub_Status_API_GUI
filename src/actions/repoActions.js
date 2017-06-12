@@ -1,6 +1,5 @@
 import * as types from './actionTypes';
 import GithubAPI from '../api/githubAPI';
-import {GITHUB_ACCOUNT_NAME} from '../utils/constants';
 import {loadPaginationState} from '../actions/paginationActions';
 import * as utilityMethods from '../utils/utilityMethods';
 import InvalidPageError from '../errors/InvalidPageError';
@@ -18,7 +17,9 @@ export function commitsLoadedForBranch(commits, branch, repo){
 }
 
 export function loadRepos(){
-  return function(dispatch) {
+  return function(dispatch, getState) {
+    const currentState = getState();
+    const GITHUB_ACCOUNT_NAME = currentState.configs.GITHUB_ACCOUNT_NAME;
 
     return GithubAPI.getReposByOwner(GITHUB_ACCOUNT_NAME).then(repos => {
       dispatch(reposLoaded(repos));

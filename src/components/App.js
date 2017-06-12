@@ -1,8 +1,28 @@
 import React, {PropTypes} from 'react';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import * as configActions from '../actions/configActions';
 import Header from './common/Header';
 import Footer from './common/Footer';
 
+import toastr from 'toastr';
+
 class App extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+
+    this.getChildContext = this.getChildContext.bind(this);
+  }
+
+  componentWillMount() {
+    this.props.actions.loadConfigProps().then(() => {
+      toastr.success("Succesfully loaded application configuration properties.");
+    }).catch(error => {
+      console.log(error);
+      toastr.error("Unable to load application configuration properties.");
+    });
+  }
+
   getChildContext() {
     return {
       location: this.props.location
@@ -33,4 +53,10 @@ App.childContextTypes = {
   location: PropTypes.object
 };
 
-export default App;
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(configActions, dispatch)
+  };
+}
+
+export default connect(null, mapDispatchToProps)(App);
