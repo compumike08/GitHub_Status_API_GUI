@@ -16,7 +16,7 @@ Alternativly, you can clone the Gatekeeper repository and build/deploy Gatekeepe
 Make sure you follow the instructions for setting up Gatekeeper in Gatekeeper's [README.md](https://github.com/prose/gatekeeper#setup-your-gatekeeper) file, including setting the client secret you obtained from GitHub when [registering your OAuth application](#using-oauth-with-github). See Gatekeeper's [README.md](https://github.com/prose/gatekeeper#setup-your-gatekeeper) for more details.
 
 ## Configuring GitHub Status API GUI
-See [Configuration The Application](config/configuration.md).
+See [Configuring The Application](config/configuration.md).
 
 ## Known Bugs/Limitations
 -   __The commits list page is the only page which currently supports [pagination](https://developer.github.com/v3/#pagination) of data returned from GitHub API.__
