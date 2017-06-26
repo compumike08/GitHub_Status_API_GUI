@@ -8,5 +8,3 @@ export const GITHUB_STATUS_STATES = {
   ERROR: "error",
   FAILURE: "failure"
 };
-
-export const HOME_PAGE_URI = "/";

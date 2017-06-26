@@ -1,6 +1,5 @@
 import React, {PropTypes} from 'react';
 import {browserHistory} from 'react-router';
-import {HOME_PAGE_URI} from '../../utils/constants';
 
 class Footer extends React.Component {
   constructor(props, context) {
@@ -23,20 +22,31 @@ class Footer extends React.Component {
 
   render() {
     let isHomepage = false;
+    let isConfigsLoaded = false;
 
-    if(this.context.location.pathname === HOME_PAGE_URI){
-      isHomepage = true;
+    if(this.props.configs){
+      isConfigsLoaded = true;
+    }
+
+    if(isConfigsLoaded){
+      if(this.context.location.pathname === this.props.configs.HOME_PAGE_URI){
+        isHomepage = true;
+      }
     }
 
     return (
       <div className="footer">
-        {isHomepage === true ? "" :
+        {(isHomepage === true || isConfigsLoaded === false) ? "" :
           <button type="button" className="btn btn-link" onClick={this.redirectToPreviousPage}>Go Back</button>
         }
       </div>
     );
   }
 }
+
+Footer.propTypes = {
+  configs: PropTypes.object
+};
 
 Footer.contextTypes = {
   location: PropTypes.object

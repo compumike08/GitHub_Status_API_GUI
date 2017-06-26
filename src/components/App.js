@@ -38,7 +38,7 @@ class App extends React.Component {
           {this.props.children}
         </div>
 
-        <Footer/>
+        <Footer configs={this.props.configs}/>
       </div>
     );
   }
@@ -59,4 +59,10 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(null, mapDispatchToProps)(App);
+function mapStateToProps(state) {
+  return {
+    configs: state.configs
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
