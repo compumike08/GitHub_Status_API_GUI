@@ -1,4 +1,4 @@
-import {CONFIG_SERVER_PATH} from '../utils/constants';
+import {CONFIG_SERVER_PATH} from '../constants/constants';
 import $ from 'jquery';
 
 class ConfigServerApi {

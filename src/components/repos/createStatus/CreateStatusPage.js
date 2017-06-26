@@ -14,7 +14,7 @@ import {getRepoById,
 
 import toastr from 'toastr';
 
-import {GITHUB_STATUS_STATES} from '../../../utils/constants';
+import {GITHUB_STATUS_STATES} from '../../../constants/constants';
 
 class CreateStatusPage extends React.Component {
   constructor(props, context) {

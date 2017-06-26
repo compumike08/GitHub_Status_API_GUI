@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import TextInput from '../../common/TextInput';
 import SelectInput from '../../common/SelectInput';
 
-import {GITHUB_STATUS_STATES} from "../../../utils/constants";
+import {GITHUB_STATUS_STATES} from "../../../constants/constants";
 import {makeOptionsArrayFromStrings} from "../../../utils/utilityMethods";
 
 const CreateStatusForm = ({newStatus, onChange, onSubmit}) => {

@@ -16,7 +16,7 @@ Alternativly, you can clone the Gatekeeper repository and build/deploy Gatekeepe
 Make sure you follow the instructions for setting up Gatekeeper in Gatekeeper's [README.md](https://github.com/prose/gatekeeper#setup-your-gatekeeper) file, including setting the client secret you obtained from GitHub when [registering your OAuth application](#using-oauth-with-github). See Gatekeeper's [README.md](https://github.com/prose/gatekeeper#setup-your-gatekeeper) for more details.
 
 ## Configuring GitHub Status API GUI
-You will need to set the following values in the [`src/utils/constants.js`](src/utils/constants.js) file before you can run the GitHub Status API GUI application:
+You will need to set the following values in the [`src/utils/constants.js`](src/constants/constants.js) file before you can run the GitHub Status API GUI application:
 
 1)  __GitHub Application Client ID:__ This is the Client ID which will be generated and provided to you by GitHub when you [register your new OAuth application](#using-oauth-with-github).
 ```JavaScript
