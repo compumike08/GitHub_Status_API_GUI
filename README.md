@@ -38,12 +38,7 @@ export const GITHUB_ACCOUNT_NAME = "anyuser123";
 
     -   For all other views, you can only see the first page of records returned from the GitHub API. By default, the maximum number of records per page of data is 30 (see GitHub issue [#45](https://github.com/compumike08/GitHub_Status_API_GUI/issues/45))
 
-    -   *This is a result of limitations of the library this application uses to interface with the GitHub API. Full support for pagination of all data views in the GitHub Status API GUI application will be added in a future release.*
--   __The "View Combined Status" button on the commits list page currently doesn't work.__
-
-    -   *This is because the library used to interface with the GitHub API does not currently support the [combined status endpoint](https://developer.github.com/v3/repos/statuses/#get-the-combined-status-for-a-specific-ref).*
-
-    -   ![Combined Status Button Screenshot](docs/img/Combined_Status_Button_Screenshot.png)
+    -   *Full support for pagination of all data views in the GitHub Status API GUI application will be added in a future release.*
 
 ## Tools Used In Development
 This development enviornment for this project was created using Cory House's [`react-slingshot`](https://github.com/coryhouse/react-slingshot) tool, which is [available under the MIT License](https://github.com/coryhouse/react-slingshot/blob/master/LICENSE).
