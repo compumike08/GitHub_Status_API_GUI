@@ -1,6 +1,7 @@
-# Ignore environment config JSON files, except default.json
-/config/**/*.json
+# Ignore environment config files, except default.json & documentation files
+/config/**
 !/config/default.json
+!/config/**/*.md
 /configs/**
 
 # Logs
