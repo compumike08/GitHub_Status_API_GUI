@@ -70,5 +70,5 @@ should create a file named `production.json` instead of `development.json`.
 file in the `/config` directory at the same time. Which one is used in
 addition to `default.json` will depend on the value of the `NODE_ENV`
 environment variable set in the running instance
-(see [`webpack.config.dev.js`](../webpack.config.dev.js)) and
+(see [`webpack.config.dev.js`](../webpack.config.dev.js) and
 [`webpack.config.prod.js`](../webpack.config.prod.js)).
