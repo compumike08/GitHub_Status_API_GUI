@@ -37,7 +37,7 @@ node_modules
 dist
 
 #Webstorm metadata
-.idea
+.idea/
 
 #VSCode metadata
 .vscode
