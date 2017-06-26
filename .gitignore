@@ -1,5 +1,7 @@
-# Ignore dev environment config JSON files
-/configs/**/*.json
+# Ignore environment config JSON files, except default.json
+/config/**/*.json
+!/config/default.json
+/configs/**
 
 # Logs
 logs

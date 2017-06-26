@@ -1,11 +1,10 @@
-let localConfigProps = require('../configs/configProps.json');
+const config = require('config');
 const express = require('express');
 
 let app = express();
 
-// TODO: Replace hardcoded port with value from external configurations
-let configServerPort = 5000;
-let configParams = localConfigProps;
+let configServerPort = config.get("configServerPort");
+let configParams = config.get("configProps");
 
 app.get('/getConfigs', function (req, res) {
   res.setHeader('Content-Type', 'application/json');

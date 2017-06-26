@@ -1,0 +1,11 @@
+{
+  "configServerPort": 5000,
+  "configProps": {
+    "HOME_PAGE_URI": "/",
+    "OAUTH_AUTHORIZE_URL": "https://github.com/login/oauth/authorize",
+    "OAUTH_PROVIDER_NAME": "GitHub",
+    "OAUTH_GH_SCOPES": [
+      "repo:status"
+    ]
+  }
+}
