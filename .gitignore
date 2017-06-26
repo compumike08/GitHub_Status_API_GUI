@@ -38,6 +38,7 @@ dist
 
 #Webstorm metadata
 .idea/
+*.iws
 
 #VSCode metadata
 .vscode
