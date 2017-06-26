@@ -35,7 +35,7 @@ definied in `development.json` which has the same name as one defined in
 development enviornments.
 
 #### Explaination of Required Properties
-1)  __GitHub Application Client ID:__ This is the Client ID which will be generated and provided to you by GitHub when you [register your new OAuth application](../README#using-oauth-with-github).
+1)  __GitHub Application Client ID:__ This is the Client ID which will be generated and provided to you by GitHub when you [register your new OAuth application](../README.md#using-oauth-with-github).
 ```json
 {
   "configProps": {
@@ -43,7 +43,7 @@ development enviornments.
   }
 }
 ```
-2)  __Gatekeeper Authentication URL:__ This is the URL where you deployed your instance of [Gatekeeper](../README#deploying-gatekeeper).
+2)  __Gatekeeper Authentication URL:__ This is the URL where you deployed your instance of [Gatekeeper](../README.md#deploying-gatekeeper).
 ```json
 {
   "configProps": {
