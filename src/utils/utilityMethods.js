@@ -1,5 +1,5 @@
 import URLSearchParams from 'url-search-params';
-import * as Axis from '../../node_modules/axis.js';
+import * as Axis from 'axis.js';
 import {GITHUB_STATUS_STATES} from '../constants/constants';
 
 export function getRepoById(repos, id){
