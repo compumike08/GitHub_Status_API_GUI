@@ -29,16 +29,15 @@ browserSync({
   https: true,
   cors: true,
   server: {
-    baseDir: 'dist',
-
-    middleware: [
-      proxy("/getConfigs", proxyConfig)
-    ]
+    baseDir: 'dist'
   },
 
   files: [
     'src/*.html'
   ],
 
-  middleware: [historyApiFallback()]
+  middleware: [
+    historyApiFallback(),
+    proxy("/getConfigs", proxyConfig)
+  ]
 });
