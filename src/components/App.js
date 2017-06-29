@@ -14,6 +14,12 @@ class App extends React.Component {
     this.getChildContext = this.getChildContext.bind(this);
   }
 
+  getChildContext() {
+    return {
+      location: this.props.location
+    };
+  }
+
   componentWillMount() {
     this.props.actions.loadConfigProps().then(() => {
       toastr.success("Succesfully loaded application configuration properties.");
@@ -21,12 +27,6 @@ class App extends React.Component {
       console.log(error);
       toastr.error("Unable to load application configuration properties.");
     });
-  }
-
-  getChildContext() {
-    return {
-      location: this.props.location
-    };
   }
 
   render() {
