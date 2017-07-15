@@ -49,7 +49,7 @@ Footer.propTypes = {
 };
 
 Footer.contextTypes = {
-  location: PropTypes.object
+  location: PropTypes.object.isRequired
 };
 
 export default Footer;

@@ -47,10 +47,8 @@ class App extends React.Component {
 App.propTypes = {
   children: PropTypes.object.isRequired,
   location: PropTypes.object,
-  configs: PropTypes.object.isRequired,
-  actions: {
-    loadConfigProps: PropTypes.function
-  }
+  configs: PropTypes.object,
+  actions: PropTypes.object.isRequired
 };
 
 App.childContextTypes = {

@@ -1,5 +1,5 @@
 export default {
-  configProps: null,
+  configs: null,
   oauths: {
     oauthReturnedToken: "",
     authenticatedUser: {}
