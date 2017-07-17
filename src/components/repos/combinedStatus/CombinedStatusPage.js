@@ -4,7 +4,9 @@ import {browserHistory} from 'react-router';
 import {bindActionCreators} from 'redux';
 import * as combinedStatusActions from '../../../actions/combinedStatusActions';
 import {getBranchByName, getRepoById} from '../../../utils/utilityMethods';
+import {PANEL_CONTENT_TYPE_CLASS} from "../../../constants/constants";
 import LoadingNotice from '../../common/LoadingNotice';
+import StatusStateLabel from "../../common/StatusStateLabel";
 
 import toastr from 'toastr';
 
@@ -19,13 +21,10 @@ class CombinedStatusPage extends React.Component {
     const {actions} = this.props;
 
     if((!repo.id) || (!branch.name)) {
-      // TODO: Remove console.log statements below.
-      console.log("repoId and/or branchName was null.");
-      console.log("repoId: " + repo.id);
-      console.log("branchName: " + branch.name);
+      console.log("Unable to display combined status because repo.id and/or branch.name values from props were null or undefined");
       toastr.error("Unable to display combined status.");
       browserHistory.push("/");
-    }else{
+    } else {
       actions.loadCombinedStatusForBranch(repo.id, branch.name).then(() => {
         toastr.success("Combined status fetched successfully for '" + branch.name + "' branch in '" + repo.name + "' repo!");
       }).catch(error => {
@@ -39,15 +38,13 @@ class CombinedStatusPage extends React.Component {
     const {combinedStatusData} = this.props;
 
     let combinedStatusDataElement = (
-      <LoadingNotice/>
+      <LoadingNotice panelContentType={PANEL_CONTENT_TYPE_CLASS.HEADING}/>
     );
 
-    if(combinedStatusData.combinedStatus !== null){
+    if (combinedStatusData.combinedStatus !== null) {
       combinedStatusDataElement = (
-        <div className="panel-body">
-          <div>
-            <span className="bold">Combined Status State: </span><span className="italic">{combinedStatusData.combinedStatus.state}</span>
-          </div>
+        <div className="panel-heading">
+          Combined Status: <StatusStateLabel spanModeOn={true} statusState={combinedStatusData.combinedStatus.state}/>
         </div>
       );
     }
@@ -57,7 +54,6 @@ class CombinedStatusPage extends React.Component {
         <div className="row">
           <div className="col-sm-12">
             <div className="panel panel-default">
-              <div className="panel-heading">Combined Status</div>
               {combinedStatusDataElement}
             </div>
           </div>
