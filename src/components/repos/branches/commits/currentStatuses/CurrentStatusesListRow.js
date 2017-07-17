@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 import moment from 'moment';
+import StatusStateLabel from "../../../../common/StatusStateLabel";
 
 const CurrentStatusesListRow = ({repoId, isFromBranch, branchName, commitSha, status}) => {
   let statusCreatedAtDateTime = moment(status.createdAt);
@@ -18,18 +19,7 @@ const CurrentStatusesListRow = ({repoId, isFromBranch, branchName, commitSha, st
           <div className="panel-heading panel-heading-small">
             <div className="row">
               <div className="col-xs-12 col-sm-7 text-center-xs">
-                {status.state == "pending" &&
-                <div className="label label-warning">pending</div>
-                }
-                {status.state == "success" &&
-                <div className="label label-success">success</div>
-                }
-                {status.state == "error" &&
-                <div className="label label-danger">error</div>
-                }
-                {status.state == "failure" &&
-                <div className="label label-danger">failure</div>
-                }
+                <StatusStateLabel statusState={status.state} />
               </div>
               <div className="col-xs-12 col-sm-5 text-center-xs">
                 <div className="pull-right-sm">
