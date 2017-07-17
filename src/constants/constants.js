@@ -6,3 +6,8 @@ export const GITHUB_STATUS_STATES = {
   ERROR: "error",
   FAILURE: "failure"
 };
+
+export const PANEL_CONTENT_TYPE_CLASS = {
+  HEADING: "panel-heading",
+  BODY: "panel-body"
+};
