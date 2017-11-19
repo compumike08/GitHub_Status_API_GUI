@@ -104,7 +104,17 @@
     "webpack-hot-middleware": "~2.13.2",
     "webpack-md5-hash": "0.0.5"
   },
-  "keywords": [],
+  "keywords": [
+    "Git",
+    "git",
+    "GitHub",
+    "github",
+    "oauth2",
+    "status",
+    "gatekeeper",
+    "gui",
+    "web application"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/compumike08/GitHub_Status_API_GUI"
