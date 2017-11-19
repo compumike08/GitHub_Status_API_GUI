@@ -2,6 +2,11 @@
 
 The GitHub Status API GUI is a React/Redux client-side web application which can be used to view and create GitHub commit [statuses](https://developer.github.com/v3/repos/statuses/) in any GitHub repository you have access to. The application uses OAuth to allow users to authenticate to GitHub using their own GitHub usernames and passwords.
 
+## Prerequisites
+- [Node.js](https://nodejs.org) version 8.x <sup>[see note](#compatibility_with_node6)</sup>
+- Npm version 5.x or greater *(comes with Node.js version 8.x)*
+
+
 ## Using OAuth with GitHub
 In order for your instance of the GitHub Status API GUI application to authenticate to GitHub using OAuth, you must first [register a new OAuth application](https://github.com/settings/applications/new) for your instance. For more information, see GitHub's [OAuth documentation for developers](https://developer.github.com/v3/oauth/#oauth).
 
@@ -19,6 +24,19 @@ Make sure you follow the instructions for setting up Gatekeeper in Gatekeeper's 
 See [Configuring The Application](config/configuration.md).
 
 ## Known Bugs/Limitations
+- <a name="compatibility_with_node6"></a>__Compatibility with Node version 6.x__
+    - GitHub Status API GUI version 0.7.0 and greater will not work out of the box with Node version 6.x and earlier. This is because Node version 6.x supported the `--harmony-proxies` flag, while Node version 7.x and later changed it to `--harmony`.
+
+    - In order to make this project work with Node version 6.x and earlier, change the following line in the `scripts` section of `package.json`:
+      ```javascript
+      "test": "node --harmony node_modules/jest/bin/jest",
+      ```
+      to:
+      ```javascript
+      "test": "node --harmony_proxies node_modules/jest/bin/jest",
+      ```
+      *NOTE: You may also have to adjust the `engines.node` property in `package.json`.*
+
 -   __The commits list page is the only page which currently supports [pagination](https://developer.github.com/v3/#pagination) of data returned from GitHub API.__
 
     -   For all other views, you can only see the first page of records returned from the GitHub API. By default, the maximum number of records per page of data is 30 (see GitHub issue [#45](https://github.com/compumike08/GitHub_Status_API_GUI/issues/45))
