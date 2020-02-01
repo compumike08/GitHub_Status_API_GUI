@@ -6,12 +6,14 @@ import browserSync from 'browser-sync';
 import historyApiFallback from 'connect-history-api-fallback';
 import {chalkProcessing} from './chalkConfig';
 
+const { PUBLIC_HOST_NAME } = process.env;
+
 // TODO: Replace hardcoded values with values from external configurations
 let proxyConfig = {
-  target: 'http://localhost',
+  target: `http://${PUBLIC_HOST_NAME}`,
   changeOrigin: true,
   router: {
-    "/getConfigs": "http://localhost:5000"
+    "/getConfigs": `http://${PUBLIC_HOST_NAME}:5000`
   },
   logLevel: 'debug'
 };
@@ -22,9 +24,9 @@ console.log(chalkProcessing('Opening production build...'));
 
 // Run Browsersync
 browserSync({
-  port: 3000,
+  port: 80,
   ui: {
-    port: 3001
+    port: 81
   },
   https: true,
   cors: true,
